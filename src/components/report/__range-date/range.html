@@ -1,0 +1,17 @@
+<el-row class="report__range-date">
+    <el-col :xs="24" :md="24" :lg="24" class="text-xs-center">
+        <span class="report__title-page">{{ title }}</span>
+    </el-col>
+    <el-row :xs="24" :md="24" :lg="24" class="report__input">
+        <el-date-picker v-model="datesRange"
+                        value-format="dd.MM.yyyy"
+                        format="dd.MM.yyyy"
+                        type="daterange"
+                        :picker-options="pickerOptions"
+                        align="right"
+                        start-placeholder="С"
+                        end-placeholder="По"
+                        @change="$emit('dates-changed', datesRange)"
+        ></el-date-picker>
+    </el-row>
+</el-row>

@@ -1,0 +1,18 @@
+<el-row type="flex" justify="center">
+    <el-col :xs="24" :md="20" :lg="18" :xl="16">
+        <el-tabs v-model="activeType">
+            <el-tab-pane label="Физ. лицо" name="1">
+                <client-user-form :item="user"></client-user-form>
+                <el-row type="flex" justify="center">
+                    <el-button type="primary" :loading="btnloader" @click="sendClientPerson(user)">Добавить</el-button>
+                </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="Юр. лицо" name="2">
+                <client-company-form :item="company"></client-company-form>
+                <el-row type="flex" justify="center">
+                    <el-button type="primary" :loading="btnloader" @click="sendClientCompany(company)">Добавить</el-button>
+                </el-row>
+            </el-tab-pane>
+        </el-tabs>
+    </el-col>
+</el-row>

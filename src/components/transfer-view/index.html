@@ -1,0 +1,34 @@
+<div v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-table :data="view" border>
+        <el-table-column label="Дата" align="center">
+            <template slot-scope="scope">
+                {{ date(scope.row.created_at) }}
+            </template>
+        </el-table-column>
+        <el-table-column label="Принял" align="center">
+            <template slot-scope="scope">
+                {{ currentUser(scope.row.user) }}
+            </template>
+        </el-table-column>
+        <el-table-column label="Из склада" align="center">
+            <template slot-scope="scope">
+                {{ currentName(scope.row.out_storage) }}
+            </template>
+        </el-table-column>
+        <el-table-column label="В склад" align="center">
+            <template slot-scope="scope">
+                {{ currentName(scope.row.in_storage) }}
+            </template>
+        </el-table-column>
+    </el-table>
+    <div style="font-size: 18px;color: #303133;margin: 20px;text-align: center;">Поступившие товары</div>
+    <el-table :data="viewTransfer.part_transfers" border stripe height="40vh">
+        <el-table-column type="index" label="№" width="100" align="center"></el-table-column>
+        <el-table-column label="Товар" header-align="center">
+            <template slot-scope="scope">
+                {{ currentName(scope.row.part) }}
+            </template>    
+        </el-table-column>
+        <el-table-column prop="amount" label="Количество" width="150" align="center"></el-table-column>
+    </el-table>
+</div>

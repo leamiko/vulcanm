@@ -1,0 +1,58 @@
+<el-row>
+    <el-col>
+        <el-row>
+            <el-table ref="multipleSelectionTable"
+                      :data="data"
+                      style="width: 100%"
+                      v-loading="loading"
+                      show-summary
+                      :summary-method="summaryMethod"
+                      element-loading-spinner="fas fa-spinner fa-pulse fa-3x"
+                      @selection-change="handleSelectionChange"
+                      :row-key="rowKey">
+                <el-table-column type="selection"
+                                 width="55"
+                                 :reserve-selection="true">
+                </el-table-column>
+                <el-table-column label="Дата">
+                    <template slot-scope="{row}">
+                        <view-date type="users" :value="row.created_at">
+                        </view-date>
+                    </template>
+                </el-table-column>
+                <el-table-column label="Основание">
+                    <template slot-scope="{row}">
+                        {{row.system_info}}
+                        <br>
+                        {{row.comment}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="Сумма">
+                    <template slot-scope="{row}">
+                        <!--todo уточнить act_type-->
+                        {{row.sum}}
+                        <!--{{ +row.act_type === 2 ? -row.sum : row.sum}}-->
+                    </template>
+                </el-table-column>
+                <el-table-column width="140" align="right">
+                    <template slot-scope="{row}">
+                        <el-button size="mini"
+                                   icon="el-icon-edit"
+                                   title="Редактировать"
+                                   v-tippy
+                                   @click="$emit('update-salary-operation',
+                                   {id: row.id, sum:  row.sum, comment: row.comment})">
+                        </el-button>
+                        <el-button size="mini"
+                                   icon="el-icon-delete"
+                                   title="Удалить"
+                                   type="danger"
+                                   v-tippy
+                                   @click="$emit('delete-salary-operation', row.id)">
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-row>
+    </el-col>
+</el-row>

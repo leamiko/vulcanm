@@ -1,0 +1,55 @@
+<div>
+    <div class="part__cell part__cell_index" v-if="headsPart.number">{{ index }}</div>
+    <div class="part__cell part__cell_name" v-if="headsPart.name">
+        <div class="part__image">
+            <lazy-load-image :src="item.images.small" v-if="item.images !== null"></lazy-load-image>
+            <i class="fas fa-camera fa-lg" v-else></i>
+        </div>  
+        <div class="part__content">{{ item.name }}</div>
+    </div>
+    <div class="part__cell part__cell_price"
+         v-for="price in headsPart.price"
+         v-if="price.active">
+        <numbers type="money" :value="item.posting_price" v-if="price.name === 'posting'"></numbers>
+        <numbers type="money" :value="item.repair_price" v-else-if="price.name === 'repair'"></numbers>
+        <numbers type="money" :value="item.sell_price" v-else-if="price.name === 'shop'"></numbers>
+    </div>
+    <div class="part__cell part__cell_storage"
+         v-for="head in headsPart.amounts"
+         v-if="head.active">
+        <template v-for="amounts in item.amounts" v-if="head.storage_id === amounts.storage_id">
+            <template v-if="item.minimum_amount > amounts.amount">
+                <span class="part__amount part__amount_min"
+                      title="Меньше минимального остатка" v-tippy>
+                    {{ amounts.amount }}
+                </span>
+            </template> 
+            <template v-else-if="item.minimum_amount < amounts.amount">
+                <span class="part__amount part__amount_max"
+                      title="Больше минимального остатка" v-tippy>
+                    {{ amounts.amount }}
+                </span>
+            </template>
+            <template v-else-if="item.minimum_amount === amounts.amount">
+                <span class="part__amount part__amount_equal"
+                      title="Минимальный остаток" v-tippy>
+                    {{ amounts.amount }}
+                </span>
+            </template>
+        </template>
+    </div>
+    <div class="part__cell part__cell_actions">
+        <el-button size="mini" icon="fas fa-print" title="Печать наклейки" v-tippy></el-button>
+        <el-button size="mini" icon="far fa-copy" @click="dialog = true" title="Создать копию" v-tippy></el-button>
+        <el-button size="mini" icon="fas fa-edit" title="Редактировать" v-tippy @click="$router.push('/part/edit/' + item.id)"></el-button>
+        <el-button size="mini" type="danger" icon="fas fa-times" title="Удалить" v-tippy v-if="activeBtnDelete(item.amounts)"></el-button>
+    </div>
+
+    <el-dialog title="Создание копии" :visible.sync="dialog" width="300px">
+        <p style="text-align: center">Вы действительно хотите создать копию "{{ item.name }}"?</p>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="dialog = false">Отмена</el-button>
+            <el-button type="primary" :loading="btnloader" @click="copy">Создать</el-button>
+        </span>
+    </el-dialog>
+</div>

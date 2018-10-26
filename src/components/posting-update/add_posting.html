@@ -1,0 +1,429 @@
+<el-row class="posting-update">
+    <el-col class="posting-update__col" :md="6" :sm="10" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-user"></i> Принял</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            {{ currentUser }}
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="far fa-calendar-check"></i> Дата приема</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            {{ date }}
+        </el-row>
+        <el-row class="posting-update__row">
+            <el-row class="posting-update__row">
+                <el-select v-model="newPostingForm.storage_id" placeholder="Укажите склад" style="width: 100%">
+                    <el-option  v-for="item in storages"
+                                :key="item.id" 
+                                :label="item.name" 
+                                :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-row>
+            <el-row class="posting-update__row">
+                <el-select v-model="newPostingForm.provider_id" placeholder="Укажите поставщика" clearable style="width: 100%">
+                    <el-option  v-for="item in provider"
+                                :key="item.id" 
+                                :label="item.name" 
+                                :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-row>
+            <el-row class="posting-update__row">
+                <el-select v-model="newPostingForm.cash_id" placeholder="Укажите кассу для списания" clearable style="width: 100%">
+                    <el-option  v-for="item in storages"
+                                :key="item.id" 
+                                :label="item.name" 
+                                :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-row>
+            <el-row class="posting-update__row">
+                <el-switch style="display: block"
+                           v-model="newPostingForm.update_prices"
+                           active-color="#13ce66"
+                           inactive-color="#ff4949"
+                           active-text="Обновить цены">
+                </el-switch>
+            </el-row>
+        </el-row>
+    </el-col>
+    <el-col class="posting-update__col" :md="18" :sm="14" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title">Новое поступление</el-row>
+        <el-row class="posting-update__row">
+            <el-table :data="newPostingForm.parts" 
+                      border 
+                      stripe 
+                      show-summary 
+                      sum-text="Итого" 
+                      empty-text="Список пуст">
+                <el-table-column type="index" label="№" width="100" align="center"></el-table-column>
+                <el-table-column prop="name" label="Наименование" min-width="300" header-align="center"></el-table-column>
+                <el-table-column prop="price" label="Цена закупа" width="150" align="center">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.price" size="small">
+                      </el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="amount" label="Количество" width="150" align="center">
+                    <template slot-scope="scope">
+                        <el-input-number v-model="scope.row.amount" :min="1" style="width: 100%" size="small"></el-input-number>
+                    </template>
+                </el-table-column>
+                <el-table-column label="Сумма" width="100" align="center">
+                    <template slot-scope="scope">
+                        {{ scope.row.price * scope.row.amount }}
+                    </template>
+                </el-table-column>
+                <el-table-column width="100" align="center">
+                    <template slot-scope="scope">
+                        <el-button @click="deletePostingList(scope.row)" type="danger" size="mini" icon="fas fa-times" title="Убрать из поступления" v-tippy></el-button> 
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-row>
+        <el-row class="posting-update__row">
+            <el-button icon="fas fa-external-link-alt" class="posting-update__btn" @click="$root.$emit('OnDialogAddPart', true)">Выбрать товар</el-button>            
+        </el-row>
+        <el-row class="posting-update__row" style="text-align: center">
+            <el-button type="primary" @click="send" :loading="btnloader.active">Принять поступление</el-button>
+        </el-row>
+    </el-col>
+
+    <!-- <modal-add-part :newForm="newPostingForm.parts"
+                    :titleAdd="'Добавить в поступление'"
+                    :titleDel="'Убрать из поступления'">
+    </modal-add-part> -->
+
+</el-row>
+
+<!-- <v-layout row wrap class="posting">
+    <v-flex lg3 md3 sm12 xs12 class="posting__col">
+        <v-layout row wrap>
+            <template v-if="!pageName">
+                <v-flex xs12>
+                    <div class="light-blue--text text--darken-3 subheading">
+                        <i class="fa fa-tags" aria-hidden="true"></i>
+                        <b>Номер поступления</b>
+                    </div> 
+                    <v-divider class="posting__divider posting__divider_top"></v-divider>
+                    <div class="subheading text-xs-center"><b>114</b></div>
+                    <v-divider class="posting__divider posting__divider_bottom"></v-divider>
+                </v-flex>
+            </template>
+            <template v-else></template>
+            <v-flex xs12>
+                <div class="light-blue--text text--darken-3 subheading">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <b>Принял</b>
+                </div> 
+                <v-divider class="posting__divider posting__divider_top"></v-divider>
+                <div class="subheading text-xs-center"><b>{{ user.last_name + ' ' + user.first_name + ' ' + user.middle_name }}</b></div>
+                <v-divider class="posting__divider posting__divider_bottom"></v-divider>
+            </v-flex>
+            <v-flex xs12>
+                <div class="light-blue--text text--darken-3 subheading">
+                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i> 
+                    <b>Дата поступления</b>
+                </div> 
+                <v-divider class="posting__divider posting__divider_top"></v-divider>
+                <div class="subheading text-xs-center"><b>{{ date }}</b></div>
+                <v-divider class="posting__divider posting__divider_bottom"></v-divider>
+            </v-flex>
+            <template v-if="!pageName">
+                <v-flex xs12>
+                    <div class="light-blue--text text--darken-3 subheading">
+                        <i class="fa fa-truck" aria-hidden="true"></i> 
+                        <b>Поставщик</b>
+                    </div> 
+                    <v-divider class="posting__divider posting__divider_top"></v-divider>
+                    <div class="subheading text-xs-center"><b>ыыыы</b></div>
+                    <v-divider class="posting__divider posting__divider_bottom"></v-divider>
+                </v-flex>
+                <v-flex xs12>
+                    <div class="light-blue--text text--darken-3 subheading">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i> 
+                        <b>Склад</b>
+                    </div> 
+                    <v-divider class="posting__divider posting__divider_top"></v-divider>
+                    <div class="subheading text-xs-center"><b>Маг.</b></div>
+                    <v-divider class="posting__divider posting__divider_bottom"></v-divider>
+                </v-flex>
+            </template>
+            <template v-else>
+                <v-flex xs12>
+                    <v-select label="Склад"
+                              v-model="newPostingForm.storage_id"
+                              :items="storages"
+                              item-text="name"
+                              item-value="id"
+                              append-icon="fa-angle-down"
+                              style="align-self: center;">
+                    </v-select>
+                </v-flex>
+                <v-flex xs12>
+                    <v-select label="Поставщик"
+                              v-model="newPostingForm.provider_id"
+                              :items="provider"
+                              item-text="name"
+                              item-value="id" 
+                              append-icon="fa-angle-down"
+                              style="align-self: center;">
+                    </v-select>
+                </v-flex>
+                <v-flex xs12>
+                    <v-select label="Касса для списания"
+                              v-model="newPostingForm.cash_id"
+                              :rules="[(v) => !!v || 'Не выбрана категория']"
+                              append-icon="fa-angle-down"
+                              style="align-self: center;">
+                    </v-select>
+                </v-flex>
+                <v-flex xs12>
+                    <v-switch label="Обновить цены"
+                              v-model="newPostingForm.update_prices"
+                              color="success"
+                              hide-details>
+                    </v-switch>
+                </v-flex>
+            </template>
+        </v-layout>
+    </v-flex>
+    <v-flex lg9 md9 sm12 xs12 class="posting__col">
+        <v-layout row wrap>
+            <template v-if="pageName">
+                <v-flex xs12 class="text-xs-center light-blue--text text--darken-3 title">
+                    <b>Новое поступление</b>                    
+                </v-flex>
+            </template>
+            <template v-else></template>
+            <v-flex xs12 :class="{ 'posting__row posting__row_table' : pageName }">
+                <table class="posting__table">
+                    <thead>
+                        <tr>
+                            <th class="posting__cell posting__cell_head">Наименование</th>
+                            <th class="posting__cell posting__cell_head">Цена закупки</th>
+                            <th class="posting__cell posting__cell_head">Количество</th>
+                            <th class="posting__cell posting__cell_head" colspan="2">Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="!newPostingForm.parts.length">
+                            <td class="text-xs-center posting__cell" colspan="5"><i>Список пуст</i></td>                            </td>
+                        </tr>
+                        <tr v-else v-for="(item, index) in newPostingForm.parts" :key="index">
+                            <td class="posting__cell">
+                                <div class="posting__item-name">
+                                    <i class="fa fa-cog light-blue--text text--darken-3  posting__icon"></i>                                    
+                                    {{ item.name }}
+                                </div>
+                            </td>
+                            <td class="text-xs-center posting__cell posting__cell_count">
+                                <input type="number" 
+                                       class="text-xs-center posting__input posting__input_price" 
+                                       :class="{ 'posting__input_err' : isValid('price', index) }"
+                                       v-model.number="item.price">
+                            </td>
+                            <td class="posting__cell posting__cell_count">
+                                <div class="text-xs-center">
+                                    <v-btn flat icon 
+                                           class="light-blue--text text--darken-3" 
+                                           title="Уменьшить" v-tippy
+                                           @click="item.amount--">
+                                        <i class="fa fa-minus"></i>
+                                    </v-btn>
+
+                                    <input type="number"
+                                           class="text-xs-center posting__input posting__input_count" 
+                                           :class="{ 'posting__input_err' : isValid('amount', index) }"
+                                           v-model.number="item.amount">
+                                    <v-btn flat icon 
+                                           class="light-blue--text text--darken-3" 
+                                           title="Увеличить" v-tippy
+                                           @click="item.amount++">
+                                        <i class="fa fa-plus"></i>
+                                    </v-btn>
+                                </div>
+                            </td>
+                            <td class="text-xs-right posting__cell posting__cell_total">{{ item.total = item.price * item.amount }} ₽</td>
+                            <td class="text-xs-center posting__cell posting__cell_action">                              
+                                <v-btn flat icon class="red--text text--lighten-1" 
+                                       title="Убрать из поступления" v-tippy
+                                       @click="dropItem(item.id)">
+                                    <i class="fa fa-times"></i>
+                                </v-btn>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="posting__cell posting__cell_head" colspan="2"><b>Итого:</b></td>
+                            <td class="text-xs-center posting__cell posting__cell_head"><b>{{ totalCount }}</b></td>
+                            <td class="text-xs-right posting__cell posting__cell_head"><b>{{ sum }} ₽ </b></td>
+                            <td class="posting__cell posting__cell_head"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <v-btn flat block outline 
+                       class="light-blue--text text--darken-3 posting__btn" 
+                       @click.native="dialog = true">
+                    <i class="fa fa-external-link posting__icon"></i> Выбрать товар
+                </v-btn>
+                <template v-if="pageName">
+                    <v-btn flat
+                        class="light-blue darken-3 white--text posting__btn posting__btn_action"
+                        :loading="btnloader.active"
+                        @click.native="sendPosting(newPostingForm)">
+                        <i class="fa fa-plus posting__icon"></i> Принять поступление
+                    </v-btn>
+                </template>
+                <template v-else>
+                    <v-btn flat 
+                        class="red lighten-1 white--text posting__btn posting__btn_action"
+                        :loading="btnloader.active"
+                        @click.native="sendPosting(newPostingForm)">
+                        <i class="fa fa-undo posting__icon"></i> Отменить поступление
+                    </v-btn>
+                </template>
+            </v-flex>
+        </v-layout>
+    </v-flex>
+
+    <v-dialog v-model="dialog" scrollable width="90%">
+        <v-card>
+            <v-card-title class="grey lighten-4">
+                <v-btn flat large class="light-blue darken-3 white--text posting__btn" @click.stop="dialogAdd = true">                     
+                    <i class="fa fa-plus posting__icon"></i> Добавить новый товар
+                </v-btn>
+                <v-spacer></v-spacer>
+                <input type="text" class="posting__search" placeholder="Поиск товара в каталоге">
+                <v-spacer></v-spacer>
+                <v-btn flat icon 
+                       title="Закрыть" v-tippy
+                       class="grey--text darken-1" 
+                       @click.native="dialog = false">                    
+                    <i class="fa fa-times fa-2x"></i>
+                </v-btn>
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-card-text style="height: 70vh;">
+                <v-layout row wrap>
+                    <template v-if="!deactivePreloader && dialog">
+                        <div style="width: 100%;
+                        height: 70vh;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        color: #c1c1c1;">
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                        </div>
+                    </template>
+                    <template v-else-if="deactivePreloader && dialog">
+                        <v-flex md4>
+                            <category-tree :categoryList="categoryList"></category-tree>
+                        </v-flex>
+                        <v-flex md8>
+                            <table class="posting__table">
+                                <thead>
+                                    <tr>
+                                        <th class="posting__cell posting__cell_head">№</th>
+                                        <th class="posting__cell posting__cell_head">Наименование</th>
+                                        <th class="posting__cell posting__cell_head">Цена закупа</th>
+                                        <th class="posting__cell posting__cell_head" colspan="2">Количество</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in pat" :key="item.part_id" class="posting__str" :class="{ 'posting__str_disable' : itemInNew(item.id).length}">
+                                        <td class="text-xs-center posting__cell posting__cell_number">                                 
+                                            {{ index + 1 }}
+                                        </td>
+                                        <td class="posting__cell">
+                                            <div class="posting__item-name">                                   
+                                                {{ item.name }}
+                                            </div>
+                                        </td>
+                                        <td class="text-xs-center posting__cell posting__cell_price">                                 
+                                            <input type="number" class="text-xs-center posting__input posting__input_price" v-model.number="item.posting_price">
+                                        </td>
+                                        <td class="posting__cell posting__cell_count">                                 
+                                            <div class="text-xs-center">
+                                                <v-btn flat icon
+                                                       title="Уменьшить" v-tippy
+                                                       :class="{ 'light-blue--text text--darken-3': !itemInNew(item.id).length, 'grey--text text--lighten-1': itemInNew(item.id).length}"
+                                                       @click="item.amount--">
+                                                    <i class="fa fa-minus"></i>
+                                                </v-btn>
+                                                <input type="number" class="text-xs-center posting__input posting__input_count" v-model.number="item.amount">
+                                                <v-btn flat icon
+                                                       title="Увеличить" v-tippy
+                                                       :class="{ 'light-blue--text text--darken-3': !itemInNew(item.id).length, 'grey--text text--lighten-1': itemInNew(item.id).length}" 
+                                                       @click="item.amount++">
+                                                    <i class="fa fa-plus"></i>
+                                                </v-btn>
+                                            </div>
+                                        </td>
+                                        <td class="posting__cell posting__cell_action">                             
+                                            <v-btn flat block large v-if="!itemInNew(item.part_id).length"
+                                                   title="Добавить в поступление" v-tippy
+                                                   class="green darken-1 white--text posting__btn"  
+                                                   @click="newPostingForm.parts.push({ 'part_id': item.part_id, 'name': item.name, 'amount': item.amount, 'price': item.posting_price, 'total':  item.posting_price * item.count })">
+                                                <i class="fa fa-check fa-lg"></i>
+                                            </v-btn>                       
+                                            <v-btn flat block large v-else-if="itemInNew(item.part_id).length"
+                                                   title="Убрать из поступления" v-tippy
+                                                   @click="dropItem(item.id)" 
+                                                   class="red--text text--lighten-1 posting__btn">
+                                                <i class="fa fa-times fa-2x"></i>
+                                            </v-btn>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </v-flex>
+                    </template>
+                </v-layout>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions class="grey lighten-4" justify-center>
+                <v-layout row justify-center style="position: relative">
+                    <v-pagination :length="Number(partPageCount)" v-model="page" :total-visible="7" prev-icon="fa-angle-left" next-icon="fa-angle-right"></v-pagination>
+                    <div style="position: absolute;right: 25px;top: 0;">
+                        <span class="hidden-md-and-down">Показывать по: </span>
+                        <v-btn flat icon 
+                               :class="[ perPage === 10 ? 'light-blue darken-3 white--text' : 'light-blue--text text--darken-3']" 
+                               @click="perPage = 10"
+                               style="margin-top: 2px;">10</v-btn>
+                        <v-btn flat icon
+                               :class="[ perPage === 20 ? 'light-blue darken-3 white--text' : 'light-blue--text text--darken-3' ]"
+                               @click="perPage = 20"
+                               style="margin-top: 2px;">20</v-btn>
+                        <v-btn flat icon
+                               :class="[ perPage === 50 ? 'light-blue darken-3 white--text' : 'light-blue--text text--darken-3']"
+                               @click="perPage = 50"
+                               style="margin-top: 2px;">50</v-btn>
+                    </div>
+                </v-layout>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogAdd" scrollable width="90%">
+        <v-card>
+            <v-card-title class="grey lighten-4">
+                <v-spacer></v-spacer>
+                    <span class="title">Добавление нового товара</span>
+                <v-spacer></v-spacer>
+                <v-btn flat icon 
+                       title="Закрыть" v-tippy
+                       class="grey--text darken-1" 
+                       @click.native="dialogAdd = false">                    
+                    <i class="fa fa-times fa-2x"></i>
+                </v-btn>
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-card-text>
+
+                    <part-add></part-add>
+
+            </v-card-text>
+
+        </v-card>
+    </v-dialog>
+
+</v-layout> -->

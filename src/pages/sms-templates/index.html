@@ -1,0 +1,49 @@
+<el-row v-loading.fullscreen.lock="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-row>Шаблоны СМС</el-row>
+    <el-row>Имя отправителя СМС: {{ sender }}</el-row>
+    <el-row>
+        <el-col :span="14">
+            <sms-form :id="1" 
+                      :msg="sms.income_template" 
+                      :status="sms.income_status" 
+                      :reject="sms.income_reject_reason" 
+                      :symbol="sms1.length"
+                      :keys="'income'">
+            </sms-form>
+            <sms-form :id="2" 
+                      :msg="sms.done_template" 
+                      :status="sms.done_status" 
+                      :reject="sms.done_reject_reason" 
+                      :symbol="sms2.length"
+                      :keys="'done'">
+            </sms-form>
+            <sms-form :id="3" 
+                      :msg="sms.feedback_template" 
+                      :status="sms.feedback_status" 
+                      :reject="sms.feedback_reject_reason" 
+                      :symbol="sms3.length"
+                      :keys="'feedback'">
+            </sms-form>
+        </el-col>
+        <el-col :span="10">        
+            <iphone :sender="sender" :msg="[sms1, sms2, sms3]"></iphone>    
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-col :span="14">
+            <sms-form :id="4" 
+                      :msg="sms.master_template" 
+                      :status="sms.master_status" 
+                      :reject="sms.master_reject_reason" 
+                      :symbol="sms3.length"
+                      :keys="'master'">
+            </sms-form>
+        </el-col>
+        <el-col :span="10">
+            <iphone :sender="sender" :msg="[sms4]"></iphone>
+        </el-col>
+    </el-row>
+    <el-row class="sms-templates__btn">
+        <el-button type="success" :loading="btnloader" @click="changeSmsTemplate(sms)">Сохранить</el-button>
+    </el-row>
+</el-row>

@@ -1,0 +1,69 @@
+<el-row>
+    <el-row class="cash-view__title cash-view__title_filter">Фильтр</el-row>
+    <el-form :model="form" label-position="top">
+        <el-form-item label="Дата создания">
+            <el-date-picker v-model="date"
+                            type="daterange"
+                            align="right"
+                            unlink-panels
+                            format="dd.MM.yyyy"
+                            value-format="timestamp"
+                            range-separator="-"
+                            start-placeholder="С"
+                            end-placeholder="По"
+                           :picker-options="rangeDate"
+                           style="width: 100%">
+            </el-date-picker>
+        </el-form-item>
+        <el-form-item label="Тип операции">
+            <el-select v-model="form.act_type_id" 
+                       placeholder="Системный" 
+                       clearable 
+                       style="width: 100%">
+                <el-option v-for="item in cashTypeDefault" 
+                           :label="item.name" 
+                           :value="item.id" 
+                           :key="item.id">
+                           <i class="fas fa-plus green--text" v-if="item.increase"></i>
+                           <i class="fas fa-minus red--text" v-else></i>
+                           <span>{{ item.name }}</span>
+                </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item>
+            <el-select v-model="form.custom_act_type_id" 
+                       placeholder="Пользовательский" 
+                       clearable 
+                       :disabled="userTypeActive(form)"
+                       style="width: 100%">
+                    <el-option v-for="item in typeUser" 
+                               :label="item.name" 
+                               :value="item.id" 
+                               :key="item.id">
+                    </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="Сумма">
+            <el-row type="flex">
+                <el-input placeholder="От" clearable v-model="form.sum_min"></el-input>
+                <div style="padding:0 10px;">-</div>
+                <el-input placeholder="До" clearable v-model="form.sum_max"></el-input>   
+            </el-row>
+        </el-form-item>
+        <el-form-item label="Сотрудник">
+            <el-select v-model="form.created_by" placeholder="Сотрудник" clearable style="width: 100%">
+                    <el-option v-for="item in stuff" 
+                               :label="item.last_name + ' ' + item.first_name + ' ' + item.middle_name" 
+                               :value="item.id" 
+                               :key="item.id">
+                    </el-option>
+            </el-select>
+        </el-form-item>
+    </el-form>
+    <el-row type="flex" justify="center" style="margin: 20px 0;">
+        <el-button type="primary" class="cash-view__btn" :loading="btnloader" @click="getCashOperation(form)">Показать</el-button>
+    </el-row>
+    <el-row type="flex" justify="center" style="margin: 20px 0;">
+        <el-button class="cash-view__btn" @click="clear">Очистить</el-button>
+    </el-row>
+</el-row>

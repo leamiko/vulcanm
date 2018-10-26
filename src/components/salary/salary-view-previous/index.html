@@ -1,0 +1,12 @@
+<el-row>
+    <el-col>
+        <el-row>
+            Предыдущие выплаты:
+        </el-row>
+        <el-row>
+            <salary-transfer-table :data="salaryTransferListByUserId"
+                                   :loading="loadingSalaryTransfer">
+            </salary-transfer-table>
+        </el-row>
+    </el-col>
+</el-row>

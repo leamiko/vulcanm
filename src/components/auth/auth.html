@@ -1,0 +1,24 @@
+<el-row class="auth">
+    <div class="auth__title">
+        <b>Авторизация</b>
+    </div>
+    <el-form>
+        <el-form-item :error="validate(authError, 'login', true)">
+            <el-input @keyup.13.native="isAuth(userIn)" v-model="userIn.login" prefix-icon="far fa-user"></el-input>
+        </el-form-item>
+        <el-form-item :error="validate(authError, 'password', true)">
+            <el-input @keyup.13.native="isAuth(userIn)" type="password" v-model="userIn.password" prefix-icon="fas fa-key"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-switch v-model="userIn.saveUser"
+                       active-color="#13ce66"
+                       inactive-color="#ff4949"
+                       active-text="Запомнить меня">
+        </el-switch>
+        </el-form-item>
+        <el-form-item class="auth__btn">
+            <el-button type="primary" @click.native="isAuth(userIn)">Войти</el-button>
+            <el-button type="text" @click="e1 = 'relogin'">Забыли пароль?</el-button>
+        </el-form-item>
+    </el-form>
+</el-row>

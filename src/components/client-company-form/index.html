@@ -1,0 +1,112 @@
+<el-row class="client-form">
+    <el-form label-position="top">
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Инн" :error="validate(clientCompanyValid, 'inn')">
+                <el-autocomplete v-model="item.inn"
+                                 :fetch-suggestions="inn"
+                                 @select="select"
+                                 placeholder="Начните с ИНН"
+                                 clearable
+                                 :autofocus="true"
+                                 style="width: 100%">
+                        <i class="el-icon-edit el-input__icon" slot="prefix"></i>
+                        <template slot-scope="{ item }">
+                            <div><b>{{ item.inn }}</b></div>
+                            <div class="client-form__inn-descr"><i>{{ item.name }}</i></div>
+                        </template>
+                </el-autocomplete>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="16" class="client-form__item">
+            <el-form-item label="Название" required :error="validate(clientCompanyValid, 'name')">
+                <el-input v-model="item.name" placeholder="Введите название"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="КПП" :error="validate(clientCompanyValid, 'kpp')">
+                <el-input v-model="item.kpp" placeholder="Введите КПП"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="16" class="client-form__item">
+            <el-form-item label="Адрес" :error="validate(clientCompanyValid, 'address')">
+                <el-input v-model="item.address" placeholder="Введите адрес"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="ОГРН" :error="validate(clientCompanyValid, 'ogrn')">
+                <el-input v-model="item.ogrn" placeholder="Введите ОГРН"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Должность руководителя" :error="validate(clientCompanyValid, 'manager_post')">
+                <el-input v-model="item.manager_post" placeholder="Введите должность руководителя"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="ФИО руководителя" :error="validate(clientCompanyValid, 'manager_name')">
+                <el-input v-model="item.manager_name" placeholder="Введите ФИО руководителя"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Номер телефона" required :error="validate(clientCompanyValid, 'phone')">
+                <el-input v-model="item.phone" type="phone" placeholder="Введите номер телефона"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Контактный номер телефона" :error="validate(clientCompanyValid, 'contact_phone')">
+                <el-input v-model="item.contact_phone" type="phone" placeholder="Введите контактный номер телефона"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Контактное лицо" :error="validate(clientCompanyValid, 'contact_name')">
+                <el-input v-model="item.contact_name" placeholder="Введите контактное лицо"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="БИК" :error="validate(clientCompanyValid, 'bik')">
+                <el-input v-model="item.bik" placeholder="Введите БИК"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Название банка" :error="validate(clientCompanyValid, 'bank_name')">
+                <el-input v-model="item.bank_name" placeholder="Введите название банка"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Кор. счет" :error="validate(clientCompanyValid, 'correspond_account')">
+                <el-input v-model="item.correspond_account" placeholder="Введите кор. счет"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="№ счета" :error="validate(clientCompanyValid, 'bank_account')">
+                <el-input v-model="item.bank_account" placeholder="Введите № счета"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Email" :error="validate(clientCompanyValid, 'email')">
+                <el-input v-model="item.email" placeholder="Введите email"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="VK" :error="validate(clientCompanyValid, 'vk')">
+                <el-input v-model="item.vk" placeholder="Введите ссылку на vk"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Instagram" :error="validate(clientCompanyValid, 'instagram')">
+                <el-input v-model="item.instagram" placeholder="Введите ссылку на instagram"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Откуда узнал?" :error="validate(clientCompanyValid, 'source_id')">
+                <el-select v-model="item.source_id" filterable clearable placeholder="Выберите источник" style="width: 100%">
+                    <el-option v-for="item in clientSource"
+                               :key="item.id"
+                               :label="item.name"
+                               :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+        </el-col>
+    </el-form>
+</el-row>

@@ -1,0 +1,101 @@
+<v-layout wrap>
+    <v-flex xs12 md12>
+        <span class="text-xs-center feedback__title">Отзывы</span>
+    </v-flex>
+    <v-flex xs12 md12>
+        <table class="feedback__table">
+            <thead class="feedback__thead">
+                <tr>
+                    <th class="text-xs-center feedback__cell" width="70">№</th>
+                    <th class="text-xs-center feedback__cell feedback__cell_width">Скорость</th>
+                    <th class="text-xs-center feedback__cell feedback__cell_width">Стоимость</th>
+                    <th class="text-xs-center feedback__cell feedback__cell_width">Качество обслуживания</th>
+                    <th class="text-xs-center feedback__cell">Комментарий</th>
+                    <th class="text-xs-center feedback__cell feedback__cell_width">Рекомендует</th>
+                    <th class="text-xs-center feedback__cell feedback__cell_width">Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-xs-center feedback__cell">1</td>
+                    <td class="feedback__cell">
+                        <div class="text-xs-center feedback__top-content">
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                        </div>
+                        <div class="feedback__bottom-content">
+                            <span class="feedback__cell-title">Заказ</span>
+                            <span class="text-xs-center">FIX-350</span>
+                        </div>
+                    </td>
+                    <td class="feedback__cell">
+                        <div class="text-xs-center feedback__top-content">
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <span class="feedback__cell-title">Приемщик</span>
+                            <span class="text-xs-center">Проценко А.Н.</span>
+                        </div>
+                    </td>
+                    <td class="feedback__cell">
+                        <div class="text-xs-center feedback__top-content">
+                            <i class="fa fa-star green--text text--darken-2" aria-hidden="true" v-for="i in 5"></i>
+                            <br>
+                            <i class="fa fa-star orange--text text--darken-2" aria-hidden="true" v-for="i in 4"></i>
+                            <br>
+                            <i class="fa fa-star red--text text--darken-2" aria-hidden="true" v-for="i in 3"></i>
+                        </div>
+                        <div>
+                            <span class="feedback__cell-title">Инженер</span>
+                            <span class="text-xs-center">Безногов П.В.</span>
+                        </div>
+                    </td>
+                    <td class="feedback__cell">
+                        <div class="feedback__top-content">
+                            <div class="feedback__comment">
+                                <span>Выше некуда и не надо выше а то мало ли че случится еще а тут вот раз и все Выше некуда и не надо выше а то мало ли че случится еще а тут вот раз и все Выше некуда и не надо выше а то мало ли че случится еще а тут вот раз и все</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="feedback__cell-title">Устройство</span>
+                            <span class="text-xs-center">Lenovo A328</span>
+                        </div>
+                    </td>
+                    <td class="text-xs-center feedback__cell">
+                        <div class="feedback__top-content">
+                            <i class="fa fa-thumbs-o-up green--text feedback__icon" aria-hidden="true"></i>
+                            <i class="fa fa-thumbs-o-up red--text feedback__icon feedback__icon_dislike" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                           <span class="feedback__cell-title">Стоимость</span>
+                           <span class="text-xs-center">2300.00</span>
+                        </div>
+                    </td>
+                    <td class="text-xs-center feedback__cell">
+                        <span class="vulcanm--tooltip"
+                              v-tooltip:top="{ html : 'Обычный клиент'}">
+                              <i class="fa fa-user light-blue--text text--darken-3 feedback__icon" aria-hidden="true"></i>
+                        </span>
+                        <br>
+                        <span class="vulcanm--tooltip"
+                              v-tooltip:top="{ html : 'Любимый клиент'}">
+                              <i class="fa fa-user-plus green--text feedback__icon" aria-hidden="true"></i>
+                        </span>
+                        <br>
+                        <span class="vulcanm--tooltip"
+                              v-tooltip:top="{ html : 'Клиент в черном списке'}">
+                              <i class="fa fa-user-times grey--text text--darken-2 feedback__icon" aria-hidden="true"></i>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </v-flex>
+</v-layout>

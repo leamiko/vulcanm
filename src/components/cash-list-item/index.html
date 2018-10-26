@@ -1,0 +1,80 @@
+<el-row class="cash__item">  
+    <el-col :xs="24" :sm="3" :md="2" :xl="1" class="cash__col">
+        <i class="fas fa-credit-card orange--text fa-2x" 
+           title="Безналичная" v-tippy   
+           v-if="item.cashless">
+        </i>
+        <i class="far fa-money-bill-alt blue--text fa-2x" 
+           title="Наличная" v-tippy
+           v-else>
+        </i>
+    </el-col>
+    <el-col :xs="24" :sm="9" :md="10" :xl="17" class="cash__col" @click.native="onClickDetail(item)">
+        <div><b class="cash__name">{{ item.name }}</b></div>
+        <div class="cash__descr" v-if="item.point !== null">
+            <i>Филиал: {{ item.point.name }}</i>
+        </div>
+        <template v-else></template>
+    </el-col>
+    <el-col :xs="24" :sm="6" :md="6" :xl="3" class="cash__col cash__col_right">
+        <numbers type="money" :value="item.sum"></numbers>
+    </el-col>
+    <el-col :xs="24" :sm="6" :md="6" :xl="3" class="cash__col cash__col_right">
+        <el-button size="mini" 
+                   icon="fas fa-edit" 
+                   title="Редактировать" v-tippy
+                   @click="onDialogEdit">
+        </el-button>
+        <el-button 
+                   v-if='controlDeleteButtuon'
+                   type="danger" 
+                   size="mini" 
+                   icon="fas fa-times" 
+                   title="Удалить" v-tippy
+                   @click="onDialogDelete">
+        </el-button>
+    </el-col>
+    <el-dialog :title="item.name" :visible.sync="dialogEdit" width="310px">
+        <el-form :model="form" label-position="top">
+            <el-form-item label="Название кассы" :error="validate(cashValidate, 'name')">
+                <el-input v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="Филиал" :error="validate(cashValidate, 'point_id')">
+                <el-select v-model="form.point_id" placeholder="Филиал" clearable style="width: 100%">
+                    <el-option v-for="point in point" :label="point.name" :value="point.id" :key="point.id"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item :error="validate(cashValidate, 'cashless')">
+                <el-switch style="display: block"
+                           v-model="form.cashless"
+                           active-color="#13ce66"
+                           inactive-color="#ff4949"
+                           active-text="Безналичная касса">
+                </el-switch>
+            </el-form-item>
+        </el-form>
+        <el-row type="flex" justify="center" slot="footer">
+            <el-button @click="dialogEdit = false">Отмена</el-button>
+            <el-button type="success" 
+                       @click="changeCashItem(form)"
+                       :loading="btnloader.active">
+                    Изменить
+            </el-button>
+        </el-row>
+    </el-dialog>
+
+    <el-dialog :visible.sync="dialogDelete" width="310px">
+        <el-row>
+            Вы действительно хотите удалить кассу "{{ item.name }}"?
+        </el-row>
+        <el-row type="flex" justify="center" slot="footer">
+            <el-button @click="dialogDelete = false">Отмена</el-button>
+            <el-button type="danger" 
+                       :loading="btnloader.active" 
+                       @click="deleteCashItem(item.id)">
+                    Удалить
+            </el-button>
+        </el-row>
+    </el-dialog>
+</el-row> 
+

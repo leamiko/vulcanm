@@ -1,0 +1,166 @@
+.part {
+    margin-top: 40px;
+    overflow: auto;
+    border: 1px solid $border-color;
+
+    &__tbody {
+        overflow-x: hidden;
+        height: 50vh !important;
+        float: left;
+    }
+
+    &__item,
+    &__head {
+        display: flex;
+    }
+
+    &__item {
+        height: 50px;
+        transition: .2s;
+
+        &:hover:not(&_head) {
+            background: rgba($color-blue, 0.07);
+        }
+    }
+
+    &__item_nomenkl > &__cell > &__content {
+        cursor: pointer;
+        border-bottom: 1px dashed transparent;
+        transition: .2s;
+
+        &:hover {
+            border-bottom: 1px dashed;
+            opacity: .7;
+        }
+    }
+
+    &__cell {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        min-height: 40px;  
+        padding: 5px 10px;
+        border-bottom: 1px solid $border-color;
+        border-right: 1px solid $border-color;
+        position: relative;
+
+        &_name {          
+            min-width: 500px;           
+            max-width: 500px;           
+        }
+
+        &_index {
+            min-width: 60px;
+            max-width: 60px;
+        }
+
+        &_storage {
+            min-width: 150px;
+            max-width: 150px;
+        }
+        
+        &_price,
+        &_barcode {
+            min-width: 120px;
+            max-width: 120px;
+        }
+
+        &_actions {
+            min-width: 145px;
+            max-width: 145px;
+        }
+
+        &_price {
+            justify-content: flex-end;
+        }
+
+        &_barcode {
+            justify-content: center;
+        }
+
+        &_index,
+        &_storage {
+            justify-content: center;
+        }
+
+        &_head {
+            background: rgba($head-bg-color, 0.4);
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+        }
+    }
+
+    &__cell > &__content {
+        display: flex;
+        align-items: flex-start;
+        max-height: 35px;
+        overflow: hidden; 
+    }
+
+    &__colspan {
+        display: flex; 
+        flex-direction: column;
+    }
+
+    &__amount {
+        color: white;
+        width: 50px;
+        padding: 2px;
+        text-align: center;
+
+        &_min {
+            background: $color-red;
+        }
+
+        &_max {
+            background: $color-green;
+        }
+
+        &_equal {
+            background: $color-orange;
+        }
+    }
+
+    &__load {
+        position: absolute;
+        bottom: 0px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        width: 100%;
+        text-align: center;
+        font-size: 21px;
+        color: $color-blue;
+    }
+
+    &__image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: -10px;
+        margin-right: 10px;
+        width: 50px;
+        height: 50px;
+        color: rgba(0, 0, 0, 0.2);
+        border-right: 1px solid $border-color;
+        overflow: hidden;
+        
+        & > img {
+            max-height: 100%;
+        }
+    }
+
+    &__load-cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        color: $color-blue;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: 5;
+    }
+}

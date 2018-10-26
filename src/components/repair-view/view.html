@@ -1,0 +1,75 @@
+<v-layout wrap class="repair-view">
+    <v-flex xs12 md3 class="repair-view__col">
+        <order :item="item"></order>
+    </v-flex>
+    <v-flex xs12 md6>
+        <v-layout wrap>
+            <v-flex xs12 md4 class="repair-view__row-btn-content">
+                <v-btn flat
+                       class="repair-view__btn"
+                       @click="contentActive = 'info'"
+                       :class="{ 'light-blue darken-3' : contentActive === 'info', 'grey--text text--lighten-2' : contentActive !== 'info'}">
+                    <span :class="{ 'white--text': contentActive === 'info', 'grey--text text--darken-2' : contentActive !== 'info'}">
+                        Информация
+                    </span>
+                </v-btn>
+            </v-flex>
+            <v-flex xs12 md4 class="repair-view__row-btn-content">
+                <v-btn flat
+                       class="repair-view__btn"
+                       @click="contentActive = 'works'"
+                       :class="{ 'light-blue darken-3' : contentActive === 'works', 'grey--text text--lighten-2' : contentActive !== 'works'}">
+                    <span :class="{ 'white--text': contentActive === 'works', 'grey--text text--darken-2' : contentActive !== 'works'}">
+                    Работы и запчасти
+                    </span>
+                </v-btn>
+            </v-flex>
+            <v-flex xs12 md4 class="repair-view__row-btn-content">
+                <v-btn flat
+                       class="repair-view__btn"
+                       @click="contentActive = 'pay'"
+                       :class="{ 'light-blue darken-3' : contentActive === 'pay', 'grey--text text--lighten-2' : contentActive !== 'pay'}">
+                    <span :class="{ 'white--text': contentActive === 'pay', 'grey--text text--darken-2' : contentActive !== 'pay'}">
+                        Платежи
+                    </span>
+                </v-btn>
+            </v-flex>
+        </v-layout>
+        <div>
+            <info :item="item" v-if="contentActive === 'info'"></info>
+            <works v-else-if="contentActive === 'works'"></works>
+            <pay v-else></pay>
+            <total></total>
+        </div>
+    </v-flex>
+    <v-flex xs12 md3>
+        <actions :item="item"></actions>
+
+        <div class="repair-view__comment-block">
+            <v-layout wrap>
+                <v-flex xs12 md6>
+                    <v-btn flat
+                           class="repair-view__comment-btn"
+                           @click="comment = true"
+                           :class="{ 'light-blue darken-3' : comment, 'grey--text text--lighten-2' : !comment}">
+                            <span :class="{ 'white--text': comment, 'grey--text text--darken-2' : !comment}">
+                                Комментарии
+                            </span>
+                    </v-btn>
+                </v-flex>
+                <v-flex xs12 md6>
+                    <v-btn flat
+                           class="repair-view__comment-btn"
+                           @click="comment = false"
+                           :class="{ 'light-blue darken-3' : !comment, 'grey--text text--lighten-2' : comment}">
+                            <span :class="{ 'white--text': !comment, 'grey--text text--darken-2' : comment}">
+                                Лог заказа
+                            </span>
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+            <comment :item="item" v-if="comment"></comment>
+            <logs :item="item" v-else></logs>
+        </div>
+    </v-flex>
+</v-layout>

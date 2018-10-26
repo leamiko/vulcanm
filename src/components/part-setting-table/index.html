@@ -1,0 +1,62 @@
+<div>
+    <el-button @click="onDialogSettingTable()">
+        <i class="fas fa-cogs"></i> Настройка таблицы
+    </el-button>
+
+    <el-dialog title="Настройка таблицы" :visible.sync="dialogSettingTable" width="300px">
+        <div>
+            <div><el-checkbox v-model="heads.number"> № </el-checkbox></div>
+            <div><el-checkbox v-model="heads.name"> Наименование </el-checkbox></div>
+            <div>
+                <el-checkbox :indeterminate="midcheck(heads.price, 'allPrice')"
+                             v-model="allPrice"
+                             @change="edtItem(heads.price)">
+                             Цена
+                </el-checkbox>
+            </div>
+            <div style="margin-left: 25px" v-for="item in heads.price" >
+                <el-checkbox :key="item.name" 
+                             v-model="item.active">
+                             {{ item.title }}
+                </el-checkbox>
+            </div>
+            <template v-if="isPage">
+                <div>
+                    <el-checkbox :indeterminate="midcheck(heads.amounts, 'allAmounts')"
+                                v-model="allAmounts"
+                                @change="edtItem(heads.amounts)">
+                                Остаток
+                    </el-checkbox>
+                </div>
+                <div style="margin-left: 25px" v-for="item in heads.amounts">
+                    <el-checkbox :key="item.name" 
+                                v-model="item.active"> 
+                                {{ item.name }}
+                    </el-checkbox>
+                </div>
+            </template>
+            <template v-else>
+                <div>
+                    <el-checkbox :indeterminate="midcheck(heads.reward, 'allReward')"
+                                v-model="allReward"
+                                @change="edtItem(heads.reward)">
+                                Вознаграждение
+                    </el-checkbox>
+                </div>
+                <div style="margin-left: 25px" v-for="item in heads.reward">
+                    <el-checkbox :key="item.name" 
+                                v-model="item.active"> 
+                                {{ item.title }}
+                    </el-checkbox>
+                </div>
+                <div><el-checkbox v-model="heads.barcode"> Штрих-код </el-checkbox></div>
+                <div><el-checkbox v-model="heads.article"> Артикул </el-checkbox></div>
+                <div><el-checkbox v-model="heads.vat"> НДС </el-checkbox></div>
+            </template>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="cancel()">Отменить</el-button>
+            <el-button type="primary" @click="save()">Сохранить</el-button>
+        </span>
+    </el-dialog>
+</div>

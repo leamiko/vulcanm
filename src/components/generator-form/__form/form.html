@@ -1,0 +1,85 @@
+<vddl-list :list="form" :horizontal="false" :drop="addPosition" :id="colNum">
+    <vddl-draggable v-for="(item, index) in form"
+                    :key="item.id"
+                    :draggable="item"
+                    :index="index"
+                    :wrapper="form"
+                    :data-col="colNum"
+                    :dragstart="delPosition"
+                    :moved="delPosition">
+        <div :class="{ 'generator-form__form-system' : item.id < 1000, 'generator-form__form-user': !(item.id < 1000) }">
+            <div class="generator-form__form-block">
+                <div class="generator-form__input-block">
+                    <div class="generator-form__input" v-if="item.type === 'text'">
+                        <v-text-field
+                                type="text"
+                                :label="item.label"
+                                placeholder="text"
+                                :required="item.required"
+                        ></v-text-field>
+                    </div>
+                    <div class="generator-form__input" v-else-if="item.type === 'number'">
+                        <v-text-field
+                                type="number"
+                                :label="item.label"
+                                placeholder="0"
+                                :required="item.required"
+                        ></v-text-field>
+                    </div>
+                    <div class="generator-form__input" v-else-if="item.type === 'date'">
+                        <v-menu
+                                lazy
+                                v-model="menu"
+                                transition="scale-transition"
+                                offset-y
+                                full-width
+                                :nudge-bottom="200"
+                                max-width="290px"
+                                min-width="290px"
+                        >
+                            <v-text-field
+                                    :required="item.required"
+                                    slot="activator"
+                                    label="Дата"
+                                    v-model="date"
+                                    prepend-icon="event"
+                            ></v-text-field>
+                            <v-date-picker v-model="date" autosave no-title scrollable actions first-day-of-week="1"></v-date-picker>
+                        </v-menu>
+                    </div>
+                    <div class="generator-form__input" v-else-if="item.type === 'checkbox'">
+                        <v-switch class="generator-form__switch"
+                                  :label="item.label"
+                                  color="green"
+                                  hide-details
+                                  :required="item.required">
+                        </v-switch>
+                    </div>
+                    <div class="generator-form__input" v-else-if="item.type === 'textarea'">
+                        <v-text-field
+                                :label="item.label"
+                                rows="3"
+                                multi-line
+                                :required="item.required">
+                        </v-text-field>
+                        <div class="generator-form__description">
+                            <span class="generator-form__description-title">Популярные варианты</span>
+                            <i class="fa fa-cog light-blue--text text--darken-3 generator-form__description-icon"></i>
+                        </div>
+                    </div>
+                    <div class="generator-form__input" v-else-if="item.type === 'select'">
+                        select
+                    </div>
+                </div>
+            </div>
+            <template v-if="item.required">
+                <span class="vulcanm--tooltip generator-form__require"
+                    v-tooltip:bottom="{html: 'Обязательное при заполнении формы'}">
+                    <i class="fa fa-info-circle red--text" slot="activator" aria-hidden="true"></i>
+                </span>
+            </template>
+            <template v-else></template>
+        </div>
+    </vddl-draggable>
+    <vddl-placeholder class="vulcanm--placeholder" style="min-width: 270px"></vddl-placeholder>
+</vddl-list>

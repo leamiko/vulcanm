@@ -1,0 +1,91 @@
+<el-row class="cash-types">
+    <el-col :span="8" class="cash-types__col">
+        <el-row class="cash-types__title">Встроенные</el-row>
+        <el-row>
+            <div class="cash-types__item" v-for="item in cashTypeDefault">
+                <div>
+                    <template v-if="item.increase">
+                        <i class="fas fa-plus-square green--text" title="Поступление" v-tippy></i>
+                    </template>
+                    <template v-else>
+                        <i class="fas fa-minus-square red--text" title="Списание" v-tippy></i>
+                    </template>
+                    {{ item.name }}
+                </div>
+            </div>
+        </el-row>
+    </el-col>
+    <el-col :span="8" class="cash-types__col">
+        <el-row class="cash-types__title">Новая операция</el-row>
+        <el-row>
+            <el-form>
+                <el-form-item :error="validate(cashTypeValid, 'name')">
+                    <el-input v-model="newItem.name" placeholder="Название"></el-input>
+                </el-form-item>
+                <el-form-item :error="validate(cashTypeValid, 'increase')">
+                    <el-select v-model="newItem.increase" placeholder="Выберите тип" style="width: 100%">
+                        <el-option label="Внесение" :value="false"></el-option>
+                        <el-option label="Изъятие" :value="true"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item style="text-align: center">
+                    <el-button type="primary" :loading="btnloader" @click="sendCashType(newItem)">Добавить</el-button>
+                </el-form-item>
+            </el-form>
+        </el-row>
+        <el-row class="cash-types__title">Пользовательские</el-row>
+        <el-row v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+            <div class="cash-types__item" v-for="item in cashTypeUser">
+                <div>
+                    <template v-if="item.increase">
+                        <i class="fas fa-plus-square green--text" title="Поступление" v-tippy></i>
+                    </template>
+                    <template v-else>
+                        <i class="fas fa-minus-square red--text" title="Списание" v-tippy></i>
+                    </template>
+                    {{ item.name }}
+                </div>
+                <div>
+                    <el-button size="mini"
+                               icon="fas fa-edit"
+                               title="Редактировать" v-tippy
+                               @click.native="onDialogEdit(item)">
+                    </el-button>
+                    <el-button size="mini" type="danger" 
+                               icon="fas fa-times"
+                               title="Удалить" v-tippy
+                               @click.native="onDialogDelete(item)">
+                    </el-button>
+                </div>
+            </div>
+        </el-row>
+
+         <el-pagination background layout="prev, pager, next" 
+                    :page-count="Number(cashTypePageCount)"
+                    class="pagination" 
+                    @current-change="loadPage">
+        </el-pagination>
+
+        <el-dialog title="Изменение типа" :visible.sync="dialogEdit" width="350px">
+            <el-form>
+                <el-form-item>
+                    <el-input v-model="editItem.name" placeholder="Название"></el-input>
+                </el-form-item>
+            </el-form>    
+            <span slot="footer">
+                <el-button @click="dialogEdit = false">Отменить</el-button>
+                <el-button type="primary" :loading="btnloader" @click="changeCashType(editItem)">Изменить</el-button>
+            </span>
+        </el-dialog>
+
+        <el-dialog :visible.sync="dialogDelete" width="350px">
+            <el-row>
+                Вы действительно хотите удалить "{{ editItem.name }}"?
+            </el-row>
+            <span slot="footer">
+                <el-button @click="dialogDelete = false">Отмена</el-button>
+                <el-button type="danger" @click="deleteCashType(editItem.id), dialogDelete = false">Удалить</el-button>
+            </span>
+        </el-dialog>
+    </el-col>
+</el-row>

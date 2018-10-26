@@ -1,0 +1,67 @@
+<el-row  type="flex" justify="center">
+<el-col :xs="24" :sm="18" :md="10" v-loading.fullscreen.lock="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <settings-storage></settings-storage>
+    <storage-add></storage-add>
+    <el-row v-for="item in storages" :key="item.id" class="cash__item">
+        <el-col :xs="24" :sm="3" :md="2" :xl="1" class="cash__col">
+            <i class="fas fa-inbox blue--text"></i>
+        </el-col>
+        <el-col :xs="24" :sm="15" :md="16" :xl="20" class="cash__col">
+            <div><b>{{ item.name }}</b></div>
+            <template v-if="item.point !== null">
+                <div class="cash__descr">
+                    <i>Филиал: {{ item.point.name }}</i>
+                </div>
+            </template>
+            <template v-else></template>
+        </el-col>
+        <el-col :xs="24" :sm="6" :md="6" :xl="3" class="cash__col cash__col_right">
+            <el-button size="mini" 
+                    icon="fas fa-edit" 
+                    title="Редактировать" v-tippy
+                    @click.native="onDialogEdit(item)">
+            </el-button>
+            <el-button type="danger" 
+                    size="mini" 
+                    icon="fas fa-times" 
+                    title="Удалить" v-tippy
+                    @click.native="onDialogDelete(item)">
+            </el-button>
+        </el-col>
+    </el-row>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(pageStorCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+
+    <el-dialog title="Изменение склада" :visible.sync="dialogEdit" width="350px">
+        <el-form>
+            <el-form-item :error="validate(validStorage, 'name')" label="Название">
+                <el-input v-model="editItem.name" placeholder="Название"></el-input>
+            </el-form-item>
+            <el-form-item :error="validate(validStorage, 'point_id')" label="Филиал">
+                <el-select v-model="editItem.point_id" placeholder="Выберите филиал" style="width: 100%" clearable>
+                    <el-option v-for="item in point" :label="item.name" :value="item.id"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>    
+        <span slot="footer">
+            <el-button @click="dialogEdit = false">Отменить</el-button>
+            <el-button type="primary" :loading="btnloader" @click="changeStorage(editItem)">Изменить</el-button>
+        </span>
+    </el-dialog>
+
+    <el-dialog :visible.sync="dialogDelete" width="350px">
+        <el-row>
+            Вы действительно хотите удалить "{{ editItem.name }}"?
+        </el-row>
+        <span slot="footer">
+            <el-button @click="dialogDelete = false">Отмена</el-button>
+            <el-button type="danger" :loading="btnloader" @click="deleteStorage(editItem.id), dialogDelete = false">Удалить</el-button>
+        </span>
+    </el-dialog>
+</el-col>
+
+</el-row>

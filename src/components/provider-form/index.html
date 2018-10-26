@@ -1,0 +1,44 @@
+<el-row type="flex" justify="center">
+    <el-col :xs="24" :sm="18" :md="20" :lg="12" class="point-update">
+        <el-form label-width="200px" label-position="top">
+            <el-row>
+                <el-col :xs="24" :sm="12" class="point-update__col">
+                    <el-form-item label="Наименование" :error="validate(validProvider, 'name')">
+                        <el-input v-model="item.name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="12" class="point-update__col">
+                    <el-form-item label="Адрес" :error="validate(validProvider, 'address')">
+                        <el-input v-model="item.address"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="12" class="point-update__col">
+                    <el-form-item label="Телефон" :error="validate(validProvider, 'phone')">
+                        <el-input v-model="item.phone"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="12" class="point-update__col">
+                    <el-form-item label="Контактное лицо" :error="validate(validProvider, 'contact_name')">
+                        <el-input v-model="item.contact_name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="12" class="point-update__col">
+                    <el-form-item label="Сайт" :error="validate(validProvider, 'site')">
+                        <el-input v-model="item.site"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="12" class="point-update__col">
+                    <el-form-item label="Описание" :error="validate(validProvider, 'description')">
+                        <el-input v-model="item.description"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <el-row class="company__btn">
+            <el-button type="success" :loading="btnloader"
+                    v-if="form === 'edit'" @click="changeProvider(item)">Сохранить</el-button>
+            <el-button type="primary" :loading="btnloader" 
+                    v-else-if="form === 'add'" @click="sendProvider(item)">Добавить</el-button>
+        </el-row>
+    </el-col>
+</el-row>

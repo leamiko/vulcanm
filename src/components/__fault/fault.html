@@ -1,0 +1,85 @@
+<v-layout>
+    <v-flex offset-md3 md6>
+        <div class="fault__new-item">
+            <v-text-field
+                    label="Введите название"
+                    v-model="newfault.label"
+                    required>
+            </v-text-field>
+            <v-btn flat
+                   class="fault__btn"
+                   :class="{ 'light-blue darken-3 white--text' : !isDisable, 'grey lighten-3 gray--text text--darken-3' : isDisable }"
+                   :disabled="isDisable"
+                   @click="isAdd(newfault)">
+                Добавить
+            </v-btn>
+        </div>
+        <vddl-list :list="fault" :horizontal="false">
+            <vddl-draggable v-for="(item, index) in fault"
+                            :key="item.id"
+                            :draggable="item"
+                            :index="index"
+                            :wrapper="fault">
+                <vddl-nodrag class="fault__item-block">
+                    <vddl-handle
+                            :handle-left="20"
+                            :handle-top="20"
+                            class="fa fa-bars light-blue--text text--darken-3 fault__handle">
+                    </vddl-handle>
+                    <div class="fault__item">
+                        <div>
+                            <span>{{item.label}}</span>
+                        </div>
+                        <div>
+                            <span class="vulcanm--tooltip fault__action"
+                                  v-tooltip:top="{html: 'Редактировать'}"
+                                  @click="isItem(item), dialogEdit = true">
+                                <i class="fa fa-pencil-square-o light-blue--text text--darken-3" aria-hidden="true"></i>
+                             </span>
+                            <span class="vulcanm--tooltip fault__action"
+                                  v-tooltip:top="{html: 'Удалить'}"
+                                  @click="isItem(item), dialogDelete = true">
+                                <i class="fa fa-times red--text text--darken-1" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    </div>
+                </vddl-nodrag>
+            </vddl-draggable>
+            <vddl-placeholder class="vulcanm--placeholder" style="min-width: 270px"></vddl-placeholder>
+        </vddl-list>
+    </v-flex>
+
+    <v-dialog v-model="dialogEdit" persistent width="340px" v-show="dialogEdit">
+        <v-card>
+            <v-card-title class="category__edit-menu-title"><b>Введите новое название</b>
+            </v-card-title>
+            <v-card-text>
+                <v-text-field label="Введите название"
+                              v-model="itemFault.label"
+                              persistent-hint>
+                </v-text-field>
+            </v-card-text>
+            <v-card-actions style="justify-content: space-between">
+                <v-btn class="grey--text darken-1" flat="flat" @click.native="dialogEdit = false">Отменить</v-btn>
+                <v-btn :class="{ 'light-blue--text text--darken-3': itemFault.label > '' , 'grey lighten-3 gray--text text--darken-3': itemFault.label <= ''}"
+                       flat
+                       :disabled = "itemFault.label <= ''"
+                       @click.native="isEdit(itemFault), dialogEdit = false">Сохранить
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogDelete" persistent width="340px" v-show="dialogDelete">
+        <v-card>
+            <v-card-title class="category__edit-menu-title"><b>Вы действительно хотите удалить?</b> "{{ itemFault.label }}"
+            </v-card-title>
+            <v-card-actions style="justify-content: space-between">
+                <v-btn class="grey--text darken-1" flat="flat" @click.native="dialogDelete = false">Отменить</v-btn>
+                <v-btn class="red--text darken-1" flat="flat"
+                       @click.native="isDelete(itemFault), dialogDelete = false">Удалить
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+</v-layout>

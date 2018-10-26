@@ -1,0 +1,30 @@
+<el-row>
+    <el-table :data="paymentList"  
+               stripe
+               style="margin-top: 10px;"
+               v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+        <el-table-column width="100">
+            <template slot-scope="scope">
+                <div class="green--text">Принят</div>
+                <div>№ {{ scope.row.id }}</div>
+            </template>
+        </el-table-column>
+        <el-table-column width="150">
+            <template slot-scope="scope">
+                <date type="users" :value="scope.row.created_at"></date>
+            </template>
+        </el-table-column>
+        <el-table-column prop="acquirer_name"></el-table-column>
+        <el-table-column width="140" align="right">
+            <template slot-scope="scope">
+                <numbers type="money" :value="scope.row.sum"></numbers>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(paymentListPageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+</el-row>

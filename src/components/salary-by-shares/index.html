@@ -1,0 +1,32 @@
+<div>
+  <div v-if="mode==='sell'">
+    <div>
+      <b>Товары:</b>
+      <numbers type="money"
+               :value="stuffItem.sell_part_salary_amount">
+      </numbers>
+      <span>({{sellPartSalaryTypeList[stuffItem.sell_part_salary_type]}})</span>
+    </div>
+    <div>
+      <b>Услуги:</b>
+      <numbers type="money"
+               :value="stuffItem.sell_work_salary_amount">
+      </numbers>
+    </div>
+  </div>
+  <div v-else-if="mode==='repair'">
+    <div>
+      <b>Запчасти:</b>
+      <numbers type="money"
+               :value="stuffItem.repair_part_salary_amount">
+      </numbers>
+      <span>({{repairPartSalaryType[stuffItem.repair_part_salary_type]}})</span>
+    </div>
+    <div>
+      <b>Работа:</b>
+      <numbers type="money"
+               :value="stuffItem.repair_work_salary_amount">
+      </numbers>
+    </div>
+  </div>
+</div>

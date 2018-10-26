@@ -1,0 +1,45 @@
+<el-row class="posting-update">
+    <el-col class="posting-update__col" :md="6" :sm="10" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-user"></i> Списал</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            {{ currentUser(user) }}
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="far fa-calendar-check"></i> Дата списания</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            {{ date }}
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-calendar-minus"></i> Списание со склада </el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <template v-for="item in storages" v-if="item.id === newForm.storage_id">
+                {{ item.name }}
+            </template>
+            <template v-else></template>
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title">
+            <i class="fas fa-credit-card"></i> Взыскать с
+            <el-row class="posting-update__row">
+                <el-select v-model="newForm.penalty_user_id" 
+                           filterable=""
+                           clearable 
+                           placeholder="Выберите сотрудника" 
+                           style="width: 100%">
+                    <el-option v-for="item in stuff" 
+                               :key="item.id" 
+                               :label="item.last_name + ' ' + item.first_name + ' ' + item.middle_name" 
+                               :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-row>
+        </el-row>
+    </el-col>
+    <el-col class="posting-update__col" :md="18" :sm="14" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title">Новое списание</el-row>
+        <cancel-form :data="newForm.parts"
+                     :valid="cancelValid">
+        </cancel-form>
+    </el-col>
+    <modal-add-part :newForm="newForm.parts"
+                    :titleAdd="'списание'"
+                    :titleDel="'списания'">
+    </modal-add-part>
+</el-row>

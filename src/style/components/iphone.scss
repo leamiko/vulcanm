@@ -1,0 +1,221 @@
+
+$scale: 0.45;
+
+.iphone-x {
+  position: relative;
+  margin: 2rem auto;
+  width: 35.6rem * $scale;
+  height: 72.2rem * $scale;
+  user-select: none;
+  box-shadow: none;
+  
+  &__border1 {
+    $offset: 0;
+    position: absolute;
+    left: $offset;
+    right: $offset;
+    top: $offset;
+    bottom: $offset;
+    border: .4rem * $scale solid #dcdcdc;
+    border-radius: 6rem * $scale;
+  }
+  
+  &__border2 {
+    $offset: .3rem * $scale;
+    position: absolute;
+    left: $offset;
+    right: $offset;
+    top: $offset;
+    bottom: $offset;
+    border: 1.6rem * $scale solid #000000;
+    border-radius: 5.6rem * $scale;
+  }
+  
+  &__gradient1 {
+    $offset: 1.1rem * $scale;
+    position: absolute;
+    left: $offset;
+    right: $offset;
+    top: $offset;
+    bottom: $offset;
+    border: .3rem * $scale solid #484848;
+    border-radius: 5rem * $scale;
+    filter: blur(1px);
+    opacity: .5;
+  }
+  
+  &__gradient2 {
+    $offset: .7rem * $scale;
+    position: absolute;
+    left: $offset;
+    right: $offset;
+    top: $offset;
+    bottom: $offset;
+    border: .4rem * $scale solid #bcbcbc;
+    border-radius: 5.6rem * $scale;
+    opacity: .5;
+    filter: blur(1px);
+  }
+  
+  &__top-bar {
+    width: 17.3rem * $scale;
+    height: 2.8rem * $scale;
+    background-color: #000000;
+    position: absolute;
+    top: 1.7rem * $scale;
+    left: 9.1rem * $scale;
+    border-bottom-left-radius: 1.5rem * $scale;
+    border-bottom-right-radius: 1.5rem * $scale;
+  
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 1.25rem * $scale;
+      width: .8rem * $scale;
+      height: .8rem * $scale;
+      border: .4rem * $scale solid transparent;
+      border-top: .4rem * $scale solid black;
+      border-top-right-radius: .6rem * $scale;        
+    }
+
+    &:before {
+      left: -0.9rem * $scale;
+      border-right: .4rem * $scale solid black;
+      transform: rotate(28deg);
+    }
+
+    &:after {
+      right: -0.9rem * $scale;
+      border-left: .4rem * $scale solid black;
+      transform: rotate(-28deg);
+    }
+  }
+
+  &__camera {
+    position: absolute;
+    bottom: 1.1rem * $scale;
+    right: 4.5rem * $scale;
+    width: 1rem * $scale;
+    height: 1rem * $scale;
+    background-color: rgba(0, 128, 255, 0.16);
+    border-radius: 50%;
+    border: .2rem * $scale solid #1e1f22;
+  }
+
+  &__speaker {
+    position: absolute;
+    bottom: 1.3rem * $scale;
+    right: 6.5rem * $scale;
+    width: 4rem * $scale;
+    height: .6rem * $scale;
+    background-color: #161616;
+    border-radius: .2rem * $scale;
+  }
+
+  &__btn {
+    width: .3rem * $scale;
+    height: 2.5rem * $scale;
+    background-color: #dcdcdc;
+    position: absolute;
+    left: -.2rem * $scale;
+    border-top-left-radius: .3rem * $scale;
+    border-bottom-left-radius: .3rem * $scale;
+    border: .1rem * $scale solid rgba(black, .1);
+    border-right: none;
+  
+    &_silent {
+      top: 9.8rem * $scale;
+    }
+  
+    &_volume-up {
+      top: 15rem * $scale;
+      height: 5rem * $scale;
+    }
+  
+    &_volume-down {
+      top: 21.6rem * $scale;
+      height: 5rem * $scale;
+    }
+  
+    &_power {
+      top: 16.9rem * $scale;
+      height: 5rem * $scale;
+      right: -.3rem * $scale;
+      left: auto;
+      transform: rotate(180deg);
+    }
+  }
+
+  &__indicator {
+    display: flex; 
+    justify-content: space-between;
+  }
+
+  &__time {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 7px 20px;
+  }
+
+  &__icons {
+    padding: 7px 12px;
+    font-size: 9px;
+  }
+
+  &__head-msg {
+    display:  flex;
+    justify-content:  space-between;
+    color: #2196F3;
+    padding: 15px;
+    border-bottom: 1px solid #dcdcdc;
+
+    & > i {
+      font-size: 17px;
+    }
+  }
+
+  &__sender {
+    color:  #333;
+    font-weight:  bold;
+  }
+
+  &__msg-block {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    height: 23rem;
+  }
+
+  &__msg {
+    padding: 5px 10px;
+    background:  #dcdcdc;
+    border-radius: 9px;
+    margin: 5px 10px;
+    font-size:  12px;
+    color: #333;
+  }
+
+  &__inpt {
+    padding: 5px 10px;
+    color: #9E9E9E;
+    
+    & > i {
+      font-size: 1.7em;
+    }
+  }
+
+  &__field {
+    display: inline-flex;
+    justify-content:  space-between;
+    margin-left: 10px;
+    padding: 5px;
+    border:  1px solid #dcdcdc;
+    border-radius: 15px;
+    width: 9.7rem;
+
+    & > i {
+      font-size: 1.2em;
+    }
+  }
+}

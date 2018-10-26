@@ -1,0 +1,102 @@
+<el-row>
+    <el-col :xs="24" :md="24" :lg="24" :xl="24">
+        <el-row :gutter="20">
+            <el-col>
+                <el-row>
+                    <range-date title='Выберите период' :range="[dateStart, dateEnd]" @dates-changed="onDatesChanged"></range-date>
+                </el-row>
+            </el-col>
+            <el-col>
+                <el-row>
+                    <el-col :xs="24" :md="24" :lg="24" :xl="24">
+                        <label for="cashboxes_select">Кассы</label>
+                    </el-col>
+                    <el-select title="Кассы"
+                               id="cashboxes_select"
+                               v-model="selectedCashboxes"
+                               clearable
+                               multiple
+                               placeholder="По всем кассам"
+                               @change="onCashboxChanged">
+                        <el-option
+                                v-for="item in cashList"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-row>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :xs="24" :md="24" :lg="24" :xl="24">
+                <h2>Поступления</h2>
+                <el-row>
+                    <el-col :xs="24" :md="24" :lg="12" :xl="12">
+                        <el-table
+                                show-summary
+                                :summary-method="summaryIncomes"
+                                ref="incomesTable"
+                                :data="incomesData"
+                                @selection-change="onIncomeSelect"
+                                style="width: 100%">
+                            <el-table-column
+                                    type="selection"
+                                    prop="selected"
+                                    width="55">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    label="Название">
+                            </el-table-column>
+                            <el-table-column
+                                    label="Сумма">
+                                <template slot-scope="scope">
+                                    <number type="money" :value="scope.row.sum"/>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
+                    <el-col :xs="24" :md="12" :lg="6" :xl="6">
+                        <chart-pie :chartData="incomesChartData" :height="250"/>
+                    </el-col>
+                </el-row>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :xs="24" :md="24" :lg="24" :xl="24">
+                <h2>Расходы</h2>
+                <el-row>
+                    <el-col :xs="24" :md="24" :lg="12" :xl="12">
+                        <el-table
+                                show-summary
+                                :summary-method="summaryOutcomes"
+                                ref="outcomesTable"
+                                :data="outcomesData"
+                                @selection-change="onOutcomeSelect"
+                                style="width: 100%">
+                            <el-table-column
+                                    type="selection"
+                                    prop="selected"
+                                    width="55">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    label="Название">
+                            </el-table-column>
+                            <el-table-column
+                                    label="Сумма">
+                                <template slot-scope="scope">
+                                    <number type="money" :value="scope.row.sum"/>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
+                    <el-col :xs="24" :md="12" :lg="6" :xl="6">
+                        <chart-pie :chartData="outcomesChartData" :height="250"/>
+                    </el-col>
+                </el-row>
+            </el-col>
+        </el-row>
+    </el-col>
+</el-row>

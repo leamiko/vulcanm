@@ -1,0 +1,206 @@
+<el-row class="posting-update__row">
+    <el-row>
+        <el-table :data="data" 
+                  border 
+                  stripe 
+                  empty-text="Список пуст">
+            <el-table-column type="index" 
+                             label="№" 
+                             width="65" 
+                             align="center">
+            </el-table-column>
+            <el-table-column label="Тип" 
+                             width="55" 
+                             align="center">
+                <template slot-scope="scope">
+                    <i class="fas fa-cube fa-lg blue--text" title="Товар" v-tippy v-if="checkItemType(scope.row)"></i>
+                    <i class="fas fa-wrench fa-lg orange--text" title="Услуга" v-tippy v-else></i>
+                </template>
+            </el-table-column>
+            <el-table-column label="Наименование" 
+                             min-width="300" 
+                             header-align="center">
+                <template slot-scope="scope">
+                    <div><b>{{ scope.row.name }}</b></div>
+                    <template v-if="status === 1">
+                        <div>
+                            <i class="posting-update__description">С/н: </i>
+                            <i class="posting-update__description posting-update__description_link">
+                                <template v-if='scope.row.serial === null'>
+                                    Отсутствует
+                                </template>
+                                <template v-else>
+                                    {{ scope.row.serial }}
+                                </template>
+                            </i>
+                        </div>
+                    </template>
+                    <template v-else></template>
+                    <template v-for="item in storages" v-if="scope.row.storage_id === item.id">
+                        <div><i class="posting-update__description">Склад: {{ item.name }}</i></div>
+                    </template>
+                    <template v-else></template>
+                    <div>
+                        <el-popover ref="seller"
+                                    placement="top"
+                                    width="200"
+                                    trigger="click">
+                            <el-form>
+                                <el-form-item>
+                                    <el-select v-model="scope.row.seller_id"
+                                               @change="changeItem(scope.row)"  
+                                               filterable=""
+                                               placeholder="Выберите продавца" 
+                                               style="width: 100%">
+                                        <el-option v-for="item in stuff" 
+                                                   :key="item.id" 
+                                                   :label="item.last_name + ' ' + item.first_name + ' ' + item.middle_name" 
+                                                   :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-form>
+                        </el-popover>
+                        <i class="posting-update__description">Продавец: </i>
+                        <template v-for="item in stuff" v-if="scope.row.seller_id === item.id">
+                            <template v-if="status === 1">
+                                <i class="posting-update__description posting-update__description_link" v-popover:seller>
+                                    <user-name :value="item"></user-name>
+                                </i>
+                            </template>
+                            <template v-else>
+                                <i class="posting-update__description"><user-name :value="item"></user-name></i>
+                            </template>
+                        </template>
+                        <template v-else></template>
+                    </div>
+                </template>
+            </el-table-column>
+            <template>
+                <el-table-column prop="price" 
+                                 label="Цена продажи"
+                                 width="150"
+                                 align="center">
+                    <template slot-scope="scope">
+                        <template v-if="status === 1">
+                            <el-popover ref="validPrice" 
+                                        popper-class="popper__error"
+                                        placement="top"
+                                        offset="15"
+                                        trigger="manual"
+                                        :value="Boolean(validate(valid.parts, 'price', scope.$index))">
+                                <div style="text-align: center">
+                                    {{ validate(valid.parts, 'price', scope.$index) }}
+                                </div>
+                            </el-popover>
+                            <el-input-number v-model="scope.row.price" 
+                                            :min="0"
+                                            :controls="false"
+                                            @blur="changeItem(scope.row)"
+                                            v-popover:validPrice
+                                            size="small">
+                            </el-input-number> 
+                        </template>
+                        <template v-else>
+                            <numbers type="money" :value="scope.row.price"></numbers>
+                        </template>
+                    </template>
+                </el-table-column>
+            </template>
+            <el-table-column prop="amount" 
+                             label="Количество"
+                             :width="status === 1 ? 240 : 140" 
+                             header-align="center"
+                             :align="status === 1 ? 'left' : 'center'">
+                <template slot-scope="scope">
+                    <template v-if="status === 1">
+                        <el-popover ref="validCount" 
+                                    popper-class="popper__error"
+                                    placement="top"
+                                    offset="15"
+                                    trigger="manual"
+                                    :value="Boolean(validate(valid.parts, 'amount', scope.$index))">
+                            <div style="text-align: center">
+                                {{ validate(valid.parts, 'amount', scope.$index) }}
+                            </div>
+                        </el-popover>
+                        <el-input-number v-model="scope.row.amount" 
+                                        @blur="changeItem(scope.row)"                
+                                        :min="1"
+                                        :max="scope.row.remain"
+                                        v-popover:validCount
+                                        size="small">
+                        </el-input-number> 
+                        <span style="font-size: 11px;">из {{ scope.row.remain }} шт.</span>
+                    </template>
+                    <template v-else>
+                        <numbers :value="scope.row.amount"></numbers> шт.
+                    </template>
+                </template>
+            </el-table-column>
+            <template>
+                <el-table-column prop="sum" 
+                                label="Сумма" 
+                                width="130" 
+                                align="center">
+                    <template slot-scope="scope">
+                        <numbers type="money" :value="scope.row.sum = scope.row.amount * scope.row.price"></numbers>
+                    </template>
+                </el-table-column>
+            </template>
+            <el-table-column :width="status === 1 ? 80 : 160" align="center">
+                <template slot-scope="scope">
+                    <template v-if="status === 1">
+                        <el-button @click="$root.$emit('delInNewPartList', scope.row)" 
+                                type="danger" 
+                                size="mini" 
+                                icon="fas fa-times" 
+                                title="Убрать" v-tippy>
+                        </el-button> 
+                    </template>
+                    <template v-else>
+                        <el-dropdown trigger="click" placement="bottom-start">
+                            <el-button icon="fas fa-print" size="mini">
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </el-button>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>Гарантийный талон</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                        <el-button @click="" 
+                                type="danger" 
+                                size="mini" 
+                                icon="fas fa-undo" 
+                                title="Возврат товара" v-tippy>
+                        </el-button> 
+                    </template>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-row>
+    <!-- <template v-if="page !== 'cancel-view'">
+        <el-row class="posting-update__row">
+            <el-button icon="fas fa-external-link-alt" 
+                    class="posting-update__btn" 
+                    @click="$root.$emit('OnDialogAddPart', true)">
+                    Выбрать товар
+            </el-button>            
+        </el-row>
+        <el-row class="posting-update__row" style="text-align: center">
+            <el-button type="success" 
+                    @click="$root.$emit('AddNewPosting')" 
+                    :loading="btnloader.active">
+                    Сохранить {{ titleBtn('present') }}
+            </el-button>
+        </el-row>
+    </template>
+    <template v-else-if="page === 'cancel-view'">
+        <el-row class="posting-update__row" style="text-align: center">
+            <el-button type="danger" 
+                       @click="$root.$emit('delAllCancel')" 
+                       :loading="btnloader.active">
+                       Отменить {{ titleBtn }}
+            </el-button>
+        </el-row>
+    </template> -->
+</el-row>   

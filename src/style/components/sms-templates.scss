@@ -1,0 +1,31 @@
+.sms-templates {
+
+    &__tag {
+        font-size: 10px;
+        padding: 5px !important;
+        margin: 5px 0 !important;
+    }
+
+    &__btn {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    &__row {
+        margin: 20px 0;
+        border-left: 1px solid $border-color;
+        border-right: 1px solid $border-color;
+    }
+
+    &__col {
+        padding: 10px;
+    }
+
+    &__head {
+        background: $head-bg-color;
+        border-top: 1px solid $border-color;
+        border-bottom: 1px solid $border-color;
+        text-align: center;
+        padding: 10px;
+    }
+}

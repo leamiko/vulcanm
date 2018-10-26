@@ -1,0 +1,19 @@
+<el-container direction="vertical">
+    <el-row class="setting">
+        <el-radio-group v-model="link">
+            <el-radio-button label="/settings/info">Информация</el-radio-button>
+            <el-radio-button label="/settings/point">Филиалы</el-radio-button>
+            <el-radio-button label="/settings/storage">Склады</el-radio-button>
+            <el-radio-button label="/settings/repairs">Заказы</el-radio-button>
+            <el-radio-button label="/settings/user-status">Статусы</el-radio-button>
+            <el-radio-button label="/settings/prices">Цены</el-radio-button>
+            <el-radio-button label="/settings/sms-templates">Шаблоны СМС</el-radio-button>
+            <el-radio-button label="/settings/manageform">Настройка форм</el-radio-button>
+        </el-radio-group>
+    </el-row>
+    <el-row>
+        <transition name="el-fade-in">
+            <router-view></router-view>
+        </transition>
+    </el-row>
+</el-container>

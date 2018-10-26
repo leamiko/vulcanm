@@ -1,0 +1,31 @@
+.posting-item {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid $border-color;
+    margin: 10px 5px;
+    align-items: center;
+
+    &_head {
+        background: $ligth-grey-color;
+        font-weight: bold;
+        color: $color-grey;
+    }
+
+    &__cell {
+        padding: 10px;
+    
+        &_name {
+            flex: 1;
+        }
+
+        &_number {
+            text-align: center;
+            width: 140px;
+        }
+
+        &_actions {
+            text-align: center;
+            width: 100px;
+        }
+    }
+}

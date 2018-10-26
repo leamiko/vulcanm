@@ -1,0 +1,78 @@
+<v-layout class="report">
+    <v-flex xs12 offset-md1 md10>
+        <range-date :title="'Отчет о работе сотрудников'"></range-date>
+        <v-divider class="report__divider"></v-divider>
+        <v-layout wrap class="report__row">
+            <v-flex xs12 md12 class="text-xs-center">
+                <span class="report__title">Раздел А: Заказы</span>
+            </v-flex>
+            <v-flex xs12 md12>
+                <span class="report__table-name">Таблица 1: Принято/выдано</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell">№ п/п</th>
+                            <th class="report__cell">ФИО</th>
+                            <th class="report__cell">Принято</th>
+                            <th class="report__cell">Выдано</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in 3">
+                            <td class="report__cell"> {{index + 1}} </td>
+                            <td class="report__cell"> Трудолюбивые Гномы </td>
+                            <td class="report__cell"> 11 </td>
+                            <td class="report__cell"> 2 </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </v-flex>
+            <v-flex xs12 md12>
+                <span class="report__table-name">Таблица 2: Использование запчастей</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell">№</th>
+                            <th class="report__cell">ФИО</th>
+                            <th class="report__cell">Исп-но з/ч</th>
+                            <th class="report__cell">Стоимость з/ч</th>
+                            <th class="report__cell">Ср. цена з/ч</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in 2">
+                            <td class="report__cell"> {{ index + 1 }} </td>
+                            <td class="report__cell"> Тест Тест </td>
+                            <td class="report__cell"> 2 </td>
+                            <td class="report__cell"> 4300.00 </td>
+                            <td class="report__cell"> 2150.00 </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </v-flex>
+            <v-flex xs12 md12>
+                <span class="report__table-name">Таблица 3: Проведенные работы</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                    <tr class="text-xs-left">
+                        <th class="report__cell">№</th>
+                        <th class="report__cell">ФИО</th>
+                        <th class="report__cell">Проведено работ</th>
+                        <th class="report__cell">Стоимость работ</th>
+                        <th class="report__cell">Ср. цена работы</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in 2">
+                            <td class="report__cell"> {{ index + 1 }} </td>
+                            <td class="report__cell">Трудолюбивые Гномы</td>
+                            <td class="report__cell">1</td>
+                            <td class="report__cell">100.00</td>
+                            <td class="report__cell">100.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </v-flex>
+        </v-layout>
+    </v-flex>
+</v-layout>

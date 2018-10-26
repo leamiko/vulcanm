@@ -1,0 +1,44 @@
+<v-layout class="report">
+    <v-flex xs12 offset-md1 md10>
+        <range-date :title="'Отчёт о расходе запчастей'"></range-date>
+        <v-divider class="report__divider"></v-divider>
+        <v-layout wrap class="report__row">
+            <v-flex xs12 md12>
+                <table class="report__table">
+                    <thead class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell" rowspan="2" width="300px">Название</th>
+                            <th class="report__cell text-xs-center" colspan="2">Ремонт</th>
+                            <th class="report__cell text-xs-center" colspan="2">Продажи</th>
+                            <th class="report__cell text-xs-center" colspan="2">Списание</th>
+                            <th class="report__cell text-xs-center" colspan="2">Всего</th>
+                        </tr>
+                        <tr class="text-xs-left">
+                            <th class="report__cell text-xs-center">Кол-во</th>
+                            <th class="report__cell text-xs-center">Общая сумма</th>
+                            <th class="report__cell text-xs-center">Кол-во</th>
+                            <th class="report__cell text-xs-center">Общая сумма</th>
+                            <th class="report__cell text-xs-center">Кол-во</th>
+                            <th class="report__cell text-xs-center">Общая сумма</th>
+                            <th class="report__cell text-xs-center">Кол-во</th>
+                            <th class="report__cell text-xs-center">Общая сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in 15">
+                            <td class="report__cell">Разговорный динамик Nokia NO-158BPL (ориг OEM)</td>
+                            <td class="report__cell text-xs-right">16</td>
+                            <td class="report__cell text-xs-right">3 500.00</td>
+                            <td class="report__cell text-xs-right">14</td>
+                            <td class="report__cell text-xs-right">6 000.00</td>
+                            <td class="report__cell text-xs-right">4</td>
+                            <td class="report__cell text-xs-right">1 200.00</td>
+                            <td class="report__cell text-xs-right">34</td>
+                            <td class="report__cell text-xs-right">10 700.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </v-flex>
+        </v-layout>
+    </v-flex>
+</v-layout>

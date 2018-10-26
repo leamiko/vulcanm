@@ -1,0 +1,84 @@
+<div wrap class="report">
+    <v-layout wrap>
+        <v-flex xs12 md5>
+            <v-layout wrap>
+                <v-flex xs12 md6>
+                    <div class="report__line text-xs-center">
+                        <div class="report__headline report__headline_center">
+                            <i class="report__icon-1"></i>
+                            <span>SUPER SERVICE</span>
+                        </div>
+                        <v-divider class="report__divider"></v-divider>
+                        <span>Кол-во сотрудников:</span>
+                        <br>
+                        <b>9</b>
+                    </div>
+                </v-flex>
+                <v-flex xs12 md6>
+                    <div class="report__line text-xs-center">
+                        <div class="report__headline report__headline_center">
+                            <i class="report__icon-3"></i>
+                            <span>Кол-во касс</span>
+                        </div>
+                        <v-divider class="report__divider"></v-divider>
+                        <span>Общая сумма:</span>
+                        <br>
+                        <span><b>970 973.52</b> ₽</span>
+                    </div>
+                </v-flex>
+            </v-layout>
+            <v-layout wrap>
+                <v-flex xs12 md12 class="report__line">
+                    <div class="report__headline">
+                        <i class="report__icon-2"></i>
+                        <span>Вы заработали в этом месяце: <b>0.00</b> ₽</span>
+                    </div>
+                </v-flex>
+            </v-layout>
+        </v-flex>
+        <v-flex xs12 md5>
+            <v-layout wrap>
+                <v-flex xs12 md6>
+                    <div class="report__line text-xs-center">
+                        <span>Кол-во заказов:</span>
+                        <br>
+                        <b>10</b>
+                        <v-divider class="report__divider"></v-divider>
+                        <span>Доход:</span>
+                        <br>
+                        <span><b>0.00</b> ₽</span>
+                        <v-divider class="report__divider"></v-divider>
+                        <span>Прибыль:</span>
+                        <br>
+                        <span><b>0.00</b> ₽</span>
+                    </div>
+                </v-flex>
+                <v-flex xs12 md6>
+                    <div class="report__line text-xs-center">
+                        <span>Кол-во продаж:</span>
+                        <br>
+                        <b>0</b>
+                        <v-divider class="report__divider"></v-divider>
+                        <span>Доход:</span>
+                        <br>
+                        <span><b>0.00</b> ₽</span>
+                        <v-divider class="report__divider"></v-divider>
+                        <span>Прибыль:</span>
+                        <br>
+                        <span><b>0.00</b> ₽</span>
+                    </div>
+                </v-flex>
+            </v-layout>
+        </v-flex>
+        <v-flex xs12 md2>
+            <chart-pie :label="labelPie" :data="dataPie" :height="250"></chart-pie>
+        </v-flex>
+    </v-layout>
+    <v-divider class="report__divider"></v-divider>
+    <v-layout wrap>
+        <v-flex xs12 md12 class="text-xs-center">
+            <span class="report__title">Изменение дохода компании</span>
+            <chart-line :label="label" :data="data" :height="350"></chart-line>
+        </v-flex>
+    </v-layout>
+</div>

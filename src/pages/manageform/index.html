@@ -1,0 +1,15 @@
+<el-row>
+    <el-row class="manageform__title">Выбрать форму для редактирования</el-row>
+    <el-row>
+        <el-col :xs="24" :md="12">
+            <div class="manageform__img-block" @click="$router.push('/settings/manageform/view/1')">
+                Обычная форма
+            </div>
+        </el-col>
+        <el-col :xs="24" :md="12">
+            <div class="manageform__img-block" @click="$router.push('/settings/manageform/view/2')">
+                Форма для картриджей
+            </div>
+        </el-col>
+    </el-row>
+</el-row>

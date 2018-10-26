@@ -1,0 +1,64 @@
+<el-row class="client-form">
+    <el-form label-position="top">
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Фамилия" required :error="validate(clientPersonValid, 'last_name')">
+                <el-input v-model="item.last_name" placeholder="Введите фамилию"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Имя" required :error="validate(clientPersonValid, 'first_name')">
+                <el-input v-model="item.first_name" placeholder="Введите имя"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Отчество" :error="validate(clientPersonValid, 'middle_name')">
+                <el-input v-model="item.middle_name" placeholder="Введите отчество"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Номер телефона" required :error="validate(clientPersonValid, 'phone')">
+                <el-input v-model="item.phone" type="phone" placeholder="Введите номер телефона"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Адрес" :error="validate(clientPersonValid, 'address')">
+                <el-input v-model="item.address" placeholder="Введите адрес"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Откуда узнал?" :error="validate(clientPersonValid, 'source_id')">
+                <el-select v-model="item.source_id" filterable clearable placeholder="Выберите источник" style="width: 100%">
+                    <el-option v-for="item in clientSource"
+                               :key="item.id"
+                               :label="item.name"
+                               :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Email" :error="validate(clientPersonValid, 'email')">
+                <el-input type="email" v-model="item.email" placeholder="Введите email"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="VK" :error="validate(clientPersonValid, 'vk')">
+                <el-input v-model="item.vk" placeholder="Введите ссылку на vk"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :md="8" class="client-form__item">
+            <el-form-item label="Instagram" :error="validate(clientPersonValid, 'instagram')">
+                <el-input v-model="item.instagram" placeholder="Введите ссылку на instagram"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col class="client-form__item">
+            <el-form-item :error="validate(clientPersonValid, 'sms_agreement')">
+                <el-switch v-model="item.sms_agreement" 
+                           active-text="Согласен получать SMS-уведомления"
+                           active-color="#13ce66"
+                           inactive-color="#ff4949">
+                </el-switch>
+            </el-form-item>
+        </el-col>
+    </el-form>
+</el-row>

@@ -1,0 +1,47 @@
+<el-row>
+    <el-table :data="sms" 
+              border 
+              stripe
+              style="margin-top: 10px;"
+              v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+        <el-table-column label="Доставка" width="100" align="center">
+            <template slot-scope="scope">
+                <i class="fas fa-envelope green--text" 
+                   title="Доставлено" v-tippy 
+                   v-if="scope.row.delivery_status === 'delivered'">
+                </i>
+                <i class="fas fa-envelope blue--text" 
+                   title="Отправлено" v-tippy
+                   v-else-if="scope.row.delivery_status === 'in_progress'"></i>
+                </i>
+                <i class="fas fa-envelope red--text" 
+                   title="Не доставлено" v-tippy
+                   v-else-if="scope.row.delivery_status === 'not_delivered'"></i>
+                </i>
+            </template>
+        </el-table-column>
+        <el-table-column label="Телефон получателя" width="200" header-align="center">
+            <template slot-scope="scope">
+                <phone :value="scope.row.to"></phone>
+            </template>
+        </el-table-column>
+        <el-table-column label="Дата и время отправки" width="210" header-align="center">
+            <template slot-scope="scope">
+                <date type="users" :value="scope.row.sent_at"></date>
+            </template>
+        </el-table-column>
+        <el-table-column label="Текст сообщения" min-width="300" header-align="center">
+            <template slot-scope="scope">
+                {{ scope.row.content }}
+            </template>
+        </el-table-column>
+        <el-table-column label="Кол-во частей" width="90" align="center" prop="sms_count"></el-table-column>
+    </el-table>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(smsPageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+
+</el-row>

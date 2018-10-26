@@ -1,0 +1,81 @@
+<div class="buy-sms">
+    <v-layout wrap class="buy-sms__row">
+        <v-flex xs12 class="text-xs-center buy-sms__row">
+            <span class="buy-sms__title">Покупка SMS-пакета</span>
+        </v-flex>
+        <v-flex xs6 sm6 md3 class="text-xs-center green--text text--darken-2">
+            <div class="buy-sms__envel-block" @click="smsCheck = 50" :class="{ 'buy-sms__envel-block_active' : smsCheck === 50 }">
+                <i class="fa fa-envelope buy-sms__envel50"></i>
+                <span class="buy-sms__count">50 SMS</span>
+                <span class="buy-sms__price">125 руб</span>
+            </div>
+        </v-flex>
+        <v-flex xs6 sm6 md3 class="text-xs-center green--text text--darken-2">
+            <div class="buy-sms__envel-block" @click="smsCheck = 100" :class="{ 'buy-sms__envel-block_active' : smsCheck === 100 }">
+                <i class="fa fa-envelope buy-sms__envel100"></i>
+                <span class="buy-sms__count">100 SMS</span>
+                <span class="buy-sms__price">220 руб</span>
+            </div>
+        </v-flex>
+        <v-flex xs6 sm6 md3 class="text-xs-center green--text text--darken-2">
+            <div class="buy-sms__envel-block" @click="smsCheck = 500" :class="{ 'buy-sms__envel-block_active' : smsCheck === 500 }">
+                <i class="fa fa-envelope buy-sms__envel500"></i>
+                <span class="buy-sms__count">500 SMS</span>
+                <span class="buy-sms__price">1000 руб</span>
+            </div>
+        </v-flex>
+        <v-flex xs6 sm6 md3 class="text-xs-center green--text text--darken-2">
+            <div class="buy-sms__envel-block" @click="smsCheck = 1000" :class="{ 'buy-sms__envel-block_active' : smsCheck === 1000 }">
+                <i class="fa fa-envelope buy-sms__envel1000"></i>
+                <span class="buy-sms__count">1000 SMS</span>
+                <span class="buy-sms__price">1800 руб</span>
+            </div>
+        </v-flex>
+    </v-layout>
+    <v-layout wrap class="buy-sms__row">
+        <v-flex xs12 class="text-xs-center buy-sms__row">
+            <span class="buy-sms__title">Способы оплаты</span>
+        </v-flex>
+        <v-flex xs6 sm4 md2 class="text-xs-center">
+            <div class="buy-sms__envel-block" @click="bankCheck = 'ul'" :class="{ 'buy-sms__envel-block_active' : bankCheck === 'ul' }">
+                <span class="buy-sms__bank-ul"></span>
+                <span>Банк(ЮЛ)</span>
+            </div>
+        </v-flex>
+        <v-flex xs6 sm4 md2 class="text-xs-center">
+            <div class="buy-sms__envel-block" @click="bankCheck = 'qiwi'" :class="{ 'buy-sms__envel-block_active' : bankCheck === 'qiwi' }">
+                <span class="buy-sms__qiwi"></span>
+                <span>QIWI</span>
+            </div>
+        </v-flex>
+        <v-flex xs6 sm4 md2 class="text-xs-center">
+            <div class="buy-sms__envel-block" @click="bankCheck = 'sberbank'" :class="{ 'buy-sms__envel-block_active' : bankCheck === 'sberbank' }">
+                <span class="buy-sms__sberbank"></span>
+                <span>Сбербанк</span>
+            </div>
+        </v-flex>
+        <v-flex xs6 sm4 md2 class="text-xs-center">
+            <div class="buy-sms__envel-block" @click="bankCheck = 'alfa'" :class="{ 'buy-sms__envel-block_active' : bankCheck === 'alfa' }">
+                <span class="buy-sms__alfa"></span>
+                <span>Альфа-Клик</span>
+            </div>
+        </v-flex>
+        <v-flex xs6 sm4 md2 class="text-xs-center">
+            <div class="buy-sms__envel-block" @click="bankCheck = 'all'" :class="{ 'buy-sms__envel-block_active' : bankCheck === 'all' }">
+                <span class="buy-sms__bank-card"></span>
+                <span>Банк.карта</span>
+            </div>
+        </v-flex>
+        <v-flex xs6 sm4 md2 class="text-xs-center">
+            <div class="buy-sms__envel-block" @click="bankCheck = 'yandex'" :class="{ 'buy-sms__envel-block_active' : bankCheck === 'yandex' }">
+                <span class="buy-sms__yandex"></span>
+                <span>Яндекс.Деньги</span>
+            </div>
+        </v-flex>
+    </v-layout>
+    <v-layout wrap class="buy-sms__row">
+        <v-flex xs12 offset-md5 md2>
+            <v-btn flat class="green darken-2 white--text buy-sms__btn">Оплатить</v-btn>
+        </v-flex>
+    </v-layout>
+</div>

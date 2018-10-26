@@ -1,0 +1,98 @@
+<el-row class="sms-templates__row">
+    <el-row class="sms-templates__head">
+        <b v-if="id === 1">Сообщение о приеме</b>
+        <b v-else-if="id === 2">Сообщение о готовности</b>
+        <b v-else-if="id === 3">Приглашение оставить отзыв</b>
+        <b v-else-if="id === 4">Сообщение о назначении на заказ</b>
+    </el-row>
+    <el-row>
+        <el-col :span="12" class="sms-templates__col">
+            Статус: 
+            <el-tag type="success" v-if="status === 1">Используется</el-tag>
+            <el-tag type="warning" v-else-if="status === 2">На проверке</el-tag>
+            <el-tag type="danger" v-else-if="status === 3">Отклонено</el-tag>
+        </el-col>
+        <el-col :span="12" class="sms-templates__col">
+            <el-switch v-model="active" 
+                    v-if="id === 1" 
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    active-text="Отправлять смс при приеме">
+            </el-switch>
+            <el-switch v-model="active" 
+                    v-else-if="id === 2" 
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    active-text="Отправлять смс о готовности">
+            </el-switch>
+            <el-switch v-model="active" 
+                    v-else-if="id === 3" 
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    active-text="Отправлять смс для сбора отзывов">
+            </el-switch>
+            <el-switch v-model="active" 
+                    v-else-if="id === 4" 
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    active-text="Отправлять смс о назначении на ремонт">
+            </el-switch>
+        </el-col>
+    </el-row>
+    <template v-if="status === 3">
+        <el-row class="sms-templates__col red--text">{{ status }}</el-row>
+    </template>
+    <template v-else></template>
+    <el-row>
+        <el-col :span="12" class="sms-templates__col">
+            <el-input type="textarea"
+                    :rows="6"
+                    placeholder="Введите сообщение"
+                    v-model="text"
+                    @input="rename(text)"
+                    @click.native="target">
+            </el-input>
+        </el-col>
+        <el-col :span="12" class="sms-templates__col">
+            <div>Клиент</div>
+            <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ФАМИЛИЯ_КЛ%')">Фамилия</el-button>
+            <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ИМЯ_КЛ%')">Имя</el-button>
+            <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ОТЧЕСТВО_КЛ%')">Отчество</el-button>
+            <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ФИО_КЛ%')">ФИО</el-button>
+            <template v-if="id === 4">
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ТЕЛЕФОН_КЛ%')">Телефон</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%АДРЕС_КЛ%')">Адрес</el-button>
+            </template>
+            <template v-else>
+            </template>
+            <div>
+                Заказ
+            </div>
+            <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ИД%')">ID</el-button>
+            <template v-if="!(id === 3)">
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ТИП_УСТР%')">Тип уст-ва</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ПРОИЗВ_УСТР%')">Произв-ль устр-ва</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%МОДЕЛЬ_УСТР%')">Модель устр-ва</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%НЕИСПРАВНОСТЬ%')">Неисправность</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ПРЕДОПЛ%')">Предоплата</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ЗАМЕТКИ%')">Заметки</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ОЖИД_СТОИМОСТЬ%')">Ожид. стоимость</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ОЖИД_ГОТОВО%')">Ожид. дата готовности</el-button>
+            </template>
+            <template v-else></template>
+            <template v-if="!(id === 4)">
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ССЫЛКА%')">Ссылка проверки</el-button>
+            </template>
+            <template v-else></template>
+            <template v-if="id === 2">
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ОБНАРУЖЕННАЯ_ПРОБЛЕМА%')">Обнаруж. неиспр.</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%ИТОГ%')">Итого</el-button>
+                <el-button class="sms-templates__tag" type="primary" size="mini" @click="isText('%К_ОПЛАТЕ%')">К оплате</el-button>
+            </template>
+            <template v-else></template>
+        </el-col>
+    </el-row>
+    <el-row class="sms-templates__head">
+        <b>Итого (примерно) Знаков: {{ symbol }}, SMS: {{ Math.ceil( symbol / 70 ) }}</b>
+    </el-row>
+</el-row>

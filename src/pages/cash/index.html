@@ -1,0 +1,21 @@
+<el-row type="flex" 
+        justify="center" 
+        class="cash" 
+        v-loading="loading" 
+        element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-col class="cash__title">
+        Список касс
+    </el-col>
+    <el-col :xs="24" :sm="18" :md="13" v-for="item in cashList" :key="item.id">
+        <cash-item :item="item"
+                   :point="point">
+        </cash-item>
+    </el-col>
+    <el-col>
+        <el-pagination background layout="prev, pager, next" 
+                    :page-count="Number(cashListPageCount)"
+                    class="pagination" 
+                    @current-change="loadPage">
+        </el-pagination>
+    </el-col>
+</el-row>

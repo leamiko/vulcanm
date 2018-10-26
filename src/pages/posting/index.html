@@ -1,0 +1,41 @@
+<el-row style="margin-top: 40px;" v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-table :data="posting" border stripe @row-click="onDetail">
+        <el-table-column label="Дата поступления" min-width="200" align="center">
+            <template slot-scope="scope">
+                {{ date(scope.row.created_at) }}
+            </template>
+        </el-table-column>
+        <el-table-column label="Поставщик" min-width="300" header-align="center">
+            <template slot-scope="scope">
+                <template v-if="scope.row.provider === null || scope.row.provider === undefined">
+                    <i>Не указан</i>
+                </template>
+                <template v-else>
+                    {{ scope.row.provider.name }}
+                </template>
+            </template>
+        </el-table-column>
+        <el-table-column prop="storage.name" label="Склад" min-width="300" header-align="center"></el-table-column>
+        <el-table-column label="Принял" min-width="300" header-align="center">
+            <template slot-scope="scope">
+                <user-name :value="scope.row.user"></user-name>
+            </template>
+        </el-table-column>
+        <el-table-column label="Количество товаров" min-width="200" align="center">
+            <template slot-scope="scope">
+                <numbers :value="scope.row.total_count"></numbers>
+            </template>
+        </el-table-column>
+        <el-table-column label="Общая сумма" min-width="200" header-align="center" align="right">
+            <template slot-scope="scope">
+                <numbers type="money" :value="scope.row.total_sum"></numbers>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(postingPageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+</el-row>    

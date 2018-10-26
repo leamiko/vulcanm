@@ -1,0 +1,106 @@
+<el-row class="cash-view"
+        v-loading="loading" 
+        element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-col :lg="6" :xl="5" class="hidden-md-and-down">
+        <cash-filter class="cash-view__block cash-view__block_border"
+                    :form="filterForm">
+        </cash-filter>
+    </el-col>
+    <el-col :xs="24" :lg="18" :xl="19">
+        <el-row class="cash-view__block">
+           <el-row class="cash-view__top-block">
+               <el-col :xs=24 :sm="24" :md="10" :xl="16" class="cash-view__col">
+                   <div class="cash-view__title">
+                       <div>В кассе:
+                            <el-popover ref="cashcount"
+                                        placement="top"
+                                        width="400"
+                                        trigger="hover">
+                            <el-row>
+                                Поступлений: <b><numbers :value="cashOperationCountIn"></numbers></b> на сумму:
+                                <b><numbers class="green--text" type="money" :value="cashOperationTotalIn"></numbers></b>
+                            </el-row>
+                            <el-row>
+                                Изъятий: <b>{{ cashOperationCountOut }}</b> на сумму: 
+                                <b><numbers class="red--text" type="money" :value="Math.abs(Number(cashOperationTotalOut))"></numbers></b>
+                            </el-row>
+                          </el-popover> 
+                           <span class="cash-view__sum blue--text" v-popover:cashcount>
+                                <numbers type="money" :value="total"></numbers>
+                            </span>
+                        </div>
+                   </div>
+                </el-col>
+               <el-col :xs=24 :sm="24" :md="14" :xl="8">
+                   <el-row>
+                        <el-col :xs=24 :sm="8" :md="8" class="cash-view__col">
+                            <el-button type="primary" class="cash-view__btn" @click="onDialog('Новое поступление', 0)">
+                                <i class="fas fa-plus cash-view__btn-icon"></i>
+                                Пополнить
+                            </el-button>
+                        </el-col>
+                        <el-col :xs=24 :sm="8" :md="8" class="cash-view__col">
+                            <el-button type="success" class="cash-view__btn" @click="onDialog('Новый перевод', 1)">
+                                <i class="fas fa-exchange-alt cash-view__btn-icon"></i>
+                                Перевести
+                            </el-button>
+                        </el-col>
+                        <el-col :xs=24 :sm="8" :md="8" class="cash-view__col">
+                            <el-button type="danger" class="cash-view__btn" @click="onDialog('Новое изъятие', 2)">
+                                <i class="fas fa-minus cash-view__btn-icon"></i>
+                                Изъять
+                            </el-button>
+                        </el-col>
+                    </el-row>
+                </el-col>
+            </el-row>
+        </el-row>
+        <cash-content class="cash-view__block"
+                      :data="cashView">
+        </cash-content>
+    </el-col>
+
+    <el-dialog :title="label" :visible.sync="dialog" width="310px">
+        <el-form :model="form" label-position="top">
+            <el-row>
+                <el-col :span="13">
+                    <el-form-item label="Целевая касса" v-if="typeBtn === 1">
+                        <el-select v-model="form.type" placeholder="Касса">
+                            <el-option label="Zone No.1" value="shanghai"></el-option>
+                            <el-option label="Zone No.2" value="beijing"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Тип операции" v-else>
+                        <el-select v-model="form.type" placeholder="Выберите тип">
+                            <el-option label="Zone No.1" value="shanghai"></el-option>
+                            <el-option label="Zone No.2" value="beijing"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10" :offset="1">
+                    <el-form-item label="Сумма">
+                        <el-input-number v-model="form.sum" 
+                                        :controls="false" 
+                                        :min="0.01"
+                                        style="width: 100%">
+                        </el-input-number>
+                    </el-form-item>
+                </el-col>
+                <el-col>
+                    <el-form-item label="Комментарий" v-if="typeBtn !== 1">
+                        <el-input type="textarea"
+                                :rows="3"
+                                v-model="form.comment">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <el-row type="flex" justify="center" slot="footer">
+            <el-button @click="dialog = false">Отмена</el-button>
+            <el-button type="primary" @click="dialog = false" v-if="typeBtn === 0">Пополнить</el-button>
+            <el-button type="success" @click="dialog = false" v-if="typeBtn === 1">Перевести</el-button>
+            <el-button type="danger" @click="dialog = false" v-if="typeBtn === 2">Изъять</el-button>
+        </el-row>
+    </el-dialog>
+</el-row>

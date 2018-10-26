@@ -1,0 +1,23 @@
+<el-row>
+    <el-col :md="6" :sm="10" :xs="24" style="padding: 10px;">
+        <category-tree :categoryList="categoryList"></category-tree>
+    </el-col>
+    <el-col :md="18" :sm="14" :xs="24" style="padding: 10px;">
+        <el-table :data="work" stripe border style="width: 100%" height="60vh">
+            <el-table-column type="index" label="№" width="100" align="center"></el-table-column>
+            <el-table-column prop="name" label="Название" min-width="300" header-align="center"></el-table-column>
+            <el-table-column prop="price" label="Цена" width="150" header-align="center" align="right">
+                <template slot-scope="scope">
+                    <numbers type="money" :value="Number(scope.row.price)"></numbers>
+                </template>
+            </el-table-column>
+            <el-table-column width="150" align="center">
+                <template slot-scope="scope">
+                    <el-button size="mini" icon="fas fa-print" class="part__btn" title="Печать наклейки" v-tippy></el-button>
+                    <el-button size="mini" icon="el-icon-edit" class="part__btn" title="Редактировать" v-tippy></el-button>
+                    <el-button size="mini" icon="el-icon-delete" class="part__btn" type="danger" title="Удалить" v-tippy></el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-col>
+</el-row>

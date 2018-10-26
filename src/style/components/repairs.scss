@@ -1,0 +1,23 @@
+.repairs {
+
+    &__title {
+        font-size: 21px;
+        padding: 20px;
+    }
+
+    &__col {
+        padding: 0 20px;
+    }
+
+    &__descr {
+        display: block;
+        font-size: 12px;
+        padding: 20px 0;
+        color: $color-grey;
+    }
+
+    &__btn {
+        text-align: center;
+        margin: 20px 0;
+    }
+}

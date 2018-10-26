@@ -1,0 +1,299 @@
+<el-row class="posting-update">
+
+    <el-col class="posting-update__col" :lg="5" :md="7" :sm="24" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title"><i class="far fa-calendar-alt"></i> Дата продажи</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <date type="current" v-if="page"></date>
+            <date type="users" :value="viewSell.created_at" v-else></date>
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-user"></i> Продавец</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <template v-if="viewSell.status_id === 1 || page">
+                <el-select v-model="newForm.seller_id" filterable="" placeholder="Выберите продавца" style="width: 100%">
+                    <el-option v-for="item in stuff" :key="item.id" :label="item.last_name + ' ' + item.first_name + ' ' + item.middle_name"
+                        :value="item.id">
+                    </el-option>
+                </el-select>
+            </template>
+            <template v-else>
+                <user-name :value="viewSell.seller"></user-name>
+            </template>
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-user-secret"></i> Покупатель</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <template v-if="viewSell.status_id === 1 || page">
+                <el-select v-model="newForm.client_id" filterable="" clearable placeholder="Выберите клиента" style="width: 100%">
+                    <el-option v-for="item in client" :key="item.id" :label="item.last_name + ' ' + item.first_name + ' ' + item.middle_name"
+                        :value="item.id">
+                    </el-option>
+                </el-select>
+            </template>
+            <template v-else>
+                <template v-if="viewSell.client === null">
+                    <i>Не указано</i>
+                </template>
+                <template v-else>
+                    <user-name :value="viewSell.client"></user-name>
+                </template>
+            </template>
+        </el-row>
+        <template v-if="viewSell.status_id === 1 || page">
+            <el-row class="posting-update__row posting-update__row_item">
+                <el-button icon="fas fa-plus" class="posting-update__btn" @click="$root.$emit('OnDialogAddPart', true)">
+                    Новый клиент
+                </el-button>
+            </el-row>
+        </template>
+        <template v-else></template>
+    </el-col>
+    <el-col :lg="14" :md="10" :sm="24" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title">{{ titlePage }}</el-row>
+        <cancel-form :data="data" :status="viewSell.status_id" :page="page" :valid="{}">
+        </cancel-form>
+        <template v-if="viewSell.status_id === 1 || page">
+            <modal-add-part type="shop" :newFormParts="partList" :newFormWorks="workList" :openDefault="modalActive"
+                :titleAdd="'перемещение'" :titleDel="'перемещения'">
+            </modal-add-part>
+        </template>
+        <template v-else></template>
+        <el-row class="posting-update__row light-grey--bg">
+            <el-row class="posting-update__col">
+                <el-row class="posting-update__row posting-update__row_item">
+                    <div>Товаров: <numbers type="money" :value="partSum"></numbers> ({{ partCount }} позиций)</div>
+                    <div>Услуг: <numbers type="money" :value="workSum"></numbers> ({{ workCount }} позиций)</div>
+                </el-row>
+                <el-row class="posting-update__row posting-update__row_item blue--text">
+                    <div>Итого: <numbers type="money" :value="workSum + partSum"></numbers> ({{ partCount + workCount
+                        }} позиций)</div>
+                </el-row>
+            </el-row>
+        </el-row>
+    </el-col>
+    <el-col class="posting-update__col" :lg="5" :md="7" :sm="24" :xs="24">
+        <el-row v-if="viewSell.status_id === 1 || page">
+            <el-row class="posting-update__row">
+                <el-button icon="fas fa-check" type="success" :disabled="page" :loading="btnloader.active" class="posting-update__btn"
+                    @click="sellApply($route.params.id)">
+                    Провести продажу
+                </el-button>
+            </el-row>
+            <el-row class="posting-update__row">
+                <el-button icon="fas fa-ban" type="danger" :disabled="page" class="posting-update__btn" @click="sellDelete($route.params.id)">
+                    Удалить продажу
+                </el-button>
+            </el-row>
+        </el-row>
+        <el-row v-else-if="viewSell.status_id === 2">
+            <el-row class="posting-update__row">
+                <el-button icon="fas fa-undo" type="danger" class="posting-update__btn" @click="sellDelete($route.params.id)">
+                    Сделать возврат
+                </el-button>
+            </el-row>
+            <el-row class="posting-update__row">
+                <el-button icon="far fa-edit" type="primary" :loading="btnloader.active" class="posting-update__btn"
+                    @click="sellApply($route.params.id)">
+                    Редактировать
+                </el-button>
+            </el-row>
+            <el-row class="posting-update__row">
+                <el-dropdown trigger="click" style="width: 100%" placement="bottom-start">
+                    <el-button icon="fas fa-print" class="posting-update__btn">
+                        Печать<i class="el-icon-arrow-down el-icon--right"></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>Товарный чек</el-dropdown-item>
+                        <el-dropdown-item>Кассовый ордер №1</el-dropdown-item>
+                        <el-dropdown-item>Кассовый ордер №2</el-dropdown-item>
+                        <el-dropdown-item>Кассовый ордер №3</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </el-row>
+        </el-row>
+        <hr class="separator" />
+        <el-row>
+            <el-row class="posting-update__row" style="text-align: right">
+                <el-col :md="14" :sm="12" :xs="12">
+                    <div>НДС:</div>
+                    <div>Итого:</div>
+                    <div>Итого с НДС:</div>
+                    <div>Итого со скидкой:</div>
+                </el-col>
+                <el-col :md="10" :sm="12" :xs="12">
+                    <div>
+                        <numbers type="money" :value="vatSum"></numbers>
+                    </div>
+                    <div>
+                        <numbers type="money" :value="workSum + partSum"></numbers>
+                    </div>
+                    <div>
+                        <numbers type="money" :value="vatSumPlus"></numbers>
+                    </div>
+                    <div>
+                        <numbers type="money" :value="saleSum"></numbers>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row class="posting-update__row posting-update__row_item blue--text" style="text-align: right">
+                <el-col :md="14" :sm="12" :xs="12">
+                    <div>К оплате:</div>
+                </el-col>
+                <el-col :md="10" :sm="12" :xs="12">
+                    <numbers type="money" :value="totalSum"></numbers>
+                </el-col>
+            </el-row>
+        </el-row>
+        <hr class="separator" />
+        <el-row>
+            <el-row class="posting-update__row posting-update__row_title"><i class="far fa-credit-card"></i> Оплаты</el-row>
+            <template v-if="sellPaymentList.length">
+                <transition-group name="transition-list">
+                    <el-row class="transition-list-item posting-update__row" v-for="(item, index) in sellPaymentList"
+                        :key="item.id">
+                        <el-col :sm="2" :xs="2">
+                            <i class="far fa-money-bill-alt green--text"></i>
+                        </el-col>
+                        <el-col :sm="20" :xs="20">
+                            <el-row class="green--text"><b>
+                                    <numbers type="money" :value="item.sum"></numbers>
+                                </b></el-row>
+                            <el-row><i>
+                                    <date type="users" :value="item.created_at"></date>
+                                </i></el-row>
+                            <el-row><i>
+                                    <user-name :value="viewSell.seller"></user-name>
+                                </i></el-row>
+                        </el-col>
+                        <el-col :sm="2" :xs="2">
+                            <el-button icon="fas fa-times" type="danger" title="Удалить оплату" size="mini" v-tippy
+                                @click="newForm.payments.splice(index, 1)">
+                            </el-button>
+                        </el-col>
+                    </el-row>
+                </transition-group>
+            </template>
+            <template v-else>
+                <el-row class="posting-update__row posting-update__row_item">
+                    <i>Оплат еще небыло</i>
+                </el-row>
+            </template>
+            <el-row class="posting-update__row posting-update__row_item">
+                <el-popover ref="payments" placement="left" width="200" trigger="click">
+                    <el-form>
+                        <el-form-item label="Продавец">
+                            <el-select v-model="pay.user_id" filterable="" placeholder="Выберите продавца" style="width: 100%">
+                                <el-option v-for="item in stuff" :key="item.id" :label="item.last_name + ' ' + item.first_name + ' ' + item.middle_name"
+                                    :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="Касса">
+                            <el-select v-model="pay.cash_id" filterable="" placeholder="Выберите кассу" style="width: 100%">
+                                <el-option v-for="item in stuff" :key="item.id" :label="item.last_name + ' ' + item.first_name + ' ' + item.middle_name"
+                                    :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="Полученно">
+                            <el-input v-model="pay.sum"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Сдача" v-if="totalSum < pay.sum">
+                            <el-row>
+                                <b>
+                                    <numbers type="money" :value="Math.abs(totalSum - pay.sum)"></numbers>
+                                </b>
+                            </el-row>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button class="posting-update__btn" type="primary" @click="sellAddPayment(pay)">Принять
+                                оплату</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-popover>
+                <el-button icon="fas fa-plus" type="primary" plain class="posting-update__btn" :disabled="page"
+                    v-popover:payments>
+                    Добавить оплату
+                </el-button>
+            </el-row>
+            <el-row class="posting-update__row posting-update__row_item">
+                <el-popover ref="revert" placement="left" width="200" trigger="click">
+                    <el-form>
+                        <el-form-item label="Продавец">
+                            <el-select v-model="newForm.seller_id" filterable="" placeholder="Выберите продавца" style="width: 100%">
+                                <el-option v-for="item in stuff" :key="item.id" :label="item.last_name + ' ' + item.first_name + ' ' + item.middle_name"
+                                    :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="Касса">
+                            <el-input v-model="pay.type"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Сумма возврата">
+                            <el-input v-model="pay.sum"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button class="posting-update__btn" type="danger">Сделать возврат</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-popover>
+                <el-button icon="fas fa-minus" type="danger" plain class="posting-update__btn" :disabled="page"
+                    v-popover:revert>
+                    Возврат денег клиенту
+                </el-button>
+            </el-row>
+        </el-row>
+        <hr class="separator" />
+        <el-row>
+            <el-row class="posting-update__row posting-update__row_title"><i class="far fa-calendar-check"></i> Скидки</el-row>
+            <template v-if="newForm.discounts.length">
+                <transition-group name="transition-list">
+                    <el-row class="transition-list-item posting-update__row" v-for="(item, index) in newForm.discounts"
+                        :key="item.id">
+                        <el-col :sm="2" :xs="2">
+                            <i class="fas fa-percent"></i>
+                        </el-col>
+                        <el-col :sm="20" :xs="20">
+                            <el-row>1.00 (0 ₽ )</el-row>
+                            <el-row>06.04.2018 15:54:53 Гарбарчук А. С.</el-row>
+                        </el-col>
+                        <el-col :sm="2" :xs="2">
+                            <el-button icon="fas fa-times" type="danger" title="Удалить скидку" size="mini" v-tippy
+                                @click="newForm.discounts.splice(index, 1)">
+                            </el-button>
+                        </el-col>
+                    </el-row>
+                </transition-group>
+            </template>
+            <template v-else>
+                <el-row class="posting-update__row posting-update__row_item">
+                    <i>Отсутствуют скидки</i>
+                </el-row>
+            </template>
+            <el-row class="posting-update__row posting-update__row_item">
+                <el-popover ref="discont" placement="left" width="200" trigger="click">
+                    <el-form>
+                        <el-form-item label="Продавец">
+                            <el-select v-model="newForm.seller_id" filterable="" placeholder="Выберите продавца" style="width: 100%">
+                                <el-option v-for="item in stuff" :key="item.id" :label="item.last_name + ' ' + item.first_name + ' ' + item.middle_name"
+                                    :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="Тип скидки">
+                            <el-input v-model="pay.type"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Тип скидки">
+                            <el-input v-model="pay.type"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button class="posting-update__btn" type="primary">Принять скидку</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-popover>
+                <el-button icon="fas fa-plus" type="primary" plain class="posting-update__btn" :disabled="page"
+                    v-popover:discont>
+                    Добавить скидку
+                </el-button>
+            </el-row>
+        </el-row>
+    </el-col>
+</el-row>

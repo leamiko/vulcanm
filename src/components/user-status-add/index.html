@@ -1,0 +1,21 @@
+<el-row>
+    <el-form>
+        <el-col :xs="24" :sm="12" :md="9">
+            <el-form-item :error="validate(validStatus, 'name')">
+                <el-input v-model="newItem.name" placeholder="Название"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="9" style="padding: 0 10px">
+            <el-form-item :error="validate(validStatus, 'parent_id')">
+                <el-select v-model="newItem.parent_id" placeholder="Системный статус" style="width: 100%" clearable>
+                    <el-option v-for="item in repairStatus" :label="item.label" :value="item.id" :key="item.id"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="6">
+            <el-form-item>
+                <el-button type="primary" :loading="btnloader" @click="sendUserStatus(newItem)" style="width: 100%">Добавить</el-button>
+            </el-form-item>
+        </el-col>
+    </el-form>
+</el-row>

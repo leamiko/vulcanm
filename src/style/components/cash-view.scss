@@ -1,0 +1,48 @@
+.cash-view {
+
+    &__block {
+        margin: 10px;
+
+        &_border {
+            padding: 20px;
+            border: 1px solid $border-color;     
+        }
+    }
+
+    &__top-block {
+        display: flex; 
+        flex-wrap: wrap; 
+        align-items: center;
+    }
+
+    &__col {
+        padding: 15px 5px;
+    }
+
+    &__btn {
+        width: 100%;
+    }
+
+    &__btn-icon {
+        margin-right: 5px;
+    }
+
+    &__title {
+        font-size: 21px;
+
+        &_filter {
+            text-align: center;
+            margin: 10px 0;
+        }
+    }
+
+    &__sum {
+        border-bottom: 1px dashed;
+        cursor: pointer;
+        transition: .3s;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}

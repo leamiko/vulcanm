@@ -1,0 +1,52 @@
+$color-blue: #1861da;
+$color-red: #F56C6C;
+$color-green: #3ba543;
+$color-grey: #909399;
+$color-orange: #E6A23C;
+
+$ligth-grey-color: #fafafa;
+
+$border-color: #ebeef5;
+$head-bg-color: #f0f0f0;
+
+
+
+
+$--color-primary: $color-blue; 
+$--color-success: $color-green; 
+
+
+.blue {
+    &--text { color: $color-blue !important }
+    &--bg { background-color: $color-blue !important}
+}
+
+.red {
+    &--text { color: $color-red !important}
+    &--bg { background-color: $color-red !important}
+}
+
+.green {
+    &--text { color: $color-green !important}
+    &--bg { background-color: $color-green !important}
+}
+
+.grey {
+    &--text { color: $color-grey !important}
+    &--bg { background-color: $color-grey !important}
+}
+
+.orange {
+    &--text { color: $color-orange !important}
+    &--bg { background-color: $color-orange !important}
+}
+
+.white {
+    &--text { color: #ffffff !important}
+    &--bg { background-color: #ffffff !important}
+}
+
+.light-grey {
+    &--text { color: $ligth-grey-color !important}
+    &--bg { background-color: $ligth-grey-color !important}
+}

@@ -1,0 +1,15 @@
+.auth {
+    width: 300px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid $border-color;
+
+    &__title {
+        margin: 20px 0;
+        text-align: center;
+    }
+
+    &__btn {
+        text-align: center;
+    }
+}

@@ -1,0 +1,16 @@
+<el-aside style="width: 100%;">
+    <div style="margin-bottom: 20px;font-size: 25px;padding-left: 25px;">Все группы</div>
+    <el-input style="margin-bottom: 20px;" placeholder="Поиск категории" v-model="dataQuery"></el-input>
+    <div style="height: 65vh;overflow: auto;">
+        <childTree v-for="item in searchCategory(categoryList, dataQuery)" 
+                   :key="item.key"
+                   :item="item"
+                   :paddingItem="10"
+                   :itemActive="itemActive"
+                   :dialogEdit="dialogEdit"
+                   :dialogDelete="dialogDelete"
+                   class="category__item-block"
+                   style="margin-bottom: 10px;">
+        </childTree>
+    </div>
+</el-aside>

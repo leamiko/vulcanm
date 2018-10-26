@@ -1,0 +1,121 @@
+<div>
+    <div class="repair-view__row">
+        <div class="text-xs-center repair-view__title">
+            <span class="light-blue--text text--darken-3">Заказ</span>
+        </div>
+        <div class="text-xs-center">
+            <span class="repair-view__order">{{ item.number }}</span>
+        </div>
+    </div>
+    <v-divider></v-divider>
+    <div class="repair-view__row">
+        <div class="text-xs-center repair-view__title">
+            <span class="light-blue--text text--darken-3">Клиент</span>
+        </div>
+        <div class="repair-view__info-block">
+            <div class="repair-view__icon-block">
+                <i class="fa fa-user light-blue--text text--darken-3 repair-view__icon"></i>
+            </div>
+            <div class="repair-view__info">
+                <div class="repair-view__name"><span>< клиент / организация ></span></div>
+                <div class="repair-view__type">
+                    <a :href="'tel:' + item.phone"> < номер телефона > </a>
+                </div>
+                <div><span>< контактное лицо организации ></span></div>
+            </div>
+        </div>
+        <div>
+            <v-layout wrap>
+                <v-flex xs12 xl6>
+                    <v-btn flat class="green darken-3 white--text repair-view__btn">
+                        <i class="fa fa-heart repair-view__btn-icon"></i>
+                        Любимый клиент
+                    </v-btn>
+                </v-flex>
+                <v-flex xs12 xl6>
+                    <v-btn flat class="light-blue darken-3 white--text repair-view__btn">
+                        <i class="fa fa-user repair-view__btn-icon"></i>
+                        Обычный клиент
+                    </v-btn>
+                </v-flex>
+                <v-flex xs12 xl6>
+                    <v-btn flat class="red darken-1 white--text repair-view__btn">
+                        <i class="fa fa-ban repair-view__btn-icon"></i>
+                        В черный список
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </div>
+        <v-btn flat class="light-blue--text text--darken-3 repair-view__btn">
+            <i class="fa fa-plus repair-view__btn-icon"></i>
+            Принять еще
+        </v-btn>
+    </div>
+    <v-divider></v-divider>
+    <div class="repair-view__row">
+        <div class="text-xs-center repair-view__title">
+            <span class="light-blue--text text--darken-3">Устройство</span>
+        </div>
+        <div class="repair-view__info-block">
+            <div class="repair-view__icon-block">
+                <i class="fa fa-tablet light-blue--text text--darken-3 repair-view__icon" aria-hidden="true"></i>
+            </div>
+            <div class="repair-view__info">
+                <div><span> < Тип > </span></div>
+                <div><span class="repair-view__name"> < Производитель + Модель > </span></div>
+                <div><span> < Серийный номер > </span></div>
+                <div><span> < IMEI > </span></div>
+                <div class="repair-view__optional-block">
+                    <b>Состояние на момент приема:</b>
+                    <div><span> < состояние > </span></div>
+                </div>
+                <div class="repair-view__optional-block">
+                    <b>Комплектация:</b>
+                    <div><span> < комплектация > </span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <v-divider></v-divider>
+    <div class="repair-view__row">
+        <div class="text-xs-center repair-view__title">
+            <span class="light-blue--text text--darken-3">Заметки при приеме</span>
+        </div>
+        <div class="repair-view__info-block">
+            <div class="repair-view__icon-block">
+                <i class="fa fa-comment light-blue--text text--darken-3 repair-view__icon" aria-hidden="true"></i>
+            </div>
+            <div class="repair-view__info">
+                <span> < заметки > </span>
+            </div>
+        </div>
+    </div>
+    <v-divider></v-divider>
+    <div class="repair-view__row">
+        <div class="text-xs-center repair-view__title">
+            <span class="light-blue--text text--darken-3">Неисправность</span>
+        </div>
+        <div class="repair-view__info-block">
+            <div class="repair-view__icon-block">
+                <i class="fa fa-thumbs-down light-blue--text text--darken-3 repair-view__icon" aria-hidden="true"></i>
+            </div>
+            <div class="repair-view__info">
+                <span> < неисправность > </span>
+            </div>
+        </div>
+    </div>
+    <v-divider></v-divider>
+    <div class="repair-view__row">
+        <div class="text-xs-center repair-view__title">
+            <span class="light-blue--text text--darken-3">Обнаруженная проблема</span>
+        </div>
+        <div class="repair-view__info-block">
+            <div class="repair-view__icon-block">
+                <i class="fa fa-lightbulb-o light-blue--text text--darken-3 repair-view__icon" aria-hidden="true"></i>
+            </div>
+            <div class="repair-view__info">
+                <span> < проблема > </span>
+            </div>
+        </div>
+    </div>
+</div>

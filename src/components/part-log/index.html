@@ -1,0 +1,9 @@
+<el-row>
+    <el-col :xs="24">
+        <el-tabs type="border-card">
+            <el-tab-pane v-for="storage in storages" :key="storage.id" :label="storage.name">
+                <part-log-table :storage-id="storage.id"></part-log-table>
+            </el-tab-pane>
+        </el-tabs>
+    </el-col>
+</el-row>

@@ -1,0 +1,106 @@
+<el-row v-loading.fullscreen.lock="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-table :data="point"
+              stripe @cell-click="viewPoint"
+              style="width: 100%">
+        <el-table-column type="index" label="№" width="50"></el-table-column>
+        <el-table-column label="Префикс" width="100">
+            <template slot-scope="scope">
+                <i class="fas fa-map-marker-alt" :style="{ 'color': scope.row.color }"></i>
+                {{ scope.row.prefix }}
+            </template>
+        </el-table-column>
+        <el-table-column prop="name" label="Название"></el-table-column>
+        <el-table-column prop="type_name" label="Тип филиала"></el-table-column>
+        <el-table-column label="Адрес">
+            <template slot-scope="scope">
+                <template v-if="scope.row.address === null">
+                    <i>Не указано</i>
+                </template>
+                <template v-else>              
+                    {{ scope.row.address }}
+                </template>
+            </template>
+        </el-table-column>
+        <el-table-column type="actions" label="Телефон">
+            <template slot-scope="scope">
+                <template v-if="scope.row.phone === null">
+                    <i>Не указано</i>
+                </template>
+                <template v-else>              
+                    <phone :value="scope.row.phone"></phone>
+                </template>
+            </template>
+        </el-table-column>
+        <el-table-column type="actions" width="120">
+            <template slot-scope="scope">
+                <el-button size="mini"
+                           icon="fas fa-edit"
+                           title="Редактировать" v-tippy
+                           @click.native="$router.push('/settings/point/edit/'+ scope.row.id)">
+                </el-button>
+                <el-button size="mini" type="danger" 
+                           icon="fas fa-times"
+                           title="Удалить" v-tippy
+                           @click.native="onDialogDelete(scope.row)">
+                </el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(pointPageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+
+    <el-dialog :title="pointView.name" :visible.sync="dialogView">
+        <el-row class="point__view">
+            <el-col :span="10">Префикс</el-col> 
+            <el-col :span="14">{{ pointView.prefix }}</el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Название</el-col>
+            <el-col :span="14">{{ pointView.name }}</el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Адрес</el-col> 
+            <el-col :span="14">
+                <template v-if="pointView.address === null">
+                    <i>Не указано</i>
+                </template>
+                <template v-else>              
+                    {{ pointView.address }}
+                </template>
+            </el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Телефон</el-col> 
+            <el-col :span="14">
+                <template v-if="pointView.phone === null">
+                    <i>Не указано</i>
+                </template>
+                <template v-else>              
+                    <phone :value="pointView.phone"></phone>
+                </template>
+            </el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Тип филиала</el-col> 
+            <el-col :span="14">{{ pointView.type_name }}</el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Денежные средства в кассе</el-col> 
+            <el-col :span="14"><numbers type="money" :value="pointView.cash_sum"></numbers></el-col>
+        </el-row>
+    </el-dialog>
+
+    <el-dialog :visible.sync="dialogDelete" width="350px">
+        <el-row>
+            Вы действительно хотите удалить "{{ pointView.name }}"?
+        </el-row>
+        <span slot="footer">
+            <el-button @click="dialogDelete = false">Отмена</el-button>
+            <el-button type="danger" @click="deletePoint(pointView.id), dialogDelete = false">Удалить</el-button>
+        </span>
+    </el-dialog>
+</el-row>

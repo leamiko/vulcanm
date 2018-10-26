@@ -1,0 +1,44 @@
+<el-row class="posting-update">
+    <el-col class="posting-update__col" :md="6" :sm="10" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-user"></i> Переместил</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            {{ currentUser(user) }}
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="far fa-calendar-check"></i> Дата перемещения</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            {{ date }}
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="far fa-calendar-minus"></i> Исходный склад </el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <template v-for="item in storages" v-if="newForm.from_storage_id === item.id">
+                {{ item.name }}
+            </template>
+            <template v-else></template>
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title">
+            <i class="far fa-calendar-plus"></i> Новый склад 
+            <el-row class="posting-update__row">
+                <el-select v-model="newForm.to_storage_id" placeholder="Укажите склад" style="width: 100%">
+                    <el-option  v-for="item in storages"
+                                :key="item.id" 
+                                :label="item.name" 
+                                :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-row>
+        </el-row>
+    </el-col>
+    <el-col class="posting-update__col" :md="18" :sm="14" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title">Новое перемещение</el-row>
+        <cancel-form :data="newForm.parts"
+                     :valid="{}">
+        </cancel-form>
+    </el-col>
+
+    <modal-add-part :newForm="newForm.parts"
+                    :titleAdd="'перемещение'"
+                    :titleDel="'перемещения'">
+    </modal-add-part>
+
+</el-row>
+

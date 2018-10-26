@@ -1,0 +1,66 @@
+<el-row class="user-status" v-loading.fullscreen.lock="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-col :span="12" :offset="6">
+        <el-row class="user-status__title">Пользовательские статусы</el-row>
+        <el-row class="user-status__descr">Дополните встроенные статусы заказов теми, которые нужны именно Вам!</el-row>
+        <user-status-add></user-status-add>
+        <el-row>
+            <div class="storage__item" v-for="item in userStatus" :key="item.id">
+                <div>
+                    <el-tag :class="'repair__status repair__status_' + item.parent_id">
+                        <i class="fas repair__icons"
+                           :class="{
+                               'fa-arrow-down' : item.parent_id === 1,
+                               'fa-wrench' : item.parent_id === 2,
+                               'fa-clock' : item.parent_id === 3,
+                               'fa-check' : item.parent_id === 4,
+                               'fa-plane repair__icons_rotate' : item.parent_id === 5,
+                               'fa-comments' : item.parent_id === 6
+                            }"></i>
+                        {{ item.name }}
+                    </el-tag>
+                </div>
+                <div>
+                    <el-button size="mini"
+                               icon="fas fa-edit"
+                               title="Редактировать" v-tippy
+                               @click.native="onDialogEdit(item)">
+                    </el-button>
+                    <el-button size="mini" type="danger" 
+                               icon="fas fa-times"
+                               title="Удалить" v-tippy
+                               @click.native="onDialogDelete(item)">
+                    </el-button>
+                </div>
+            </div>
+        </el-row>
+    </el-col>
+        
+    <el-col>
+        <el-pagination background layout="prev, pager, next" 
+                       :page-count="Number(userStatusPageCount)"
+                       class="pagination" 
+                       @current-change="loadPage">
+        </el-pagination>
+    </el-col>
+    <el-dialog title="Изменение статуса" :visible.sync="dialogEdit" width="350px">
+        <el-form>
+            <el-form-item label="Название" :error="validate(validStatus, 'name')">
+                <el-input v-model="editItem.name" placeholder="Название"></el-input>
+            </el-form-item>
+        </el-form>    
+        <span slot="footer">
+            <el-button @click="dialogEdit = false">Отменить</el-button>
+            <el-button type="primary" :loading="btnloader" @click="changeUserStatus(editItem)">Изменить</el-button>
+        </span>
+    </el-dialog>
+    
+    <el-dialog :visible.sync="dialogDelete" width="350px">
+        <el-row>
+            Вы действительно хотите удалить "{{ editItem.name }}"?
+        </el-row>
+        <span slot="footer">
+            <el-button @click="dialogDelete = false">Отмена</el-button>
+            <el-button type="danger" @click="deleteUserStatus(editItem.id), dialogDelete = false">Удалить</el-button>
+        </span>
+    </el-dialog>
+</el-row>

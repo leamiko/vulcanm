@@ -1,0 +1,8 @@
+<span>
+    <template v-if="type === 'current'">
+        {{ getDateCurrent }}
+    </template>
+    <template v-else-if="type === 'users'">
+        {{ getDate(value) }}
+    </template>
+</span>

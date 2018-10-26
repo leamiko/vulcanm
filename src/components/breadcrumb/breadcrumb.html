@@ -1,0 +1,89 @@
+<el-row v-if="isAuthorized()" class="breadcrumb">
+    <div class="breadcrumb__block">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to=" item.link ? {path: item.link}: false"
+                                v-for="(item, index) in breadcrumb"
+                                :key="item.id">
+                <i :class="{
+                            'fas fa-ticket-alt': item.section === 'Ремонт',
+                            'fas fa-inbox': item.section === 'Склад',
+                            'fas fa-shopping-cart': item.section === 'Магазин',
+                            'fas fa-ruble-sign': item.section === 'Финансы',
+                            'fas fa-chart-area': item.section === 'Отчеты',
+                            'fas fa-home': item.section === 'Компания'
+                            }">
+                        </i>
+              <template v-if="item.textContent">
+                {{item.textContent}}
+              </template>
+              <template v-else>
+                {{ item.section }}
+              </template>
+            </el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+    <div class="breadcrumb__actionbtn">
+
+        <template v-if="flagsActionBtn">
+            <el-button v-for="item in actionBtn" :key="item.id"
+                       class="breadcrumb__btn-item" 
+                       @click.native="isLink(item.link, item.type)"
+                       :type="type(item.type)">
+                    <i class="fas breadcrumb__btn-icon" :class="item.icon"></i>
+                {{ item.title }}
+            </el-button>
+        </template>
+        <template v-else></template>
+        <el-button class="breadcrumb__btn-item breadcrumb__btn-item_back" @click="$router.go(-1)">
+            <i class="fas fa-chevron-left breadcrumb__btn-icon"></i>
+            Назад
+        </el-button>
+    </div>
+</el-row>
+
+
+
+
+<!-- <v-layout row wrap class="breadcrumb" v-if="auth">
+    <v-flex xs12 md6 class="breadcrumb__block">
+        <span class="breadcrumb__root" v-for="(item, index) in breadcrumb">
+            <template v-if="!(index + 1 === breadcrumb.length)">
+                <router-link :to="item.link" class="breadcrumb__link">
+                    <span class="grey--text text--darken-3">
+                        <i :class="{
+                                    'fa fa-ticket': item.section === 'Ремонт',
+                                    'fa fa-inbox': item.section === 'Склад',
+                                    'fa fa-shopping-cart': item.section === 'Магазин',
+                                    'fa fa-rub': item.section === 'Финансы',
+                                    'fa fa-area-chart': item.section === 'Отчеты',
+                                    'fa fa-home': item.section === 'Компания'
+                                    }">
+                        </i>
+                        {{ item.section }}
+                    </span>
+                </router-link>
+                <span class="breadcrumb__next-icon grey--text text--lighten-1">→</span>
+            </template>
+            <template v-else>
+                <span class="grey--text text--darken-3">{{ item.section }}</span>
+            </template>
+        </span>
+    </v-flex>
+    <v-flex xs12 md6 class="breadcrumb__back-block">
+        <template v-if="actionBtn.length">
+            <v-btn v-for="item in actionBtn" :key="item.id"
+                flat 
+                class="white--text breadcrumb__back-btn"
+                :class="{ 'light-blue darken-3': item.type === 'add', 'green darken-2': item.type === 'edt', 'red darken-1': item.type === 'del' }" 
+                @click.native="isLink(item.link, item.type)">
+                <i class="fa breadcrumb__btn-icon" aria-hidden="true" :class="item.icon"></i>
+                {{ item.title }}
+            </v-btn>          
+        </template>
+        <template v-else></template>
+        <v-btn flat class="light-blue--text text--darken-3 breadcrumb__back-btn" @click.native="$router.go(-1)">
+            <i class="fa fa-angle-left breadcrumb__btn-icon" aria-hidden="true"></i>
+            Назад
+        </v-btn>
+    </v-flex>
+</v-layout> -->

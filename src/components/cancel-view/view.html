@@ -1,0 +1,49 @@
+<el-row class="posting-update" v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-col class="posting-update__col" :md="6" :sm="10" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-user"></i> Списал</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            {{ currentUser(cancelView.user) }}
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="far fa-calendar-check"></i> Дата списания</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            {{ date(cancelView.created_at) }}
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-calendar-minus"></i> Списание со склада </el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <template v-if="cancelView.storage !== undefined">{{ cancelView.storage.name }}</template>
+            <template v-else></template>
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-credit-card"></i> Взыскано с </el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <template v-if="!currentUser(cancelView.penalty_user)">
+                <i>Не указано</i>
+            </template>
+            <template v-else>{{ currentUser(cancelView.penalty_user) }}</template>
+        </el-row>
+    </el-col>
+    <el-col class="posting-update__col" :md="18" :sm="14" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title">Списание № {{ $route.params.id }}</el-row>
+        <cancel-form :data="parts(cancelView)"
+                     :page="'cancel-view'">
+        </cancel-form>
+    </el-col>
+
+    <el-dialog :visible.sync="dialog"
+               title="Возврат списанного товара" 
+               width="30%"
+               center>
+        <div style="text-align: center;">
+            <div>Количество возвращаемого товара ({{ delItem.name }})</div>
+            <el-input-number v-model="cancelItemForm.amount" 
+                            :min="1"
+                            :max="delItem.amount"
+                            size="small">
+            </el-input-number> 
+            <span style="font-size: 11px;">из {{ delItem.amount }} шт.</span>
+        </div>
+        <span slot="footer" class="dialog-footer">
+        <el-button @click="dialog = false">Отменить</el-button>
+        <el-button type="danger" @click="newRevertPart(cancelItemForm)">Вернуть списанный товар</el-button>
+        </span>
+    </el-dialog>
+</el-row>

@@ -1,0 +1,50 @@
+<el-row type="flex" justify="center">
+    <el-col :xs="24" :sm="18" :lg="12" :xl="10" class="point-update">
+        <el-form label-width="200px" label-position="top">
+            <el-row>
+                <el-col :xs="5" :sm="3" :md="2" class="point-update__col">
+                    <el-form-item label="Цвет" :error="validate(validPoint, 'color')">
+                        <el-color-picker v-model="newItem.color" @active-change="sendColor"></el-color-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="19" :sm="6" :md="4" class="point-update__col">
+                    <el-form-item label="Префикс" :error="validate(validPoint, 'prefix')">
+                        <el-input v-model="newItem.prefix" :maxlength="3"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="15" :md="18" class="point-update__col">
+                    <el-form-item label="Название" :error="validate(validPoint, 'name')">
+                        <el-input v-model="newItem.name"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col class="point-update__col">
+                    <el-form-item label="Адрес" :error="validate(validPoint, 'address')">
+                        <el-input v-model="newItem.address"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :xs="24" :sm="12" class="point-update__col">
+                    <el-form-item label="Тип филиала" :error="validate(validPoint, 'type')">               
+                        <el-select v-model="newItem.type" placeholder="Выберите тип филиала" style="width: 100%">
+                            <el-option v-for="item in typePoint" :label="item.name" :value="item.id" :key="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="12" class="point-update__col">
+                    <el-form-item label="Телефон" :error="validate(validPoint, 'phone')">
+                        <el-input v-model="newItem.phone"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <el-row class="company__btn">
+            <el-button type="success" :loading="btnloader"
+                    v-if="form === 'edit'" @click="changePoint(newItem)">Сохранить</el-button>
+            <el-button type="primary" :loading="btnloader" 
+                    v-else-if="form === 'add'" @click="sendPoint(newItem)">Добавить</el-button>
+        </el-row>
+    </el-col>
+</el-row>

@@ -1,0 +1,74 @@
+.device {
+    border: 1px solid $border-color;
+    overflow-x: auto;
+
+    &__search {
+        padding: 15px;
+        background: $head-bg-color;
+        border-bottom: 1px solid $border-color;
+    }
+
+    &__col {
+        min-width: 430px;
+        
+        &_width50 {
+            width: 50%;
+        }
+ 
+        &_width100 {
+            width: 100%;
+        }
+
+        &_scroll {
+            overflow-y: auto;
+            height: 50vh;
+        }
+
+        &:not(:last-child) {
+            border-right: 1px solid $border-color;
+        }
+    }
+
+    &__item {
+        position: relative;
+        overflow: hidden;
+        padding: 10px 15px;
+        border-bottom: 1px solid $border-color;
+        cursor: pointer;
+        transition: .2s;
+        box-sizing: border-box;
+
+        &:hover {
+            background: rgba($color-blue, 0.12);
+        }
+
+        &_active, 
+        &_active:hover {
+            background: $color-blue;
+            color: white;
+            font-weight: bold;
+        }
+    }
+
+    &__item:hover > &__slide-btn {
+        transform: translateX(0%);
+    }
+
+    &__slide-btn {
+        position: absolute;
+        top: -1px;
+        right: 0;
+        transform: translateX(120%);
+        transition: .3s;
+    }
+
+    &__btn {
+        margin: 0 0 0 -5px !important;
+        border-radius: 0 !important;
+    }
+
+    &__title {
+        height: 17px;
+        overflow: hidden;
+    }
+}

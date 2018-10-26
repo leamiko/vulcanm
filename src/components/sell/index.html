@@ -1,0 +1,170 @@
+<el-row>
+    <div class="part-nav">
+        <div class="part-nav__title">Продажи магазина</div>
+        <el-popover placement="bottom"
+                    trigger="click">
+            <el-button slot="reference"><i class="fas fa-search"></i> Поиск позиции</el-button>
+            <el-form class="part-nav__form">
+                <el-form-item label="По дате">
+                    <el-date-picker v-model="search.date"
+                                    type="daterange"
+                                    align="right"
+                                    unlink-panels
+                                    format="dd.MM.yyyy"
+                                    value-format="timestamp"
+                                    range-separator="-"
+                                    start-placeholder="С"
+                                    end-placeholder="По"
+                                    :picker-options="rangeDate">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="По клиенту">
+                    <el-input placeholder="Введите клиента"
+                              v-model="search.client"
+                              clearable>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="По сотруднику">
+                    <el-input placeholder="Введите сотрудника"
+                              v-model="search.seller"
+                              clearable>
+                    </el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-radio-group v-model="search.status">
+                        <el-radio-button label="all">Все</el-radio-button>
+                        <el-radio-button label="yes">Проведено</el-radio-button>
+                        <el-radio-button label="no">Не проведено</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item>
+                    <el-radio-group v-model="search.payment" style="margin-bottom: 30px;">
+                        <el-radio-button label="all">Все</el-radio-button>
+                        <el-radio-button label="yes">Оплачено</el-radio-button>
+                        <el-radio-button label="no">Не оплачено</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="" style="width: 100%">Показать результаты</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="" style="width: 100%">Очистить</el-button>
+                </el-form-item>
+            </el-form>
+        </el-popover>    
+    </div>
+
+    <el-table :data="shop" 
+              border 
+              stripe
+              style="margin-top: 10px;"
+              @row-click="onDetail"
+              v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+        <el-table-column label="№" width="100" header-align="center">
+            <template slot-scope="scope">
+                <i class="far fa-circle red--text" v-if="scope.row.status_id === 1" title="Не проведено" v-tippy></i>
+                <i class="fas fa-check-circle green--text" v-else-if="scope.row.status_id === 2" title="Проведено" v-tippy></i>
+                {{ scope.row.id }}
+            </template>
+        </el-table-column>
+        <el-table-column label="Дата продажи" width="200" align="center">
+            <template slot-scope="scope">
+                {{ date(scope.row.created_at) }}
+            </template>
+        </el-table-column>
+        <el-table-column label="Клиент" min-width="300" align="center">
+            <template slot-scope="scope">
+                <template v-if="scope.row.client !== null && scope.row.client.type === 1">
+                    {{ currentUser(scope.row.client) }}
+                </template>
+                <template v-else-if="scope.row.client !== null && scope.row.client.type === 2">
+                    {{ scope.row.client.name }}
+                </template>
+                <template v-else>
+                    <i> Не указано </i>
+                </template>                
+            </template>
+        </el-table-column>
+        <el-table-column label="Продал" min-width="300" align="center">
+            <template slot-scope="scope">
+                {{ currentUser(scope.row.seller) }}
+            </template>
+        </el-table-column>
+        <el-table-column label="Продано" header-align="center">
+            <el-table-column label="Товаров" width="120" align="center">
+                <template slot-scope="scope">
+                    <numbers :value="scope.row.parts_count"></numbers>
+                    <template v-if="scope.row.parts_reverts.length">
+                        <span class="red--text" title="Возврат товаров" v-tippy>
+                            (-{{ paymentsSum(scope.row.parts_reverts, 'amount') }})
+                        </span>
+                    </template>
+                    <template v-else></template>
+                </template>
+            </el-table-column>
+            <el-table-column label="Услуг" width="120" align="center">
+                <template slot-scope="scope">
+                    <numbers :value="scope.row.works_count"></numbers>
+                    <template v-if="scope.row.works_reverts.length">
+                        <span class="red--text" title="Возврат услуг" v-tippy>
+                            (-{{ paymentsSum(scope.row.works_reverts, 'amount') }})
+                        </span>
+                    </template>
+                    <template v-else></template>
+                </template>
+            </el-table-column>
+        </el-table-column>
+        <el-table-column label="Общая сумма" width="150" header-align="center" align="right">
+            <template slot-scope="scope">
+                <numbers type="money" :value="Number(scope.row.parts_total) + Number(scope.row.works_total)"></numbers>
+            </template>
+        </el-table-column>
+        <el-table-column label="Оплачено" width="150" header-align="center" align="right">
+            <template slot-scope="scope">
+                <numbers type="money" :value="paymentsSum(scope.row.payments, 'sum')"></numbers>
+                <i class="fas fa-check-circle green--text"
+                   v-if="paymentsSum(scope.row.payments, 'sum') === Number(scope.row.parts_total) + Number(scope.row.works_total)"  
+                   title="Полностью оплачено" v-tippy></i>
+                <i v-else class="fas fa-exclamation-triangle red--text" title="Проверьте платежи по продаже" v-tippy></i>
+            </template>
+        </el-table-column>
+        <el-table-column label="Склады" width="250" align="center">
+            <template slot-scope="scope">
+                <template v-if="storageName(scope.row.parts).length > 1">
+                    <el-popover ref="storages"
+                                placement="left"
+                                width="200"
+                                trigger="hover">
+                                <template v-for="item in storageName(scope.row.parts)">
+                                    <div>{{ item }}</div>
+                                </template>
+                    </el-popover>
+                    <span v-popover:storages>{{ storageName(scope.row.parts)[0] }}...</span>
+                </template>  
+                <template v-else-if="storageName(scope.row.parts).length === 1">
+                    <template v-for="item in storageName(scope.row.parts)">
+                        {{ item }}
+                    </template>
+                </template>
+                <template v-else>
+                    <i> Не указано </i>
+                </template>  
+            </template>
+        </el-table-column>
+        <el-table-column width="50" align="center">
+            <template slot-scope="scope">
+                <el-button size="mini" icon="fas fa-print" class="part__btn" title="Печать товарного чека" v-tippy></el-button>
+            </template>
+        </el-table-column>
+
+    </el-table>
+
+
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(shopPageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+
+</el-row>

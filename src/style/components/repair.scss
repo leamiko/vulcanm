@@ -1,0 +1,123 @@
+.repair {
+    margin-top: 20px;
+
+    &__icons {
+        margin-right: 10px;
+
+        &_love {
+            color: #e53935;
+        }
+
+        &_sms {
+            color: #0d47a1;
+        }
+
+        &_rotate {
+            transform: rotate(-45deg);
+        }
+    }
+
+    &__status {
+
+        &_1 {
+            background-color: rgba(#f4511e, 0.1);
+            border-color: rgba(#f4511e, 0.2);
+            color: #f4511e;
+        }
+
+        &_2 {
+            background-color: rgba(#0277bd, 0.1);
+            border-color: rgba(#0277bd, 0.2);
+            color: #0277bd;
+        }
+
+        &_3 {
+            background-color: rgba(#5e35b1, 0.1);
+            border-color: rgba(#5e35b1, 0.2);
+            color: #5e35b1;
+        }
+
+        &_4 {
+            background-color: rgba(#2e7d32, 0.1);
+            border-color: rgba(#2e7d32, 0.2);
+            color: #2e7d32;
+        }
+
+        &_5 {
+            background-color: rgba(#424242, 0.1);
+            border-color: rgba(#424242, 0.2);
+            color: #424242;
+        }
+
+        &_6 {
+            background-color: rgba(#fb8c00, 0.1);
+            border-color: rgba(#fb8c00, 0.2);
+            color: #fb8c00;
+        }
+    }
+
+    &__form {
+        margin: 20px -20px;
+        padding: 25px 25px 0px 25px;
+        background-color: #f2f2f2;
+    }
+
+    &__btn {
+        width: 150px;
+        line-height: 23px;
+
+        &_1 {
+            color: #f4511e !important;
+            
+            &:hover {
+                background-color: rgba(#f4511e, 0.1) !important;
+                border-color: rgba(#f4511e, 0.2) !important;
+            }
+        }
+
+        &_2 {
+            color: #0277bd !important;
+
+            &:hover {
+                background-color: rgba(#0277bd, 0.1) !important;
+                border-color: rgba(#0277bd, 0.2) !important;
+            }
+        }
+
+        &_3 {
+            color: #5e35b1 !important;
+
+            &:hover {
+                background-color: rgba(#5e35b1, 0.1) !important;
+                border-color: rgba(#5e35b1, 0.2) !important;
+            }
+        }
+
+        &_4 {
+            color: #2e7d32 !important;
+
+            &:hover {
+                background-color: rgba(#2e7d32, 0.1) !important;
+                border-color: rgba(#2e7d32, 0.2) !important;
+            }
+        }
+
+        &_5 {
+            color: #424242 !important;
+
+            &:hover {
+                background-color: rgba(#424242, 0.1) !important;
+                border-color: rgba(#424242, 0.2) !important;
+            }
+        }
+
+        &_6 {
+            color: #fb8c00 !important;
+
+            &:hover {
+                background-color: rgba(#fb8c00, 0.1) !important;
+                border-color: rgba(#fb8c00, 0.2) !important;
+            }
+        }
+    }
+}

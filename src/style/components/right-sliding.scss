@@ -1,0 +1,86 @@
+.right-sliding {
+    position: absolute;
+    right: -320px;
+    width: 320px !important;
+    top: 0px;
+    height: 100vh;
+    background: white;
+    z-index: 99;
+    border-left: 1px solid rgb(220, 220, 220);
+    color: #606266;
+    outline: none;
+    transition: 0.3s;
+
+    &__active {
+        right: 0px;
+    }
+
+    &__active > &__bg {
+        opacity: 1;
+        pointer-events: all;
+        right: 320px;
+    }
+
+    &__bg {
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100vh;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s;
+    }
+
+    &__row {
+        padding: 10px;
+    }
+
+    &__avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    &__work {
+        margin-top: 3px;
+        font-size: 11px;
+    }
+
+    &__btn {
+        line-height: 15px;
+        margin: 10px 1px !important;
+
+        &_block {
+            width: 100%;
+        }
+    }
+
+    &__points {
+        max-height: 30%;
+        overflow: auto;
+    }
+
+    &__point {
+        padding: 10px;
+        border-bottom: 1px solid #dcdcdc;
+        cursor: pointer;
+        transition: .3s;
+        
+        &:hover,
+        &_active {
+            background: rgba(63, 81, 181, 0.1);
+        }
+
+        &_active {
+            border-left: 3px solid #2196F3;
+        }
+    }
+
+    &__address {
+        margin: 10px 0;
+    }
+}

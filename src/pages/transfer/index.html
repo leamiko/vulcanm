@@ -1,0 +1,52 @@
+<el-row>
+    <el-table :data="transfer" 
+              border 
+              stripe 
+              v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x"
+              @row-click="onDialogDetail">
+        <el-table-column label="№" width="100" align="center">
+            <template slot-scope="scope">
+                {{ scope.row.id }}
+            </template>       
+        </el-table-column>
+        <el-table-column label="Дата перемещения" width="300" align="center">
+            <template slot-scope="scope">
+                <date type="users" :value="scope.row.created_at"></date>
+            </template>
+        </el-table-column>
+        <el-table-column label="Склад" header-align="center">
+            <el-table-column label="Исходный" width="350" align="center">
+                <template slot-scope="scope">
+                    {{ scope.row.out_storage.name }}
+                </template>
+            </el-table-column>
+            <el-table-column label="Новый" width="350" align="center">
+                <template slot-scope="scope">
+                    {{ scope.row.in_storage.name }}
+                </template>
+            </el-table-column>
+        </el-table-column>
+        <el-table-column prop="total_parts" label="Количество" width="150" align="center"></el-table-column>
+        <el-table-column label="Принял" align="center">
+            <template slot-scope="scope">
+                <user-name :value="scope.row.user"></user-name>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(transferPageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+
+    <el-dialog :visible.sync="dialogDetail"
+               :title="'Перемещение №' + itemId + ' от ' + itemDate"  
+               width="90vw"
+               center>
+        <template v-if="dialogDetail">
+            <transfer-view :id="itemId"></transfer-view>
+        </template>
+        <template v-else></template>
+    </el-dialog>
+</el-row>

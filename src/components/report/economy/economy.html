@@ -1,0 +1,135 @@
+<v-layout class="report">
+    <v-flex xs12 offset-md1 md10>
+        <range-date :title="'Финансовый отчёт'"></range-date>
+        <v-divider class="report__divider"></v-divider>
+        <v-layout wrap class="report__row">
+            <v-flex xs12 md12 class="text-xs-center">
+                <span class="report__title">Раздел А: Прибыль</span>
+            </v-flex>
+            <v-flex xs12 md7>
+                <span class="report__table-name">Таблица 1: Распределение прибыли от разных видов деятельности</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell">Вид деятельности</th>
+                            <th class="report__cell">Прибыль</th>
+                            <th class="report__cell">%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="report__cell">Использование з/ч в ремонте</td>
+                            <td class="report__cell">14 645.32</td>
+                            <td class="report__cell">6.59</td>
+                        </tr>
+                        <tr>
+                            <td class="report__cell">Ремонтные работы</td>
+                            <td class="report__cell">183 577.00</td>
+                            <td class="report__cell">82.60</td>
+                        </tr>
+                        <tr>
+                            <td class="report__cell">Продажи</td>
+                            <td class="report__cell">24 022.30</td>
+                            <td class="report__cell">10.81</td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell">Итого</th>
+                            <th class="report__cell">222 244.62</th>
+                            <th class="report__cell">100.00</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </v-flex>
+            <v-flex xs12 md5>
+                <chart-pie :data="dataPie" :label="labelPie" :height="300"></chart-pie>
+            </v-flex>
+        </v-layout>
+        <v-divider class="report__divider"></v-divider>
+        <v-layout wrap class="report__row">
+            <v-flex xs12 md12 class="text-xs-center">
+                <span class="report__title">Раздел Б: Доход</span>
+            </v-flex>
+            <v-flex xs12 md7>
+                <span class="report__table-name">Таблица 2: Распределение дохода от разных видов деятельности</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                    <tr class="text-xs-left">
+                        <th class="report__cell">Вид деятельности</th>
+                        <th class="report__cell">Доход</th>
+                        <th class="report__cell">%</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="report__cell">Использование з/ч в ремонте</td>
+                        <td class="report__cell">114 401.00</td>
+                        <td class="report__cell">31.57</td>
+                    </tr>
+                    <tr>
+                        <td class="report__cell">Ремонтные работы</td>
+                        <td class="report__cell">183 577.00</td>
+                        <td class="report__cell">50.66</td>
+                    </tr>
+                    <tr>
+                        <td class="report__cell">Продажи</td>
+                        <td class="report__cell">64 400.00</td>
+                        <td class="report__cell">17.77</td>
+                    </tr>
+                    </tbody>
+                    <tfoot class="report__thead">
+                    <tr class="text-xs-left">
+                        <th class="report__cell">Итого</th>
+                        <th class="report__cell">362 378.00</th>
+                        <th class="report__cell">100.00</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </v-flex>
+            <v-flex xs12 md5>
+                <chart-pie :data="dataPie1" :label="labelPie1" :height="300"></chart-pie>
+            </v-flex>
+        </v-layout>
+        <v-divider class="report__divider"></v-divider>
+        <v-layout wrap class="report__row">
+            <v-flex xs12 md12 class="text-xs-center">
+                <span class="report__title">Раздел В: Расход</span>
+            </v-flex>
+            <v-flex xs12 md7>
+                <span class="report__table-name">Таблица 3: Распределение расхода от разных видов деятельности</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                    <tr class="text-xs-left">
+                        <th class="report__cell">Вид деятельности</th>
+                        <th class="report__cell">Расход</th>
+                        <th class="report__cell">%</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="report__cell">Использование з/ч в ремонте</td>
+                        <td class="report__cell">99 755.68</td>
+                        <td class="report__cell">71.19</td>
+                    </tr>
+                    <tr>
+                        <td class="report__cell">Продажи</td>
+                        <td class="report__cell">40 377.70</td>
+                        <td class="report__cell">28.81</td>
+                    </tr>
+                    </tbody>
+                    <tfoot class="report__thead">
+                    <tr class="text-xs-left">
+                        <th class="report__cell">Итого</th>
+                        <th class="report__cell">140 133.38</th>
+                        <th class="report__cell">100.00</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </v-flex>
+            <v-flex xs12 md5>
+                <chart-pie :data="dataPie2" :label="labelPie2" :height="300"></chart-pie>
+            </v-flex>
+        </v-layout>
+    </v-flex>
+</v-layout>

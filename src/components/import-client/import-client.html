@@ -1,0 +1,63 @@
+<v-dialog v-model="dialogImport" persistent width="550px" v-show="dialogImport">
+        <v-card>
+            <v-card-title class="category__edit-menu-title"><b>Импорт клиентов</b>
+            </v-card-title>
+            <v-card-text>
+                Для иморта из файла Excel, необходимо:<br /><br />
+                <ol>
+                    <li>Скачать пример: cliens.xlsx</li>
+                    <li>Заполнить таблицу данными</li>
+                    <li>Загрузите сохраненный файл в форму:</li>
+                </ol>   
+                <div class="text-xs-center" style="padding: 20px 0">
+                    <label for="importExcel">
+                        <i class="fa fa-file-excel-o" 
+                        :class="{ 'grey--text text--lighten-1': loaderActive, 'light-blue--text text--darken-3': !loaderActive }"
+                        aria-hidden="true" 
+                        style="font-size: 100px; cursor: pointer; display: block;"></i>
+                        Выбрать файл
+                    </label>
+                    <input id="importExcel" type="file" @change="onFileChange" @click='onClear' :value="clear" style="display: none;" :disabled="loaderActive">
+                </div>           
+                <ol start="4">
+                    <li>После завершения проверки файла, нажмите кнопку "Импортировать"</li>
+                    <li>После окончания импорта, данные будут добавлены в вашу базу</li>
+                </ol> 
+                <template v-if="loaderActive">
+                    <div class="text-xs-center" style="padding: 10px;">
+                        <v-progress-circular indeterminate v-bind:size="50" class="grey--text text--lighten-1"></v-progress-circular>
+                    </div>
+                </template>
+                <template v-else-if="visibly">
+                    <template v-if="isLogs > 0">
+                        <div class="white--text red lighten-1" style="padding: 10px; margin-top: 20px;">
+                            Во время проверки файла произошла ошибка, исправте ошибки и повторно загрузите файл
+                        </div>
+                        <div style="max-height: 250px; overflow: auto;">
+                            <div v-for="item in logs" class="red--text text--lighten-1" style="padding: 5px 10px; font-size: 13px; border-top: 1px solid #dcdcdc;">
+                                {{ item }}
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="white--text green lighten-1" style="padding: 10px; margin-top: 20px;">
+                            Проверка файла прошла успешно
+                        </div>
+                        <div class="green--text text--lighten-1" style="padding: 25px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        text-transform: uppercase; cursor: pointer;"
+                        @click="isAddImport(), loaderActive = true">
+                            <i class="fa fa-cloud-upload" aria-hidden="true" style="font-size: 50px;
+                            padding-right: 10px;"></i>
+                            Импортировать                                
+                        </div>                        
+                    </template>
+                </template>
+            </v-card-text>
+            <v-card-actions style="justify-content: space-between">
+                <v-btn class="grey--text darken-1" flat="flat" @click.native="dialogImport = false">Отменить</v-btn>
+        </v-card-actions>
+    </v-card>
+</v-dialog>

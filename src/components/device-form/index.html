@@ -1,0 +1,61 @@
+<el-dialog :visible.sync="dialogAdd" width="300px">
+    <el-popover placement="top" width="215" v-model="popoverType" trigger="manual" ref="pptype">
+        <p style="text-align: center">Данного типа не существует, хотите его создать?</p>
+        <div style="text-align: center">
+            <el-button type="warning" size="small" @click="add('type')">Да</el-button>
+            <el-button size="small" @click="popoverType = false">Нет</el-button>
+        </div>
+    </el-popover>
+
+    <el-popover placement="top" width="215" v-model="popoverVendor" trigger="manual" ref="ppvendor">
+        <p style="text-align: center">Данного производителя не существует, хотите его создать?</p>
+        <div style="text-align: center">
+          <el-button type="warning" size="small" @click="add('vendor')">Да</el-button>
+          <el-button size="small" @click="popoverVendor = false">Нет</el-button>
+        </div>
+    </el-popover>
+
+
+    <el-form label-position="top">
+        <el-form-item label="Тип" v-if="elem === 'vendor' || elem === 'model'">
+            <el-autocomplete v-model="typeName"
+                             v-popover:pptype
+                             :fetch-suggestions="searchType"
+                             @select="typeSelect"
+                             @blur="blurType"
+                             placeholder="Выберите тип"
+                             clearable
+                             style="width: 100%">
+                <i class="el-icon-edit el-input__icon" slot="suffix"></i>
+                <template slot-scope="{ item }">
+                    <div>{{ item.name }}</div>
+                </template>
+          </el-autocomplete>
+        </el-form-item>
+        <el-form-item label="Производитель" v-if="elem === 'model'">
+            <el-autocomplete v-model="vendorName"
+                             v-popover:ppvendor
+                             :disabled="!newItem.type_id"
+                             :fetch-suggestions="searchVendor"
+                             @select="vendorSelect"
+                             placeholder="Выберите производителя"
+                             clearable
+                             style="width: 100%">
+                <i class="el-icon-edit el-input__icon" slot="suffix"></i>
+                <template slot-scope="{ item }">
+                    <div>{{ item.name }}</div>
+                </template>
+          </el-autocomplete>
+        </el-form-item>
+        <el-form-item :label="inputName">
+            <el-input v-model="newItem.name" 
+                      :disabled="!newItem.vendor_id && type === 'add'">
+            </el-input>
+        </el-form-item>
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogAdd = false">Отменить</el-button>
+        <el-button type="success" v-if="type === 'edit'" @click="edit(elem)">Изменить</el-button>
+        <el-button type="primary" :disabled="!newItem.name" :loading="btnloader" v-else @click="add('model')">Добавить</el-button>
+    </span>
+</el-dialog>

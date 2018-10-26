@@ -1,0 +1,124 @@
+<el-row class="posting-update__row">
+    <el-button icon="fas fa-external-link-alt" 
+            class="posting-update__btn" 
+            @click="dialogCatalog = true">
+            Выбрать из каталога
+    </el-button>
+    <el-dialog :visible.sync="dialogCatalog" width="90vw" top="5vh">
+        <el-dialog width="70vw" title="Добавление нового товара/запчасти" :visible.sync="dialogPartAdd" append-to-body>
+            <part-add></part-add>    
+        </el-dialog>
+        <div slot="title">
+            <template v-if="type === 'shop'">
+                <el-row type="flex" justify="center">
+                    <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
+                        <el-radio-button label="parts">Товары</el-radio-button>
+                        <el-radio-button label="works">Работы/услуги</el-radio-button>
+                    </el-radio-group>
+                </el-row>
+            </template>
+            <template v-else></template>
+            <el-row class="posting-update__dialog posting-update__dialog_title">
+                <el-col :sm="tabPosition === 'parts' ? 4 : 8" :xs="24">
+                    <el-button type="primary" @click="dialogPartAdd = true" v-if="tabPosition === 'parts'">Добавить новый товар</el-button>
+                    <el-button type="primary" @click="dialogPartAdd = true" v-else>Добавить новую услугу</el-button>
+                </el-col>
+                <template v-if="tabPosition === 'parts'">
+                    <el-col :sm="4" :xs="24">
+                        <el-select v-model="content.storage_id" placeholder="Укажите склад">
+                            <el-option  v-for="item in storages"
+                                        :key="item.id" 
+                                        :label="item.name" 
+                                        :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                </template>
+                <template v-else></template>
+                <el-col :sm="15" :xs="24">
+                    <el-input prefix-icon="el-icon-search" v-model.lazy="query" clearable placeholder="Поиск по каталогу"></el-input>
+                </el-col>
+            </el-row>
+        </div>
+        <div>
+            <el-row>
+                <el-col :sm="8" :xs="24" v-loading="loadingCateg" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+                    <category-tree :categoryList="categoryList"></category-tree>
+                </el-col>
+                <el-col :sm="16" :xs="24">
+                    <el-table :data="data" border stripe height="60vh" v-loading="loadingTable" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+                        <el-table-column label="№" width="50" align="center">
+                            <template slot-scope="scope">
+                                {{ indexItem(scope.row) }}
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="name" label="Наименование" min-width="300" header-align="center"></el-table-column>
+                        <!-- <el-table-column prop="price" label="Цена закупа" width="150" align="center">
+                            <template slot-scope="scope">
+                                <el-input-number v-model="scope.row.price" 
+                                                :min="0"
+                                                :step="0.01"
+                                                :controls="false"
+                                                size="small">
+                                </el-input-number> 
+                            </template>
+                        </el-table-column> -->
+                        <el-table-column label="Цена продажи" width="150" header-align="center" align="right">
+                            <template slot-scope="scope">
+                                <numbers type="money" :value="scope.row.price"></numbers>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="Количество" width="250" header-align="center" :align="tabPosition === 'parts' ? 'left' : 'center'">
+                            <template slot-scope="scope">
+                                <el-input-number v-model="scope.row.amount" 
+                                                :min="1"
+                                                :max="scope.row.remain" 
+                                                size="small">
+                                </el-input-number> 
+                                <template v-if="tabPosition === 'parts'">
+                                    <span style="font-size: 11px;">из {{ scope.row.remain }} шт.</span>
+                                </template>
+                                <template v-else></template>
+                            </template>
+                        </el-table-column>
+                        <el-table-column width="100" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="checkItemList(scope.row) >= 0">
+                                    <el-button @click="delInNewList(scope.row)" 
+                                            type="danger" 
+                                            size="mini" 
+                                            icon="fas fa-times" 
+                                            :title="'Убрать из ' + titleDel" v-tippy>
+                                    </el-button>
+                                </template>
+                                <template v-else>
+                                    <el-button @click="addInNewList(scope.row)" 
+                                            size="mini" 
+                                            icon="fas fa-plus" 
+                                            :title="'Добавить в ' + titleAdd" v-tippy>
+                                    </el-button> 
+                                </template>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-col>
+            </el-row>
+        </div>
+        <div slot="footer" class="posting-update__dialog posting-update__dialog_footer">
+            <el-row>
+                <el-col :sm="16" :xs="24">
+                    <el-pagination background layout="prev, pager, next" 
+                                :page-count="Number(pageCount)"
+                                @current-change="changePage">
+                    </el-pagination>
+                </el-col>
+                <el-col :sm="8" :xs="24">
+                    Показывать по: 
+                    <el-button size="mini" :type="typePerPage(10)" @click="changePerPage(10)">10</el-button>
+                    <el-button size="mini" :type="typePerPage(20)" @click="changePerPage(20)">20</el-button>
+                    <el-button size="mini" :type="typePerPage(50)" @click="changePerPage(50)">50</el-button>
+                </el-col>
+            </el-row>
+        </div>
+    </el-dialog>
+</el-row>

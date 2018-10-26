@@ -1,0 +1,32 @@
+<div>
+    <el-popover placement="bottom"
+                width="320"
+                trigger="click">
+        <el-button slot="reference"><i class="fas fa-search"></i> Поиск позиции</el-button>
+        <el-form class="part-nav__form">
+            <el-form-item label="По артиклу">
+                <el-input v-model="filter.art" placeholder="Артикул"></el-input>
+            </el-form-item>
+            <el-form-item label="По названию">
+                <el-input v-model="filter.name" placeholder="Название"></el-input>
+            </el-form-item>
+            <el-form-item label="По штрих-коду">
+                <el-input v-model="filter.barcode" placeholder="Штрих-код"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-switch style="display: block"
+                           v-model="include_internal"
+                           active-color="#13ce66"
+                           inactive-color="#ff4949"
+                           active-text="Товары из вложенных категорий">
+                </el-switch>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onFilter" style="width: 100%">Показать результаты</el-button>
+            </el-form-item>
+            <el-form-item>
+                <el-button @click="onClearFilter" style="width: 100%">Очистить</el-button>
+            </el-form-item>
+        </el-form>
+    </el-popover>            
+</div>

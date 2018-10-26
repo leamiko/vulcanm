@@ -1,0 +1,128 @@
+<el-row class="device" v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-row type="flex">
+        <div class="device__col device__col_width100">
+            <div class="device__search">
+                <el-input prefix-icon="el-icon-search"
+                          v-model="searchForm.type"
+                          @input="query()"
+                          placeholder="Поиск типа"
+                          clearable>
+                </el-input>
+            </div>
+        </div>
+        <div class="device__col device__col_width100">
+            <div class="device__search">
+                <el-input prefix-icon="el-icon-search"
+                          v-model="searchForm.vendor"
+                          @input="query()"
+                          placeholder="Поиск производителя"
+                          clearable>
+                </el-input>
+            </div>
+        </div>
+        <div class="device__col device__col_width100">
+            <div class="device__search">
+                <el-input prefix-icon="el-icon-search"
+                          v-model="searchForm.model"
+                          @input="query()"
+                          placeholder="Поиск модели"
+                          clearable>
+                </el-input>
+            </div>
+        </div>
+    </el-row>
+
+    <el-row type="flex" :class="{ 'device__col_scroll': scrollModel }">
+        <el-row type="flex" class="device__col device__col_width100" :class="{ 'device__col_scroll': scrollVendor && !scrollModel }">
+            <div class="device__col device__col_width50"
+                 :class="{ 'device__col_scroll': !scrollModel && !scrollVendor }">
+                <virtual-list :size="40" :remain="8">
+                    <div class="device__item"
+                        :class="{ 'device__item_active' : typeId === item.id }"
+                        v-for="item in typeList"
+                        :style="{ height: heightTypeItem(item) }"
+                        @click="typeActiveItem(item)">
+                        <div class="device__title">{{ item.name }} </div>
+                        <div class="device__slide-btn">
+                            <el-button type="success"
+                                       icon="fas fa-edit"
+                                       class="device__btn"
+                                       title="Изменить" v-tippy
+                                       @click="onDialog('type', item)">
+                            </el-button>
+                            <el-button type="danger"
+                                       icon="fas fa-times"
+                                       class="device__btn"
+                                       title="Удалить" v-tippy
+                                       @click="onDialogDelete('type', item)">
+                            </el-button>
+                        </div>
+                    </div>
+                </virtual-list>
+            </div>
+            <div class="device__col device__col_width50" :class="{ 'device__col_scroll': !scrollModel && !scrollVendor }">
+                <virtual-list :size="40" :remain="8">
+                    <div class="device__item"
+                        :class="{ 'device__item_active' : vendorId === item.id }"
+                        v-for="item in deviceVendorList"
+                        :style="{ height: heightVendorItem(item) }"
+                        @click="vendorActiveItem(item)">
+                        <div class="device__title">{{ item.name }} </div>
+                        <div class="device__slide-btn">
+                            <el-button type="success"
+                                       icon="fas fa-edit"
+                                       class="device__btn"
+                                       title="Изменить" v-tippy
+                                       @click="onDialog('vendor', item)">
+                            </el-button>
+                            <el-button type="danger"
+                                       icon="fas fa-times"
+                                       class="device__btn"
+                                       title="Удалить" v-tippy
+                                       @click="onDialogDelete('vendor', item)">
+                            </el-button>
+                        </div>
+                    </div>
+                </virtual-list>
+            </div>
+        </el-row>
+        <div class="device__col device__col_width50"  :class="{ 'device__col_scroll': !scrollModel }">
+            <virtual-list :size="40" :remain="8">
+                <div class="device__item" v-for="item in deviceModelList">
+                    <div class="device__title">{{ item.name }} </div>
+                    <div class="device__slide-btn">
+                        <el-button type="success"
+                                   icon="fas fa-edit"
+                                   class="device__btn"
+                                   title="Изменить" v-tippy
+                                   @click="onDialog('model', item)">
+                        </el-button>
+                        <el-button type="danger"
+                                   icon="fas fa-times"
+                                   class="device__btn"
+                                   title="Удалить" v-tippy
+                                   @click="onDialogDelete('model', item)">
+                        </el-button>
+                    </div>
+                </div>
+            </virtual-list>
+        </div>
+    </el-row>
+
+    <device-form :item="newItem" :typeContent="typeContent"></device-form>
+
+    <el-dialog :visible.sync="dialogDelete" width="300px">
+        <p>Вы действительно хотите удалить "{{ newItem.name }}"?</p>
+        <el-switch v-model="recursiveDelete"
+                   active-text="Удалить с вложенными"
+                   active-color="#13ce66"
+                   inactive-color="#ff4949"
+                   v-if="!newItem.vendor_id">
+        </el-switch>
+        <span slot="footer">
+            <el-button @click="dialogDelete = false">Отменить</el-button>
+            <el-button type="danger" @click="deleteItem()">Удалить</el-button>
+        </span>
+    </el-dialog>
+
+</el-row>

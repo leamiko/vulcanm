@@ -1,0 +1,94 @@
+<el-menu mode="horizontal" :router="true" class="navbar">
+    <el-menu-item index="/" class="navbar__logo">
+        <object type="image/svg+xml" data="./../assets/logo.svg"></object>
+    </el-menu-item>
+    <el-submenu v-if="isAuthorized()" index="2">
+        <template slot="title">
+            <div><i class="fas fa-ticket-alt navbar__icon navbar__icon_rotate"></i></div>
+            Ремонт
+        </template>
+        <template v-for="(item, index) in repear">
+            <template v-if="item.name === 'hr'">
+                <el-menu-item :index="'2-'+ index" class="navbar__hr"></el-menu-item>
+            </template>
+            <template v-else>
+                <el-menu-item :index="item.path">{{ item.name }}</el-menu-item>
+            </template>
+        </template>        
+    </el-submenu>
+    <el-submenu v-if="isAuthorized()" index="3">
+        <template slot="title">
+            <div><i class="fas fa-inbox navbar__icon"></i></div>
+            Склад
+        </template>
+        <template v-for="(item, index) in part">
+            <template v-if="item.name === 'hr'">
+                <el-menu-item :index="'3-'+ index" class="navbar__hr"></el-menu-item>
+            </template>
+            <template v-else>
+                <el-menu-item :index="item.path">{{ item.name }}</el-menu-item>
+            </template>
+        </template> 
+    </el-submenu>
+    <el-submenu v-if="isAuthorized()" index="4">
+        <template slot="title">
+            <div><i class="fas fa-shopping-cart navbar__icon"></i></div>
+            Магазин
+        </template>
+        <template v-for="(item, index) in shop">
+            <template v-if="item.name === 'hr'">
+                <el-menu-item :index="'3-'+ index" class="navbar__hr"></el-menu-item>
+            </template>
+            <template v-else>
+                <el-menu-item :index="item.path">{{ item.name }}</el-menu-item>
+            </template>
+        </template> 
+    </el-submenu>
+    <el-submenu v-if="isAuthorized()" index="5">
+        <template slot="title">
+            <div><i class="fas fa-ruble-sign navbar__icon"></i></div>
+            Финансы
+        </template>
+        <template v-for="(item, index) in cache">
+            <template v-if="item.name === 'hr'">
+                <el-menu-item :index="'3-'+ index" class="navbar__hr"></el-menu-item>
+            </template>
+            <template v-else>
+                <el-menu-item :index="item.path">{{ item.name }}</el-menu-item>
+            </template>
+        </template> 
+    </el-submenu>
+    <el-submenu v-if="isAuthorized()" index="6">
+        <template slot="title">
+            <div><i class="fas fa-chart-area navbar__icon"></i></div>
+            Отчеты
+        </template>
+        <template v-for="(item, index) in report">
+            <template v-if="item.name === 'hr'">
+                <el-menu-item :index="'3-'+ index" class="navbar__hr"></el-menu-item>
+            </template>
+            <template v-else>
+                <el-menu-item :index="item.path">{{ item.name }}</el-menu-item>
+            </template>
+        </template> 
+    </el-submenu>
+    <el-submenu v-if="isAuthorized()" index="7">
+        <template slot="title">
+            <div><i class="fas fa-home navbar__icon"></i></div>
+            Компания
+        </template>
+        <template v-for="(item, index) in company">
+            <template v-if="item.name === 'hr'">
+                <el-menu-item :index="'3-'+ index" class="navbar__hr"></el-menu-item>
+            </template>
+            <template v-else>
+                <el-menu-item :index="item.path">{{ item.name }}</el-menu-item>
+            </template>
+        </template> 
+    </el-submenu>
+    <li v-if="isAuthorized()" class="navbar__user" @click.stop="isSliding()">
+        <img src="https://images.wallpaperscraft.com/image/hedgehog_eyes_needles_85375_320x240.jpg" alt="avatar">
+        <user-name :value="user"></user-name>
+    </li>
+    <right-sliding :active="sliding"></right-sliding>
+</el-menu>

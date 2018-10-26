@@ -1,0 +1,45 @@
+<el-row>
+    <el-button icon="fas fa-external-link-alt" 
+               class="posting-update__btn" 
+               @click="dialog = true">
+               Выбрать товар
+    </el-button>
+    <el-dialog :visible.sync="dialog" width="90vw" top="5vh">
+        <div slot="title" class="posting-update__dialog posting-update__dialog_title">
+            <el-row>
+                <el-col :xs="24" :md="8">
+                    <el-button type="primary">Новый товар</el-button>
+                </el-col>
+                <el-col :xs="24" :md="16" style="padding-right: 25px;">
+                    <el-input prefix-icon="el-icon-search" placeholder="Поиск"></el-input>
+                </el-col>
+            </el-row>
+        </div>
+        <el-row>
+            <el-col :xs="24" :md="8">
+                Catalog
+            </el-col>
+            <el-col :xs="24" :md="16" style="height: 60vh; overflow: auto;">
+                <template v-if="postingPartsList.length > 0">
+                    <posting-item :type="type" v-for="item in postingPartsList" :item="item" :key="item.id"></posting-item>
+                </template>
+                <template v-else>
+                    <el-row type="flex" justify="center"><i>Список пуст</i></el-row>
+                </template>                
+            </el-col>
+        </el-row>
+        <div slot="footer" class="posting-update__dialog posting-update__dialog_footer">
+            <el-row>
+                <el-col :sm="16" :xs="24">
+                    <el-pagination background layout="prev, pager, next" :page-count="Number(5)" @current-change="changePage"></el-pagination>
+                </el-col>
+                <el-col :sm="8" :xs="24">
+                    Показывать по: 
+                    <el-button size="mini" :type="typePerPage(10)" @click="changePerPage(10)">10</el-button>
+                    <el-button size="mini" :type="typePerPage(20)" @click="changePerPage(20)">20</el-button>
+                    <el-button size="mini" :type="typePerPage(50)" @click="changePerPage(50)">50</el-button>
+                </el-col>
+            </el-row>
+        </div>
+    </el-dialog>
+</el-row>

@@ -1,0 +1,31 @@
+<el-row>
+    <el-table :data="data"
+              stripe
+              style="width: 100%"
+              border
+              show-summary
+              :summary-method="summaryMethod"
+              v-loading="loading"
+              element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+        <el-table-column label="Дата">
+            <template slot-scope="{row}">
+                <view-date type="users" :value="row.created_at"></view-date>
+            </template>
+        </el-table-column>
+        <el-table-column label="Основание">
+            <template slot-scope="{row}">
+                {{row.system_info}}
+            </template>
+        </el-table-column>
+        <el-table-column label="Комментарий">
+            <template slot-scope="{row}">
+                {{row.comment}}
+            </template>
+        </el-table-column>
+        <el-table-column label="Сумма">
+            <template slot-scope="{row}">
+                {{row.sum}}
+            </template>
+        </el-table-column>
+    </el-table>
+</el-row>

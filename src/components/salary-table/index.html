@@ -1,0 +1,57 @@
+<el-row>
+    <el-table
+        :data="data"
+        stripe
+        style="width: 100%"
+        border
+        show-summary
+        :summary-method="summaryMethod"
+        @row-click="onView"
+        v-loading="loading"
+        element-loading-spinner="fas fa-spinner fa-pulse fa-3x"
+    >
+        <el-table-column label="ФИО">
+            <template slot-scope="{row}">
+                {{
+                `${row.last_name}
+                ${row.first_name}
+                ${row.middle_name}`
+                }}
+            </template>
+        </el-table-column>
+        <el-table-column label="Оклад">
+            <template slot-scope="{row}">
+                <salary-amount-and-period-type
+                    :stuff-item="row"
+                >
+                </salary-amount-and-period-type>
+            </template>
+        </el-table-column>
+        <el-table-column label="Продажи">
+            <template slot-scope="{row}">
+                <salary-by-shares
+                    :stuff-item="row"
+                    mode="sell"
+                >
+                </salary-by-shares>
+            </template>
+        </el-table-column>
+        <el-table-column label="Ремонт">
+            <template slot-scope="{row}">
+                <salary-by-shares
+                    :stuff-item="row"
+                    mode="repair"
+                >
+                </salary-by-shares>
+            </template>
+        </el-table-column>
+        <el-table-column label="Текущий баланс ЗП">
+            <template slot-scope="{row}">
+                <numbers
+                    type="money"
+                    :value="row.salaryBalance"
+                ></numbers>
+            </template>
+        </el-table-column>
+    </el-table>
+</el-row>

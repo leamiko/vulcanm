@@ -1,0 +1,231 @@
+<tbody class="catalog__tbody">
+    <tr v-for="item in repair" :key="item.id" @click="$router.push('/repair/view/'+ item.id)">
+        <template v-for="active in repairActiveColumn">
+            <template v-if="active.value === 'title'">
+                <td class="text-xs-center" style="white-space: nowrap;">
+                    <div>
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        {{ item.title }}
+                    </div>
+                    <div>
+                        <v-tooltip top color="black" v-if="item.warranty">
+                            <span slot="activator"><i class="fa fa-shield light-blue--text text--darken-3" aria-hidden="true"></i></span>
+                            <span>Гарантийный</span>
+                        </v-tooltip>
+                        <v-tooltip top color="black">
+                            <span slot="activator"><i class="fa fa-fire deep-orange--text text--darken-3" aria-hidden="true"></i></span>
+                            <span>Просроченный</span>
+                        </v-tooltip>
+                        <v-tooltip top color="black" v-if="item.express">
+                            <span slot="activator"><i class="fa fa-bolt orange--text text--darken-3" aria-hidden="true"></i></span>
+                            <span>Срочный</span>
+                        </v-tooltip>
+                        <v-tooltip top color="black" v-if="item.over_deadline">
+                            <span slot="activator"><i class="fa fa-hourglass-end grey--text" aria-hidden="true"></i></span>
+                            <span>Превышен deadline</span>
+                        </v-tooltip>
+                        <v-tooltip top color="black" v-if="item.empty">
+                            <span slot="activator"><i class="fa fa-exclamation-triangle orange--text text--darken-3" aria-hidden="true"></i></span>
+                            <span>Без ремонта</span>
+                        </v-tooltip>
+                        <v-tooltip top color="black" v-if="item.outbound">
+                            <span slot="activator"><i class="fa fa-truck light-blue--text text--darken-3" aria-hidden="true"></i></span>
+                            <span>Выездной</span>
+                        </v-tooltip>
+                    </div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'incomeDate'">
+                <td class="text-xs-center">
+                    {{ isDate(item.income_date) }}
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'client'">
+                <td style="white-space: nowrap;">
+                    <template v-if="item.client.type === 1">{{ item.client.first_name }} {{ item.client.last_name }}</template>
+                    <template v-else-if="item.client.type === 2">{{ item.client.name }}</template>
+                    <template v-if="item.client.status === 2">
+                        <v-tooltip top color="black">
+                            <span slot="activator"><i class="fa fa-heart red--text text--darken-1" aria-hidden="true"></i></span>
+                            <span>Любимый клиент</span>
+                        </v-tooltip>
+                    </template>
+                    <template v-else-if="item.client.status === 3">
+                        <v-tooltip top color="black">
+                            <span slot="activator"><i class="fa fa-ban grey--text text--darken-3" aria-hidden="true"></i></span>
+                            <span>Клиент в черном списке</span>
+                        </v-tooltip>
+                    </template>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'phone'">
+                <td style="white-space: nowrap;">
+                    <template v-if="item.client.type === 1">{{ item.client.phone }}</template>
+                    <template v-else-if="item.client.type === 2">{{ item.client.contact_phone }}</template>
+                    <template v-if="item.client.sms_agreement">
+                        <v-tooltip top color="black">
+                            <span slot="activator"><i class="fa fa-envelope light-blue--text text--darken-3" aria-hidden="true"></i></span>
+                            <span>Отправляются SMS</span>
+                        </v-tooltip>
+                    </template><template v-else></template>                    
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'prepayment'">
+                <td class="text-xs-right">
+                    {{ item.prepayment }}
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'state'">
+                <td class="text-xs-center">
+                    <div class="catalog__cell">{{ item.state }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'device'">
+                <td class="text-xs-center">
+                    <div class="catalog__cell">             
+                        <div v-for="device in item.objects">{{ device.vendor }} {{ device.model }}</div>
+                    </div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'equipment'">
+                <td class="text-xs-center">
+                    <div class="catalog__cell">{{ item.equipment }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'status'">
+                <td class="text-xs-center" style="border-bottom: 2px solid #f4511e" v-if="item.status_id === 1">
+                    <i class="fa fa-arrow-down deep-orange--text text--darken-1"></i>
+                    <span class="deep-orange--text text--darken-1" style="text-transform: uppercase;font-size: 11px;">Принято</span>
+                </td>
+                <td class="text-xs-center" style="border-bottom: 2px solid #0277bd" v-else-if="item.status_id === 2">
+                    <i class="fa fa-wrench light-blue--text text--darken-3"></i>
+                    <span class="light-blue--text text--darken-3" style="text-transform: uppercase;font-size: 11px;">В работе</span>
+                </td>
+                <td class="text-xs-center" style="border-bottom: 2px solid #5e35b1" v-else-if="item.status_id === 3">
+                    <i class="fa fa-clock-o deep-purple--text text--darken-1"></i>
+                    <span class="deep-purple--text text--darken-1" style="text-transform: uppercase;font-size: 11px;">Ожидает</span>
+                </td>
+                <td class="text-xs-center" style="border-bottom: 2px solid #2e7d32" v-else-if="item.status_id === 4">
+                    <i class="fa fa-check green--text text--darken-3"></i>
+                    <span class="green--text text--darken-3" style="text-transform: uppercase;font-size: 11px;">Готово</span>
+                </td>
+                <td class="text-xs-center" style="border-bottom: 2px solid #424242" v-else-if="item.status_id === 5">
+                    <i class="fa fa-plane grey--text text--darken-3"></i>
+                    <span class="grey--text text--darken-3" style="text-transform: uppercase;font-size: 11px;">Выдано</span>
+                </td>
+                <td class="text-xs-center" style="border-bottom: 2px solid #fb8c00" v-else-if="item.status_id === 6">
+                    <i class="fa fa-comments orange--text text--darken-1"></i>
+                    <span class="orange--text text--darken-1" style="text-transform: uppercase;font-size: 11px;">На согласовании</span>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'clientAddress'">
+                <td>
+                    <div class="catalog__cell">{{ item.client.address }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'clientSource'">
+                <td style="white-space: nowrap;">{{ item.client.source_id }}</td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'clientEmail'">
+                <td style="white-space: nowrap;">
+                    <div class="catalog__cell">
+                        <template v-if="item.client.type === 1">{{ item.client.email }}</template>
+                        <template v-else-if="item.client.type === 2">{{ item.client.contact_email }}</template>
+                    </div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'clientContactName'">
+                <td style="white-space: nowrap;">
+                    <div class="catalog__cell">{{ item.client.contact_name }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'deviceType'">
+                <td>
+                    <div class="catalog__cell">
+                        <div v-for="device in item.objects">{{ device.type }}</div>
+                    </div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'acceptor'">
+                <td style="white-space: nowrap;">
+                    <div class="catalog__cell">{{ item.acceptor_id }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'master'">
+                <td style="white-space: nowrap;">
+                    <div class="catalog__cell">{{ item.master_id }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'point'">
+                <td>
+                    <div class="catalog__cell">{{ item.point_id }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'bug'">
+                <td>
+                    <div class="catalog__cell">{{ item.bug }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'acceptorNotes'">
+                <td>
+                    <div class="catalog__cell">{{ item.acceptor_notes }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'serial'">
+                <td>
+                    <div class="catalog__cell">{{ item.serial }}/{{ item.imei }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'masterNotes'">
+                <td>
+                    <div class="catalog__cell">{{ item.master_notes }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'outDate'">
+                <td class="text-xs-center">
+                    {{ isDate(item.out_date) }}
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'plannedOutDate'">
+                <td class="text-xs-center">
+                    {{ isDate(item.planned_out_date) }}
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'plannedPrice'">
+                <td class="text-xs-right">
+                    <div class="catalog__cell">{{ item.planned_price }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'ejector'">
+                <td style="white-space: nowrap;">
+                    <div class="catalog__cell">{{ item.ejector_id }}</div>
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'done_at'">
+                <td class="text-xs-center">
+                    {{ isDate(item.done_at) }}
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'warrant_until'">
+                <td class="text-xs-center">
+                    {{ isDate(item.warrant_until) }}
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'warrantSize'">
+                <td class="text-xs-center">
+                    {{ item.warrant_size }}
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'totalSum'">
+                <td class="text-xs-right">
+                    {{ item.total }}
+                </td>
+            </template><template v-else></template>
+            <template v-if="active.value === 'toPay'">
+                <td class="text-xs-right">
+                    {{ item.to_pay }}
+                </td>
+            </template><template v-else></template>
+        </template>
+    </tr>
+</tbody>

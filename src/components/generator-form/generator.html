@@ -1,0 +1,287 @@
+<div class="generator-form">
+    <v-layout>
+        <v-spacer></v-spacer><v-btn flat class="light-blue darken-3 white--text generator-form__input-btn" @click="dialog = true">Добавить поле</v-btn>
+    </v-layout>
+
+    <div class="text-xs-center" style="padding: 20px">
+        <span class="light-blue--text text--darken-3"
+              style="font-size: 16px;font-weight: bold;text-transform: uppercase;">Не используеммые в разметке</span>
+    </div>
+    <v-layout class="generator-form__buffer">
+        <form-gen :form="buffer" :colNum="0"></form-gen>
+    </v-layout>
+
+    <div class="text-xs-center" style="padding: 20px">
+        <span class="light-blue--text text--darken-3"
+              style="font-size: 16px;font-weight: bold;text-transform: uppercase;">Поля используеммые в разметке</span>
+        <v-layout wrap style="padding: 20px;">
+            <v-flex xs12 md4>
+                <i class="fa fa-stop"></i><span style="padding-left: 15px">Стандартные</span>
+            </v-flex>
+            <v-flex xs12 md4>
+                <i class="fa fa-stop light-blue--text text--darken-3"></i><span
+                    style="padding-left: 15px">Системные</span>
+            </v-flex>
+            <v-flex xs12 md4>
+                <i class="fa fa-stop green--text text--darken-3"></i><span
+                    style="padding-left: 15px">Пользовательские</span>
+            </v-flex>
+        </v-layout>
+    </div>
+    <v-layout wrap>
+        <v-flex xs12 md6 class="generator-form__column">
+            <div class="generator-form__form-disable">
+                <div class="generator-form__form-block">
+                    <label class="generator-form__label">Клиент</label>
+                    <v-layout class="generator-form__row" wrap>
+                        <v-flex class="generator-form__row" xs12 sm7 md7 lg8>
+                            <i class="fa fa-search light-blue--text text--darken-3 generator-form__input-icon"></i>
+                            <v-select
+                                label="Поиск"
+                                v-bind:items="people"
+                                v-model="e11"
+                                item-text="name"
+                                item-value="id"
+                                max-height="200px"
+                                autocomplete
+                                append-icon="fa-caret-down">
+                                <template slot="item" scope="data">
+                                    <v-list-tile-content>
+                                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                                    </v-list-tile-content>
+                                </template>
+                            </v-select>
+                        </v-flex>
+                        <v-flex xs12 sm5 md5 lg4 class="text-xs-right">
+                            <v-btn flat class="light-blue darken-3 white--text generator-form__input-btn">
+                                <i class="fa fa-user-plus generator-form__input-btn-icon"></i>
+                                Новый клиент
+                            </v-btn>
+                        </v-flex>
+                    </v-layout>
+                    <v-layout class="generator-form__row" wrap>
+                        <v-flex xs6 md3>
+                            <v-btn flat class="light-blue darken-3 white--text generator-form__input-btn"> Физ. лицо </v-btn>
+                        </v-flex>
+                        <v-flex xs6 md3>
+                            <v-btn flat class="generator-form__input-btn"> Юр. лицо </v-btn>
+                        </v-flex>
+                    </v-layout>
+                    <v-layout class="generator-form__row" wrap>
+                        <i class="fa fa-user light-blue--text text--darken-3 generator-form__input-icon"></i>
+                        <v-text-field
+                            type="text"
+                            label="Фамилия"
+                        ></v-text-field>
+                    </v-layout>
+                    <v-layout wrap>
+                        <v-flex xs12 md6 class="generator-form__column">
+                            <v-layout class="generator-form__row">
+                                <i class="fa fa-user light-blue--text text--darken-3 generator-form__input-icon"></i>
+                                <v-text-field
+                                        type="text"
+                                        label="Имя"
+                                ></v-text-field>
+                            </v-layout>
+                        </v-flex>
+                        <v-flex xs12 md6>
+                            <v-layout class="generator-form__row">
+                                <i class="fa fa-user light-blue--text text--darken-3 generator-form__input-icon"></i>
+                                <v-text-field
+                                        type="text"
+                                        label="Отчество"
+                                ></v-text-field>
+                            </v-layout>
+                        </v-flex>
+                    </v-layout>
+                    <v-layout wrap>
+                        <v-flex xs12 md6 class="generator-form__column">
+                            <v-layout class="generator-form__row">
+                                <i class="fa fa-phone light-blue--text text--darken-3 generator-form__input-icon"></i>
+                                <v-text-field
+                                        type="text"
+                                        label="Телефон"
+                                ></v-text-field>
+                            </v-layout>
+                        </v-flex>
+                        <v-flex xs12 md6>
+                            <v-layout class="generator-form__row">
+                                <i class="fa fa-map-marker light-blue--text text--darken-3 generator-form__input-icon"></i>
+                                <v-text-field
+                                        type="text"
+                                        label="Адрес"
+                                ></v-text-field>
+                            </v-layout>
+                        </v-flex>
+                    </v-layout>
+                    <v-layout wrap>
+                        <v-flex xs12 md6 class="generator-form__column">
+                            <v-layout class="generator-form__row">
+                                <i class="fa fa-question-circle light-blue--text text--darken-3 generator-form__input-icon"></i>
+                                <v-select
+                                        label="Откуда узнал"
+                                        v-bind:items="people"
+                                        v-model="e11"
+                                        item-text="name"
+                                        item-value="id"
+                                        max-height="200px"
+                                        autocomplete
+                                        append-icon="fa-caret-down">
+                                </v-select>
+                            </v-layout>
+                        </v-flex>
+                        <v-flex xs12 md6>
+                            <v-layout class="generator-form__row">
+                                <v-switch label="Согласен получать SMS"
+                                         color="green"
+                                         hide-details>
+                                </v-switch>
+                            </v-layout>
+                        </v-flex>
+                    </v-layout>
+                </div>
+            </div>
+            <template v-if="idForm() === '2'">
+                <div class="generator-form__form-disable">
+                    <div class="generator-form__form-block">
+                        <label class="generator-form__label">Картриджи</label>
+                        <v-layout wrap>
+                            <v-flex xs12 md4>
+                                <div class="generator-form__form">
+                                    <v-text-field type="text" label="Производитель" placeholder="Производитель"></v-text-field>
+                                </div>
+                            </v-flex>
+                            <v-flex xs12 md4>
+                                <div class="generator-form__form">
+                                    <v-text-field type="text" label="Модель" placeholder="Модель"></v-text-field>
+                                </div>
+                            </v-flex>
+                            <v-flex xs12 md4>
+                                <div class="generator-form__form">
+                                    <v-text-field type="number" min="0" label="Количество" placeholder="0"></v-text-field>
+                                </div>
+                            </v-flex>
+                            <v-flex xs12 md4>
+                                <div class="generator-form__form">
+                                    <v-btn flat class="light-blue darken-3 white--text generator-form__input-btn">Добавить картридж</v-btn>
+                                </div>
+                            </v-flex>
+
+                        </v-layout>
+                    </div>
+                </div>
+            </template>
+            <template v-else></template>
+            <v-layout wrap>
+                <v-flex xs12 md6 class="generator-form__column">
+                    <template v-if="idForm() === '1'">
+                        <div class="generator-form__form-disable">
+                            <div class="generator-form__form">
+                                <label class="generator-form__label">Тип</label>
+                                <div class="generator-form__input-block">
+                                    <div class="generator-form__input">
+                                        <input class="generator-form__input-text" type="text" placeholder="Тип устройства">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="generator-form__form-disable">
+                            <div class="generator-form__form">
+                                <label class="generator-form__label">Модель</label>
+                                <div class="generator-form__input-block">
+                                    <div class="generator-form__input">
+                                        <input class="generator-form__input-text" type="text" placeholder="Модель">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else></template>
+                    <form-gen :form="colOne" :colNum="1"></form-gen>
+                </v-flex>
+                <v-flex xs12 md6>
+                    <template v-if="idForm() === '1'">
+                        <div class="generator-form__form-disable">
+                        <div class="generator-form__form">
+                            <label class="generator-form__label">Производитель</label>
+                            <div class="generator-form__input-block">
+                                <div class="generator-form__input">
+                                    <input class="generator-form__input-text" type="text" placeholder="Производитель">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </template>
+                    <template v-else></template>
+                    <form-gen :form="colTwo" :colNum="2"></form-gen>
+                </v-flex>
+            </v-layout>
+        </v-flex>
+        <v-flex xs12 md3 class="generator-form__column">
+            <template v-if="idForm() === '1'">
+                <div class="generator-form__form-disable">
+                    <div class="generator-form__form">
+                        <div class="generator-form__input-block">
+                            <div class="generator-form__input">
+                                <v-text-field
+                                        label="Неисправность"
+                                        rows="3"
+                                        multi-line>
+                                </v-text-field>
+                                <div class="generator-form__description">
+                                    <span class="generator-form__description-title">Популярные варианты</span>
+                                    <i class="fa fa-cog light-blue--text text--darken-3 generator-form__description-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template v-else>
+            </template>
+            <form-gen :form="colThree" :colNum="3"></form-gen>
+        </v-flex>
+        <v-flex xs12 md3>
+            <form-gen :form="colFour" :colNum="4"></form-gen>
+        </v-flex>
+    </v-layout>
+
+
+    <v-dialog v-model="dialog" persistent width="340px" v-show="dialog">
+        <v-card>
+            <v-card-title class="category__edit-menu-title"><b>Добавление нового поля</b>
+            </v-card-title>
+            <v-card-text>
+                <v-select
+                        :items="type"
+                        item-text="label"
+                        item-value="type"
+                        v-model="newForm.type"
+                        label="Тип"
+                        :rules="[() => newForm.type > '' || 'Поле обязательно для заполнения']"
+                        append-icon="fa-angle-down"
+                        bottom
+                        required
+                ></v-select>
+                <v-text-field
+                        v-model="newForm.label"
+                        label="Название"
+                        :rules="[() => newForm.label > '' || 'Поле обязательно для заполнения']"
+                        required
+                ></v-text-field>
+                <v-switch label="Обязательное поле"
+                          v-model="newForm.required"
+                          color="green"
+                          hide-details></v-switch>
+            </v-card-text>
+            <v-card-actions style="justify-content: space-between">
+                <v-btn class="grey--text darken-1" flat @click.native="dialog = false">Отменить</v-btn>
+                <v-btn :class="{ 'grey--text text--darken-1' : !(newForm.type && newForm.label), 'light-blue--text text--darken-3': newForm.type && newForm.label }"
+                       flat
+                       :disabled="!(newForm.type && newForm.label)"
+                       @click.native="addForm(newForm), dialog = false">Добавить
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+</div>

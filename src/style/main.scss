@@ -1,0 +1,139 @@
+
+ @import 'variables.scss';
+
+/*!
+ * Element UI
+ */
+
+  $--font-path: '~element-ui/lib/theme-chalk/fonts'; 
+ @import "~element-ui/packages/theme-chalk/src/index";
+ @import '~element-ui/lib/theme-chalk/display.css';
+
+ /*!
+ * Fonts
+ */
+
+@import 'font-awesome/fontawesome.scss';
+@import 'font-awesome/fa-brands.scss';
+@import 'font-awesome/fa-regular.scss';
+@import 'font-awesome/fa-solid.scss';
+
+ /*!
+ * Components
+ */
+
+ @import 'components/breadcrumb.scss';
+ @import 'components/navbar.scss';
+ @import 'components/repair.scss';
+ @import 'components/right-sliding.scss';
+ @import 'components/setting.scss';
+ @import 'components/company.scss';
+ @import 'components/point.scss';
+ @import 'components/point-update.scss';
+ @import 'components/prices.scss';
+ @import 'components/repairs.scss';
+ @import 'components/user-status.scss';
+ @import 'components/sms-templates.scss';
+ @import 'components/auth.scss';
+ @import 'components/iphone.scss';
+ @import 'components/cash-types.scss';
+ @import 'components/device.scss';
+ @import 'components/part.scss';
+ @import 'components/part-nav.scss';
+ @import 'components/part-update.scss';
+ @import 'components/category.scss';
+ @import 'components/posting-update.scss';
+ @import 'components/posting-item.scss';
+ @import 'components/cash.scss';
+ @import 'components/cash-view.scss';
+ @import 'components/storage.scss';
+ @import 'components/stuff.scss';
+ @import 'components/client.scss';
+ @import 'components/client-view.scss';
+ @import 'components/client-form.scss';
+ @import 'components/salary-amount-and-type.scss';
+
+html, body, #app{
+    margin: 0;
+    padding: 0 !important;
+    background-color: #FFFFFF;
+    color: #000000;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 14px;
+}
+
+.el-menu--horizontal > .el-submenu .el-submenu__title {
+    line-height: 25px;
+    text-align: center;
+    font-size: 12px;
+    padding: 5px 15px;
+
+    &:hover {
+        background: transparent;
+    }
+}
+.el-menu--horizontal .el-menu-item:not(.is-disabled):hover, 
+.el-menu--horizontal .el-menu-item:not(.is-disabled):focus {
+    background: #f5f7fa;
+}
+
+.el-button--mini {
+    padding: 5px 7px !important;
+}
+
+.pagination {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.separator {
+    border: none;
+    border-top: 1px solid $border-color;
+}
+
+.phone,
+.link {
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: 1px dashed;
+    color: $color-blue;
+    transition: .2s;
+
+    &:hover {
+        opacity: 0.75;
+        border-bottom: 0;
+    }
+}
+
+.btn-up {
+    position: fixed;
+    bottom: 20px;
+    left: 15px;
+    z-index: 10;
+}
+
+
+.transition-list-item {
+    transition: all .5s;
+}
+
+.transition-list-enter {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+.transition-list-leave-to {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.popper__error {
+    background-color: $color-red;
+    color: #ffffff;
+    padding: 5px !important;
+    // width: 300px !important;
+
+    & > .popper__arrow:after {
+        border-top-color: #f56c6c !important;
+    }
+}

@@ -1,0 +1,23 @@
+<el-table :data="data"
+          stripe
+          style="width: 100%"
+          border
+          @row-click="onView"
+          v-loading="loading"
+          element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-table-column label="№">
+        <template slot-scope="{row}">
+            {{row.id}}
+        </template>
+    </el-table-column>
+    <el-table-column label="Дата">
+        <template slot-scope="{row}">
+            <view-date type="users" :value="row.created_at"></view-date>
+        </template>
+    </el-table-column>
+    <el-table-column label="Сумма">
+        <template slot-scope="{row}">
+            {{row.total_sum}}
+        </template>
+    </el-table-column>
+</el-table>

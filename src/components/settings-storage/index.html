@@ -1,0 +1,13 @@
+<el-row style="margin-bottom: 20px">
+    <el-switch style="display: block"
+               v-model="minusBalance"
+               active-color="#13ce66"
+               inactive-color="#ff4949"
+               active-text="Разрешить отрицательные остатки на складах">
+    </el-switch>
+    <el-row class="storage__descr">
+            Снимите эту галочку если вы хотите чтобы программа запрещала 
+            продавать и использовать в заказах товары в большем количестве чем есть в наличии 
+            (строгий складской учет)
+    </el-row>
+</el-row>

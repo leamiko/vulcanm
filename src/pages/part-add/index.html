@@ -1,0 +1,6 @@
+<el-row>
+    <part-form :item="newItem" :validPart="validation" :barcodes="barcodes" :photo="pic"></part-form>
+    <el-row type="flex" justify="center">
+        <el-button type="primary" :loading="btnloader" @click="add">Добавить</el-button>
+    </el-row>
+</el-row>

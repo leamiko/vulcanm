@@ -1,0 +1,35 @@
+<el-tabs v-model="activeName">
+    <el-tab-pane label="Информация" name="form">
+        <el-row v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+            <part-form :item="newItem" :validPart="validation" :barcodes="barcodes" :photo="pic"></part-form>
+            <el-col class="part-update part-update_barcode" :xs="24" :sm="16">
+                <template v-for="item in newItem.barcodes">
+                    <div class="part-update__barcode">
+                        <barcode :value="item.value" font-options="bold" format="EAN13" height="60"></barcode>
+                        <el-button size="mini" 
+                                type="danger" 
+                                icon="fas fa-times" 
+                                title="Удалить" v-tippy 
+                                @click="onDialogDelete(item)"
+                                class="part-update__barcode-btn">
+                        </el-button>
+                    </div>
+                </template>
+            </el-col>
+            <el-row type="flex" justify="center">
+                <el-button type="success" :loading="btnloader" @click="edit">Изменить</el-button>
+            </el-row>
+
+            <el-dialog :visible.sync="dialog" width="300px">
+                <p style="text-align: center">Вы действительно хотите удалить штрих-код "{{ barcode.value }}"?</p>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialog = false">Отмена</el-button>
+                    <el-button type="danger" @click="deleteBarcode(barcode.id), dialog = false">Удалить</el-button>
+                </span>
+            </el-dialog>
+        </el-row>
+    </el-tab-pane>
+    <el-tab-pane label="Движения" name="logs">
+        <part-log></part-log>
+    </el-tab-pane>
+</el-tabs>

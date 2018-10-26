@@ -1,0 +1,39 @@
+ <div class="part-nav">
+    <div class="part-nav__title">Каталог</div>
+    <div class="part-nav__setting">
+        <div class="part-nav__item" v-if="isPage">
+            <span>Контроль остатков:</span>
+            <el-button :type="amountControlType" 
+                       class="part-nav__amount" 
+                       @click="onAmount">
+                <template v-if="loadingAmount">
+                    <i class="el-icon-loading"></i>
+                </template>
+                <template v-else>
+                    <span v-if="amountControlActive" title="Показать все позиции" v-tippy>{{ partAmountControl }}</span>
+                    <span v-else title="Показать требующие внимания" v-tippy>{{ partAmountControl }}</span>
+                </template>
+            </el-button>
+        </div>
+        <div class="part-nav__item">
+            <el-button>
+                <i class="fas fa-print"></i> Ценники
+            </el-button>
+        </div>
+        <div class="part-nav__item">
+            <el-dropdown>
+                <el-button>
+                    <i class="fas fa-download"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>Скачать номенклатуру</el-dropdown-item>
+                    <el-dropdown-item>Скачать остатки</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+        </div>
+        <part-filter class="part-nav__item" :filter="filter"></part-filter>
+        <part-setting-table class="part-nav__item"></part-setting-table>
+    </div>
+    
+
+</div>

@@ -1,0 +1,109 @@
+<div>
+    <div class="repair-view__row">
+        <div class="text-xs-center repair-view__title">
+            <span class="light-blue--text text--darken-3">Платежи клиента</span>
+        </div>
+        <div>
+            <div class="repair-view__works-item">
+                <div>
+                    <i class="fa fa-money light-blue--text text--darken-3"></i>
+                    <span>
+                        Предоплата (27.06.2017)
+                    </span>
+                </div>
+                <v-spacer></v-spacer>
+                <div>
+                    <b class="light-blue--text text--darken-3"> 700.00</b>
+                    <span class="light-blue--text text--darken-3">₽</span>
+                    <span class="vulcanm--tooltip" v-tooltip:top="{ html: 'Удалить платеж' }">
+                        <i class="fa fa-times red--text text--darken-1"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="repair-view__works-item">
+                <div>
+                    <i class="fa fa-credit-card light-blue--text text--darken-3"></i>
+                    <span>
+                        Возврат клиенту (29.06.2017)
+                    </span>
+                </div>
+                <v-spacer></v-spacer>
+                <div>
+                    <b class="light-blue--text text--darken-3"> -200.00</b>
+                    <span class="light-blue--text text--darken-3">₽</span>
+                    <span class="vulcanm--tooltip" v-tooltip:top="{ html: 'Удалить платеж' }">
+                        <i class="fa fa-times red--text text--darken-1"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <v-layout wrap class="repair-view__row">
+        <v-flex xs12 md4>
+            <v-btn flat class="red darken-1 white--text repair-view__btn">
+                <i class="fa fa-minus repair-view__btn-icon"></i>
+                Сделать возврат
+            </v-btn>
+        </v-flex>
+        <v-flex xs12 md4 offset-md4>
+            <v-btn flat class="green darken-2 white--text repair-view__btn">
+                <i class="fa fa-plus repair-view__btn-icon"></i>
+                Добавить оплату
+            </v-btn>
+        </v-flex>
+    </v-layout>
+    <v-divider></v-divider>
+    <div class="repair-view__row">
+        <div class="text-xs-center repair-view__title">
+            <span class="light-blue--text text--darken-3">Скидки и наценки</span>
+        </div>
+        <div>
+            <div class="repair-view__works-item">
+                <div>
+                    <i class="fa fa-minus light-blue--text text--darken-3"></i>
+                    <span>
+                        200 % : < описание >
+                    </span>
+                </div>
+                <v-spacer></v-spacer>
+                <div>
+                    <b class="light-blue--text text--darken-3"> -200.00</b>
+                    <span class="light-blue--text text--darken-3">₽</span>
+                    <span class="vulcanm--tooltip" v-tooltip:top="{ html: 'Удалить скидку' }">
+                        <i class="fa fa-times red--text text--darken-1"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="repair-view__works-item">
+                <div>
+                    <i class="fa fa-plus light-blue--text text--darken-3"></i>
+                    <span>
+                        200 ₽ : < описание >
+                    </span>
+                </div>
+                <v-spacer></v-spacer>
+                <div>
+                    <b class="light-blue--text text--darken-3"> +200.00</b>
+                    <span class="light-blue--text text--darken-3">₽</span>
+                    <span class="vulcanm--tooltip" v-tooltip:top="{ html: 'Удалить наценку' }">
+                        <i class="fa fa-times red--text text--darken-1"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <v-layout wrap class="repair-view__row">
+        <v-flex xs12 md4>
+            <v-btn flat class="red darken-1 white--text repair-view__btn">
+                <i class="fa fa-plus repair-view__btn-icon"></i>
+                Добавить наценку
+            </v-btn>
+        </v-flex>
+        <v-flex xs12 md4 offset-md4>
+            <v-btn flat class="green darken-2 white--text repair-view__btn">
+                <i class="fa fa-plus repair-view__btn-icon"></i>
+                Добавить скидку
+            </v-btn>
+        </v-flex>
+    </v-layout>
+</div>

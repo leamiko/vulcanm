@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="./favicon-194x194.png" sizes="194x194">
+    <title>Servix.IO</title>
+</head>
+
+<body style="overflow: hidden;">
+
+<div id="app">
+    <el-container style="position: relative;min-height: 100vh;">
+        <header>
+            <navbar></navbar>
+        </header>
+        <el-main style="margin-bottom: 150px;">
+            <breadcrumb></breadcrumb>
+            <!-- <transition name="el-fade-in-linear"> -->
+                <router-view></router-view>
+            <!-- </transition> -->
+            <transition name="el-zoom-in-bottom">
+                <el-button type="primary"
+                           class="btn-up"  
+                           icon="fas fa-chevron-up"
+                           @click="upTop" 
+                           v-show="upVisible">
+                </el-button>
+            </transition>
+        </el-main>
+        <el-footer style="height: 150px;
+                          background: #fafafa;
+                          border-top: 1px solid #dcdcdc;
+                          position: absolute;
+                          bottom: 0px;
+                          width: 100%;">
+            <div style="padding: 30px 0;text-align: center;">
+                <div style="padding: 10px 0;color: #909399;">© ООО Совинфсистемы 2018 г.</div>
+                <div style="padding: 10px 0;color: #909399;font-size: 11px;">Договор-оферта</div>
+                <div style="color: #909399;font-size: 11px;">Блог</div>
+            </div>
+        
+        </el-footer>
+    </el-container>
+    <push></push>
+</div>
+
+</body>
+
+</html>

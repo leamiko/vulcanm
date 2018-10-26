@@ -1,0 +1,94 @@
+<v-layout row wrap>
+    <v-flex md10 class="transfers">
+        <v-layout row wrap class="transfers__table-block">
+            <v-flex md12>
+                <table class="transfers__table">
+                    <thead>
+                    <tr>
+                        <th class="transfers__thead-cell">
+                            <v-text-field
+                                    label="Дата создания"
+                                    type="date"
+                                    value="">
+                            </v-text-field>
+                        </th>
+                        <th class="transfers__thead-cell">
+                            <v-text-field
+                                    label="Заказ"
+                                    value="">
+                            </v-text-field>
+                        </th>
+                        <th class="transfers__thead-cell">
+                            <v-select
+                                    :items="sklad"
+                                    v-model="filterStatus"
+                                    item-text="name"
+                                    item-value="id"
+                                    label="Откуда"
+                                    append-icon="fa-angle-down">
+                            </v-select>
+                        </th>
+                        <th class="transfers__thead-cell">
+                            <v-select
+                                    :items="sklad"
+                                    v-model="filterStatus"
+                                    item-text="name"
+                                    item-value="id"
+                                    label="Куда"
+                                    append-icon="fa-angle-down">
+                            </v-select>
+                        </th>
+                        <th class="transfers__thead-cell">
+                            <v-select
+                                    :items="sotrudnik"
+                                    v-model="filterStatus"
+                                    item-text="name"
+                                    item-value="id"
+                                    label="Создал"
+                                    append-icon="fa-angle-down">
+                            </v-select>
+                        </th>
+                        <th class="transfers__thead-cell">
+                            <v-select
+                                    :items="status"
+                                    v-model="filterStatus"
+                                    item-text="name"
+                                    item-value="id"
+                                    label="Статус"
+                                    append-icon="fa-angle-down">
+                            </v-select>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="clients__table-str"
+                        v-for="item in transfers">
+                        <td class="text-xs-center transfers__content-item">
+
+                        </td>
+                        <td class="text-xs-center transfers__content-item">
+
+                        </td>
+                        <td class="text-xs-center transfers__content-item">
+
+                        </td>
+                        <td class="text-xs-center transfers__content-item">
+
+                        </td>
+                        <td class="text-xs-center transfers__content-item">
+
+                        </td>
+                        <td class="text-xs-center transfers__content-item">
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <div class="text-xs-center reference-sources__pagination">
+                <v-pagination :length="15" v-model="page" :total-visible="7" prev-icon="fa-angle-left" next-icon="fa-angle-right"></v-pagination>
+            </div>
+        </v-layout>
+</v-layout>

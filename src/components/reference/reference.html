@@ -1,0 +1,15 @@
+<el-container direction="vertical">
+    <el-row class="setting">
+        <el-radio-group v-model="link">
+            <el-radio-button label="/reference/device">Устройства</el-radio-button>
+            <el-radio-button label="/reference/provider">Поставщики</el-radio-button>
+            <el-radio-button label="/reference/cash-types">Кассовые операции</el-radio-button>
+            <el-radio-button label="/reference/sources">Источники клиентов</el-radio-button>
+        </el-radio-group>
+    </el-row>
+    <el-row>
+        <transition name="el-fade-in">
+            <router-view></router-view>
+        </transition>
+    </el-row>
+</el-container>

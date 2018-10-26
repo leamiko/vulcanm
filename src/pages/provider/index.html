@@ -1,0 +1,79 @@
+<el-row v-loading.fullscreen.lock="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-table :data="provider"
+              stripe 
+              @cell-click="viewProvider"
+              style="width: 100%">
+        <el-table-column type="index" label="№" width="50"></el-table-column>
+        <el-table-column prop="name" label="Наименование"></el-table-column>
+        <el-table-column prop="address" label="Адрес"></el-table-column>
+        <el-table-column type="phone" label="Телефон">
+            <template slot-scope="scope">
+                <a :href="'tel:' + scope.row.phone">{{ scope.row.phone }}</a>
+            </template>
+        </el-table-column>
+        <el-table-column prop="contact_name" label="Контактное лицо"></el-table-column>
+        <el-table-column type="site" prop="site" label="Сайт">
+            <template slot-scope="scope">
+                <a :href="scope.row.site">{{ scope.row.site }}</a>
+            </template>
+        </el-table-column>
+        <el-table-column prop="description" label="Описание"></el-table-column>
+        <el-table-column type="actions" width="100">
+            <template slot-scope="scope">
+                <el-button size="mini"
+                           title="Редактировать" v-tippy 
+                           icon="fas fa-edit"
+                           @click.native="$router.push('/reference/provider/edit/'+ scope.row.id)">
+                </el-button>
+                <el-button size="mini" type="danger" 
+                           title="Удалить" v-tippy
+                           icon="fas fa-times"
+                           @click.native="onDialogDelete(scope.row)">
+                </el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(providerPageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+
+    <el-dialog :title="providerView.name" :visible.sync="dialogView">
+        <el-row class="point__view">
+            <el-col :span="10">Наименование</el-col>
+            <el-col :span="14">{{ providerView.name }}</el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Адрес</el-col> 
+            <el-col :span="14">{{ providerView.address }}</el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Телефон</el-col> 
+            <el-col :span="14">{{ providerView.phone }}</el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Контактное лицо</el-col> 
+            <el-col :span="14">{{ providerView.contact_name }}</el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Сайт</el-col> 
+            <el-col :span="14">{{ providerView.site }}</el-col>
+        </el-row>
+        <el-row class="point__view">
+            <el-col :span="10">Описание</el-col> 
+            <el-col :span="14">{{ providerView.description }}</el-col>
+        </el-row>
+    </el-dialog>
+
+    <el-dialog :visible.sync="dialogDelete" width="350px">
+        <el-row>
+        Вы действительно хотите удалить "{{ providerView.name }}"?
+        </el-row>
+        <span slot="footer">
+            <el-button @click="dialogDelete = false">Отмена</el-button>
+            <el-button type="danger" @click="deleteProvider(providerView.id), dialogDelete = false">Удалить</el-button>
+        </span>
+    </el-dialog>
+</el-row>

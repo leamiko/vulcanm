@@ -1,0 +1,134 @@
+<div v-on-click-outside="save">
+    <div class="part__cell part__cell_index" v-if="headNomenkl.number">{{ index }}</div>
+    <div class="part__cell part__cell_name" v-if="headNomenkl.name">
+        <div class="part__image">
+            <lazy-load-image :src="item.images.small" v-if="item.images !== null"></lazy-load-image>
+            <i class="fas fa-camera fa-lg" v-else></i>
+        </div>        
+        <template v-if="popName">
+            <div class="part__load-cell" v-if="load"><i class="fas fa-spinner fa-pulse"></i></div>
+            <el-input v-model="newItem.name"></el-input>
+        </template>
+        <template v-else>
+            <div class="part__content" @click="clickCell('name')">{{ item.name }}</div>            
+        </template>
+    </div>
+    <div class="part__cell part__cell_price"
+         v-for="price in headNomenkl.price"
+         v-if="price.active">
+        <template v-if="price.name === 'repair'">
+            <template v-if="popRepairPrice">
+                <div class="part__load-cell" v-if="load"><i class="fas fa-spinner fa-pulse"></i></div>
+                <el-input v-model="newItem.repair_price"></el-input>
+            </template>
+            <template v-else>
+                <div class="part__content" @click="clickCell('price_repair')">
+                    <numbers type="money" :value="item.repair_price"></numbers>
+                </div>            
+            </template>
+        </template>
+        <template v-else-if="price.name === 'shop'">
+            <template v-if="popSellPrice">
+                <div class="part__load-cell" v-if="load"><i class="fas fa-spinner fa-pulse"></i></div>
+                <el-input v-model="newItem.sell_price"></el-input>
+            </template>
+            <template v-else>
+                <div class="part__content" @click="clickCell('price_sell')">
+                    <numbers type="money" :value="item.sell_price"></numbers>
+                </div>            
+            </template>
+        </template>
+    </div>
+    <div class="part__cell part__cell_actions"
+         v-for="reward in headNomenkl.reward"
+         v-if="reward.active">
+        <template v-if="reward.name === 'repair'">
+            <template v-if="popRepairReward">
+                <div class="part__load-cell" v-if="load"><i class="fas fa-spinner fa-pulse"></i></div>
+                <el-input type="number" v-model="newItem.repair_reward_size" style="display: block"></el-input>
+                <el-select v-model="newItem.repair_reward_type" style="display: block; width: 30%">
+                    <el-option v-for="i in rewardTypeList" :value="i.id" :label="i.name" :key="i.id"></el-option>
+                </el-select>
+            </template>
+            <template v-else>
+                <div class="part__content" @click="clickCell('reward_repair')">
+                    <template v-if="item.repair_reward_type === 2">
+                        <numbers type="money" :value="item.repair_reward_size"></numbers>
+                    </template>
+                    <template v-else>
+                        {{ item.repair_reward_size }}
+                        <template v-for="i in rewardTypeList" v-if="i.id === item.repair_reward_type">
+                            {{ i.name }}
+                        </template>
+                    </template>
+                </div>
+            </template>
+        </template>
+        <template v-else-if="reward.name === 'shop'">
+            <template v-if="popSellReward">
+                <div class="part__load-cell" v-if="load"><i class="fas fa-spinner fa-pulse"></i></div>
+                <el-input type="number" v-model="newItem.sell_reward_size" style="display: block"></el-input>
+                <el-select v-model="newItem.sell_reward_type" style="display: block; width: 30%">
+                    <el-option v-for="i in rewardTypeList" :value="i.id" :label="i.name" :key="i.id"></el-option>
+                </el-select>
+            </template>
+            <template v-else>
+                <div class="part__content" @click="clickCell('reward_sell')">
+                    <template v-if="item.sell_reward_type === 2">
+                        <numbers type="money" :value="item.sell_reward_size"></numbers>
+                    </template>
+                    <template v-else>
+                        {{ item.sell_reward_size }}
+                        <template v-for="i in rewardTypeList" v-if="i.id === item.sell_reward_type">
+                            {{ i.name }}
+                        </template>
+                    </template>
+                </div>          
+            </template>              
+        </template>
+    </div>
+    <div class="part__cell part__cell_barcode" v-if="headNomenkl.barcode">
+        <el-popover placement="left" width="200" ref="barcodes" trigger="hover">
+            <p v-for="barcode in item.barcodes">{{ barcode.value }}</p>
+        </el-popover>
+        <i class="fas fa-barcode fa-2x" v-popover:barcodes v-if="item.barcodes !== null"></i>
+        <i v-else>Отсутствует</i>
+    </div>
+    <div class="part__cell part__cell_price" v-if="headNomenkl.article">
+        <template v-if="popArt">
+            <div class="part__load-cell" v-if="load"><i class="fas fa-spinner fa-pulse"></i></div>
+            <el-input v-model="newItem.art"></el-input>
+        </template>
+        <template v-else>
+            <div class="part__content" @click="clickCell('art')">{{ item.art }}</div>            
+        </template>
+    </div>
+    <div class="part__cell part__cell_actions" v-if="headNomenkl.vat">
+        <template v-if="popVat">
+            <div class="part__load-cell" v-if="load"><i class="fas fa-spinner fa-pulse"></i></div>
+            <el-select v-model="newItem.vat" style="width: 100%">
+                <el-option v-for="i in vatlist" :value="i.id" :label="i.name" :key="i.id"></el-option>
+            </el-select>
+        </template>
+        <template v-else>          
+            <div class="part__content" @click="clickCell('vat')">
+                <template v-for="i in vatlist" v-if="i.id === item.vat">
+                    {{ i.name }}
+                </template>
+            </div>
+        </template>        
+    </div>
+    <div class="part__cell part__cell_actions">
+        <el-button size="mini" icon="fas fa-print" title="Печать наклейки" v-tippy></el-button>
+        <el-button size="mini" icon="far fa-copy" title="Создать копию" @click="dialog = true" v-tippy></el-button>
+        <el-button size="mini" icon="fas fa-edit" title="Редактировать" v-tippy @click="$router.push('/part/edit/' + item.id)"></el-button>
+    </div>
+
+    <el-dialog title="Создание копии" :visible.sync="dialog" width="300px">
+        <p style="text-align: center">Вы действительно хотите создать копию "{{ item.name }}"?</p>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="dialog = false">Отмена</el-button>
+            <el-button type="primary" :loading="btnloader" @click="copy">Создать</el-button>
+        </span>
+    </el-dialog>
+</div>

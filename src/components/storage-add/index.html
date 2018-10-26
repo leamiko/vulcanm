@@ -1,0 +1,21 @@
+<el-row>
+    <el-form>
+        <el-col :xs="24" :sm="12" :md="9">
+            <el-form-item :error="validate(validStorage, 'name')">
+                <el-input v-model="newItem.name" placeholder="Название"></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="9" style="padding: 0 10px">
+            <el-form-item :error="validate(validStorage, 'point_id')">
+                <el-select v-model="newItem.point_id" placeholder="Выберите филиал" style="width: 100%" clearable>
+                    <el-option v-for="item in point" :label="item.name" :value="item.id" :key="item.id"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="6">
+            <el-form-item>
+                <el-button type="primary" :loading="btnloader" @click="sendStorage(newItem)" style="width: 100%">Добавить</el-button>
+            </el-form-item>
+        </el-col>
+    </el-form>
+</el-row>

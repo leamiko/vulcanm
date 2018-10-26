@@ -1,0 +1,101 @@
+<el-row class="company">
+    <el-form label-width="200px" label-position="top">
+            <el-col :span="12" class="company__col company__col_big">
+                <el-row class="company__title">Информация о компании</el-row>          
+                <el-form-item class="company__col company__col_small" label="Название сервиса">
+                    <el-input v-model="company.nameService"></el-input>
+                </el-form-item>
+                <el-form-item class="company__col company__col_small" label="Телефон">
+                    <el-input v-model="company.phone"></el-input>
+                </el-form-item>
+                <el-form-item class="company__col company__col_small" label="Адрес">
+                    <el-input v-model="company.address"></el-input>
+                </el-form-item>
+                <el-row>
+                    <el-col :span="8" class="company__col company__col_small">
+                        <el-form-item label="Страна">
+                            <el-select v-model="company.countryId" placeholder="Выберите страну">
+                                <el-option v-for="item in country" :label="item.label" :value="item.id" :key="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8" class="company__col company__col_small">
+                        <el-form-item label="Часовой пояс">
+                            <el-select v-model="company.countryId" placeholder="Выберите часовой пояс">
+                                <el-option v-for="item in country" :label="item.label" :value="item.id" :key="item.id"></el-option>
+                            </el-select>
+                            <!-- <span>Если в списке нет вашего часового пояса, проверьте правильность выбора страны и нажмите кнопку "Сохранить"</span> -->
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8" class="company__col company__col_small">
+                        <el-form-item label="Валюта">
+                            <el-select v-model="company.countryId" placeholder="Выберите валюту">
+                                <el-option v-for="item in country" :label="item.label" :value="item.id" :key="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-col>
+            <el-col :span="12" class="company__col company__col_big">
+                <el-row class="company__title">Платежные реквизиты</el-row>
+                <el-row>
+                    <el-col :span="8" class="company__col company__col_small">
+                        <el-form-item label="Форма собственности">
+                            <el-select v-model="company.countryId" placeholder="Выберите форму собственности">
+                                <el-option v-for="item in country" :label="item.label" :value="item.id" :key="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8" class="company__col company__col_small">
+                        <el-form-item label="ИНН">
+                            <el-input v-model="company.inn"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8" class="company__col company__col_small">
+                        <el-form-item label="ОГРН(ОГРНИП)">
+                            <el-input v-model="company.ogrn"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12" class="company__col company__col_small">
+                        <el-form-item label="№ Р/С">
+                            <el-input v-model="company.paymentAccount"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12" class="company__col company__col_small">
+                        <el-form-item label="Кор. счет">
+                            <el-input v-model="company.correctionalAccount"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-form-item class="company__col company__col_small" label="Официальное название">
+                    <el-input v-model="company.nameOfficial"></el-input>
+                </el-form-item>
+                <el-row>
+                    <el-col :span="8" class="company__col company__col_small">
+                        <el-form-item label="КПП">
+                            <el-input v-model="company.kpp"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8" class="company__col company__col_small">
+                        <el-form-item label="ОКПО">
+                            <el-input v-model="company.okpo"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8" class="company__col company__col_small">
+                        <el-form-item label="БИК">
+                            <el-input v-model="company.bik"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-form-item class="company__col company__col_small" label="Название банка">
+                    <el-input v-model="company.nameBank"></el-input>
+                </el-form-item>
+            </el-col>
+    </el-form>
+    <el-col :span="24" class="company__btn">
+        <el-button type="success" @click="newcompany = company, editCompany(newcompany)">Сохранить</el-button>
+    </el-col>
+</el-row>
+

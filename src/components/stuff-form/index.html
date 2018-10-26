@@ -1,0 +1,252 @@
+<el-row type="flex" justify="center" class="stuff">
+    <el-col :xs="24" :lg="12" :xl="10" class="stuff__col">
+        <el-row>
+            <div class="stuff__title stuff__title_data">Данные о сотруднике</div>
+            <el-form label-position="top">
+                <el-row class="stuff__item">
+                    <div class="stuff__item-head"><b>ФИО</b></div>
+                    <el-col :sm="8" class="stuff__col">
+                        <el-form-item label="Фамилия" required :error="validate( validStuff, 'last_name')">
+                            <el-input placeholder="Введите фамилию" v-model="item.last_name"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="8" class="stuff__col">
+                        <el-form-item label="Имя" required :error="validate( validStuff, 'first_name')">
+                            <el-input placeholder="Введите имя" v-model="item.first_name"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="8" class="stuff__col">
+                        <el-form-item label="Отчество" :error="validate( validStuff, 'middle_name')">
+                            <el-input placeholder="Введите отчество" v-model="item.middle_name"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row class="stuff__item">
+                    <div class="stuff__item-head"><b>Настройки входа</b></div>
+                    <el-col :sm="8" class="stuff__col">
+                        <el-form-item label="Логин" required :error="validate( validStuff, 'username')">
+                            <template v-if="typeForm">{{ item.username }}</template>
+                            <template v-else>
+                                <el-input placeholder="Введите логин" v-model="item.username"></el-input>
+                            </template>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="8" class="stuff__col">
+                        <el-form-item label="Пароль" required :error="validate( validStuff, 'password')">
+                            <el-input type="password" placeholder="Введите пароль" v-model="item.password"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="8" class="stuff__col">
+                        <el-form-item label="Подтверждение пароля" required :error="checkPass">
+                            <el-input type="password" placeholder="Введите пароль" v-model="copyPassword"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col>                    
+                        <div class="stuff__descr">
+                            <i class="fas fa-info-circle"></i>
+                            <i>Пароль должен быть не меньше 8 символов и содержать в себе как минимум одну заглавную и одну строчную буквы</i>
+                        </div>
+                    </el-col>                    
+                </el-row>
+                <el-row class="stuff__item">
+                    <div class="stuff__item-head"><b>Данные для уведомлений</b></div>
+                    <el-col :sm="12" class="stuff__col">
+                        <el-form-item label="E-mail" :error="validate( validStuff, 'email')">
+                            <el-input type="email" placeholder="Введите email" v-model="item.email"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="12" class="stuff__col">
+                        <el-form-item label="Телефон" :error="validate( validStuff, 'phone')">
+                            <el-input type="tel" placeholder="Введите телефон" v-model="item.phone"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row class="stuff__item">
+                    <div class="stuff__item-head"><b>Должность и филиал</b></div>
+                    <el-col :sm="12" class="stuff__col">
+                        <el-form-item label="Должность" :error="validate( validStuff, 'post')">
+                            <el-input placeholder="Введите должность" v-model="item.post"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="12" class="stuff__col">
+                        <el-form-item label="Филиал" required :error="validate( validStuff, 'point_id')">
+                            <el-select v-model="item.point_id" filterable style="width: 100%">
+                                <el-option v-for="i in point"
+                                           :key="i.id"
+                                           :label="i.name"
+                                           :value="i.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row class="stuff__item">
+                    <div class="stuff__item-head"><b>Зарплата</b></div>
+                    <el-row>
+                        <div class="stuff__label">Оклад</div>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item :error="validate( validStuff, 'salary_amount')">
+                                <el-input type="number" placeholder="Введите оклад" v-model="item.salary_amount"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item :error="validate( validStuff, 'salary_period')">
+                                <el-select v-model="item.salary_period" filterable  style="width: 100%">
+                                    <el-option label="Дневной" :value="1"></el-option>
+                                    <el-option label="Месячный" :value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col>
+                            <div class="stuff__descr">
+                                <i class="fas fa-info-circle"></i>
+                                <i>Дневной оклад начисляется только за проработанные дни, а месячный - равномерно за все дни в месяце</i>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <div class="stuff__label">Вознаграждение за прием заказа</div>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item :error="validate( validStuff, 'repair_income_salary_amount')">
+                                <el-input type="number" placeholder="" v-model="item.repair_income_salary_amount"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item :error="validate( validStuff, 'repair_income_salary_type')">
+                                <el-select v-model="item.repair_income_salary_type" filterable style="width: 100%">
+                                    <el-option label="руб" :value="0"></el-option>
+                                    <el-option label="% (от полной стоимости)" :value="1"></el-option>
+                                    <el-option label="% (от прибыли)" :value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <div class="stuff__label">Процент от использования запчастей в заказах</div>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item :error="validate( validStuff, 'repair_part_salary_amount')">
+                                <el-input type="number" v-model="item.repair_part_salary_amount"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item :error="validate( validStuff, 'repair_part_salary_type')">
+                                <el-select v-model="item.repair_part_salary_type" filterable style="width: 100%">
+                                    <el-option label="% (от полной стоимости)" :value="1"></el-option>
+                                    <el-option label="% (от прибыли)" :value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item label="Процент от проведенных работ в заказах" :error="validate( validStuff, 'repair_work_salary_amount')">
+                                <el-input type="number" v-model="item.repair_work_salary_amount"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <div class="stuff__label">Процент от товаров в продажах</div>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item :error="validate( validStuff, 'sell_part_salary_amount')">
+                                <el-input type="number" placeholder="" v-model="item.sell_part_salary_amount"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item :error="validate( validStuff, 'sell_part_salary_type')">
+                                <el-select v-model="item.sell_part_salary_type" filterable style="width: 100%">
+                                    <el-option label="% (от полной стоимости)" :value="1"></el-option>
+                                    <el-option label="% (от прибыли)" :value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :sm="12" class="stuff__col">
+                            <el-form-item label="Процент от услуг в продажах" :error="validate( validStuff, 'sell_work_salary_amount')">
+                                <el-input placeholder="" v-model="item.sell_work_salary_amount"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-row>
+            </el-form>
+        </el-row>
+    </el-col>
+    <el-col :xs="24" :lg="12" :xl="10">
+        <el-row>
+            <div class="stuff__title stuff__title_rules">Права доступа</div>
+            <el-row class="stuff__item">
+                <div class="stuff__item-head"><b>Заказы</b></div>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_create_update_repair">Может принять/изменить заказ</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_see_foreign_repair">Может управлять заказами других филиалов</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_edit_others_parts_works_repair">Может редактировать работы и запчасти других инженеров</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_transfer_repair">Может перемещать заказы между филиалами</el-checkbox>
+                </el-col>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_see_others_repair">Видит чужие заказы</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_work_on_repair">Может работать над заказом (установить запчасти, провести работы)</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_apply_master_on_repair">Может устанавливать инженера для заказа</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_delete_repair">Может удалять заказы</el-checkbox>
+                </el-col>
+            </el-row>
+            <el-row class="stuff__item">
+                <div class="stuff__item-head"><b>Склад</b></div>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_create_parts_and_categories">Может создавать товары и категории товаров</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_create_posting_parts">Может делать поступления на склад</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_create_works_and_categories">Может создавать услуги и категории услуг</el-checkbox>
+                </el-col>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox stuff__checkbox_red" v-model="rights.can_edit_delete_parts_and_categories">Может изменять/удалять товары и категории товаров</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_edit_posting_parts">Может редактировать поступления</el-checkbox>
+                    <el-checkbox class="stuff__checkbox stuff__checkbox_red" v-model="rights.can_edit_delete_works_and_categories">Может изменять/удалять услуги и категории</el-checkbox>
+                </el-col>
+            </el-row>
+            <el-row class="stuff__item">
+                <div class="stuff__item-head"><b>Финансы</b></div>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_create_sell">Может продавать</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_delete_sell">Может удалять продажи</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_cash_out">Может списывать деньги из кассы</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_delete_cash_operation">Может удалять кассовые операции</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_see_posting_price">Видит цену закупа товара</el-checkbox>
+                </el-col>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_revert_sell">Может делать возврат</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_cash_in">Может вносить деньги в кассу</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_cash_transfer">Может делать перевод между кассами</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_see_foreign_cashbox">Может управлять кассами других филиалов</el-checkbox>
+                </el-col>
+            </el-row>
+            <el-row class="stuff__item">
+                <div class="stuff__item-head"><b>Компания</b></div>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_move_between_points">Может перемещаться между филиалами</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_manage_clients">Может управлять клиентами</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_manage_papers">Может управлять шаблонами документов и SMS</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_manage_stuff">Может управлять кадрами</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_manage_forms">Может редактировать формы</el-checkbox>
+                </el-col>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_update_company_details">Может изменять данные компании</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_manage_points">Может управлять филиалами</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_manage_devices">Может управлять устройствами</el-checkbox>
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_manage_partnership">Может управлять партнерской программой</el-checkbox>
+                </el-col>
+            </el-row>
+            <el-row class="stuff__item">
+                <div class="stuff__item-head"><b>Отчеты</b></div>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_build_reports">Может формировать отчеты</el-checkbox>
+                </el-col>
+                <el-col :md="12" class="stuff__col">
+                    <el-checkbox class="stuff__checkbox" v-model="rights.can_export">Может экспортировать данные</el-checkbox>
+                </el-col>
+            </el-row>
+        </el-row>
+    </el-col>
+    <el-col class="stuff__btn">
+        <el-button type="success" :loading="btnloader" v-if="typeForm" @click="changeStuff(item)">Сохранить</el-button>
+        <el-button type="primary" :loading="btnloader" v-else  @click="sendStuff(item)">Добавить</el-button>
+    </el-col>
+</el-row>

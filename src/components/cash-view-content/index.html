@@ -1,0 +1,50 @@
+<el-row>
+    <el-table :data="data" 
+              border 
+              stripe
+              style="margin-top: 10px;">
+        <el-table-column label="Дата" width="150" header-align="center">
+            <template slot-scope="scope">
+                <del v-if="scope.row.deleted"><date type="users" :value="scope.row.created_at"></date></del>
+                <date v-else type="users" :value="scope.row.created_at"></date>
+            </template>
+        </el-table-column>
+        <el-table-column label="Сумма" width="140" header-align="center" align="right">
+            <template slot-scope="scope">
+                <del v-if="scope.row.deleted"><numbers type="money" :value="scope.row.sum"></numbers></del>
+                <numbers v-else :class="[scope.row.sum > 0 ? 'green--text': 'red--text']" type="money" :value="scope.row.sum"></numbers>                
+            </template>
+        </el-table-column>
+        <el-table-column label="Сотрудник" min-width="200" header-align="center">
+            <template slot-scope="scope">
+                <user-name :value="scope.row.creator"></user-name>
+            </template>
+        </el-table-column>
+        <el-table-column label="Описание" min-width="200" header-align="center">
+            <template slot-scope="scope">
+                <i>Временно отсутствует</i>
+            </template>
+        </el-table-column>
+        <el-table-column label="Остаток" width="130" header-align="center" align="right">
+            <template slot-scope="scope">
+                <numbers type="money" :value="scope.row.cashbox_sum_after"></numbers>
+            </template>
+        </el-table-column>
+        <el-table-column width="140" align="right">
+            <template slot-scope="scope">
+                <template v-if="scope.row.deleted"></template>
+                <template v-else>
+                    <template v-if="scope.row.act_id !== null">
+                        <el-button size="mini" icon="fas fa-external-link-alt" title="Перейти к операции" v-tippy></el-button>
+                    </template>
+                    <template v-else></template>
+                    <template v-if="!scope.row.cashbox.cashless">
+                        <el-button size="mini" icon="fas fa-print" title="Печатать кассовый ордер" v-tippy></el-button>
+                    </template>
+                    <template v-else></template>
+                    <el-button type="danger" size="mini" icon="fas fa-times" title="Удалить операцию" v-tippy @click="scope.row.deleted = true"></el-button>
+                </template>
+            </template>
+        </el-table-column>
+    </el-table>
+</el-row>

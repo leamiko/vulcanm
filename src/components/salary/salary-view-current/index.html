@@ -1,0 +1,132 @@
+<el-row>
+    <el-col>
+        <el-row>
+            Текущий баланс ЗП:
+            <span>
+                <numbers type="money"
+                         :value="totalSalaryOperationAmount">
+                </numbers>
+            </span>
+        </el-row>
+        <el-row>
+            Выбрать операции с
+            <el-date-picker type="date"
+                            v-model="startDate"
+                            format="dd.MM.yyyy"
+                            :picker-options="pickerOptionsStart()"
+                            @change="selectOperationsByDateRange">
+            </el-date-picker>
+            по
+            <el-date-picker type="date"
+                            v-model="endDate"
+                            format="dd.MM.yyyy"
+                            :picker-options="pickerOptionsEnd()"
+                            @change="selectOperationsByDateRange">
+            </el-date-picker>
+        </el-row>
+        <el-row>
+            <span>Выплатить ЗП:</span>
+            <numbers type="money"
+                     :value="amountToBePayed">
+            </numbers>
+            <span>за выделенные операции из кассы</span>
+        </el-row>
+        <el-row>
+            <el-col>
+                <el-select v-model="selectedCashBoxId"
+                           placeholder="Выберите кассу">
+                    <el-option
+                        v-for="item in cashList"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-col>
+            <el-col>
+                <el-button type="success"
+                           @click="submitSalaryTransfer"
+                           :disabled="isSubmitTransferDisabled">
+                    Выплатить
+                </el-button>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col>
+                Детализация
+            </el-col>
+            <el-col>
+                <el-row>
+                    <el-col>
+                        <el-button
+                            type="success"
+                            @click="openDialog({whichOperation:'bonus'})">
+                            <i class="fas fa-plus cash-view__btn-icon"></i>
+                            Добавить премию
+                        </el-button>
+                    </el-col>
+                    <el-col>
+                        <el-button
+                            type="danger"
+                            @click="openDialog({whichOperation:'penalty'})">
+                            <i class="fas fa-minus cash-view__btn-icon"></i>
+                            Добавить взыскание
+                        </el-button>
+                    </el-col>
+                </el-row>
+            </el-col>
+        </el-row>
+        <el-row>
+            <salary-operation-table ref="salaryOperationTable"
+                                    :selectedRows="selectedOperation"
+                                    :data="salaryOperationUnpaidListByUserId"
+                                    :loading="loadingSalaryOperation"
+                                    :total="totalSalaryOperationAmount"
+                                    @delete-salary-operation="onDeleteSalaryOperation"
+                                    @update-salary-operation="onUpdateSalaryOperation"
+                                    :selectedOperation.sync="selectedOperation">
+            </salary-operation-table>
+        </el-row>
+    </el-col>
+    <!--Dialog-->
+    <el-dialog
+        :visible.sync="isDialogVisible"
+        width="310px"
+        :before-close="onBeforeCloseDialog"
+        center>
+        <div v-html="dialogTitle"></div>
+        <el-form
+            :model="dialogFormModel"
+            :rules="dialogFormValidationRules"
+            ref="dialogForm">
+            <el-form-item prop="sum" label="Сумма">
+                <el-input
+                    placeholder=""
+                    v-model.number="dialogFormModel.sum"></el-input>
+            </el-form-item>
+            <el-form-item prop="comment" label="Коментарий">
+                <el-input
+                    placeholder=""
+                    type="textarea"
+                    v-model.trim="dialogFormModel.comment"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button v-if="whichOperation === 'bonus'"
+                           type="success"
+                           @click="submitSalaryOperation">
+                    Премировать
+                </el-button>
+                <el-button v-else-if="whichOperation === 'update'"
+                           type="primary"
+                           @click="submitSalaryOperation">
+                    Сохранить
+                </el-button>
+                <el-button v-else-if="whichOperation === 'penalty'"
+                           type="danger"
+                           @click="submitSalaryOperation">
+                    Взыскать
+                </el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+</el-row>

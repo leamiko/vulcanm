@@ -1,0 +1,40 @@
+<el-row>
+    <el-table :data="licensesList"  
+               stripe
+               style="margin-top: 10px;"
+               v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+        <el-table-column width="100">
+            <template slot-scope="scope">
+                № {{ scope.row.id }}              
+            </template>
+        </el-table-column>
+        <el-table-column>
+            <template slot-scope="scope">
+                <div><b>{{ scope.row.tariff.name }}</b></div>
+                <div>Дата создания: <date type="users" :value="scope.row.created_at"></date></div>
+                <div>Дата активации: <date type="users" :value="scope.row.activated_at"></date></div>
+                <div>Истекает: <date type="users" :value="scope.row.expired_at"></date></div>
+            </template>
+        </el-table-column>
+        <el-table-column width="120" align="center">
+            <template slot-scope="scope">
+                <div>
+                    <template v-if="countDay(scope.row.expired_at) > 0">
+                        <b class="blue--text">
+                            {{ countDay(scope.row.expired_at) }} дней
+                        </b>              
+                    </template>
+                    <template v-else>
+                        <i><b>Истекла</b></i>
+                    </template>
+                </div>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(licensesListPageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+</el-row>

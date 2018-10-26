@@ -1,0 +1,8 @@
+<span>
+    <template v-if="type === 'money'">
+        {{ getMoney('ru-RU', 'RUB', value) }}
+    </template>
+    <template v-else>
+        {{ getNumber('ru-RU', value) }}
+    </template>
+</span>

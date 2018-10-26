@@ -1,0 +1,58 @@
+.posting-update {
+    margin: 40px 0;
+
+    &__col {
+        border: 1px solid #ebeef5;
+    }
+
+    &__row {
+        margin: 30px 10px;
+        
+        &_title,
+        &_item {
+            text-align: center;
+        }
+
+        &_title {
+            font-size: 18px;
+            color: $color-blue;
+        }
+
+        &_item {
+            font-weight: bold;
+        }
+    }
+
+    &__btn {
+        width: 100%;
+    }
+
+    &__dialog {
+        background: #f5f7fa;
+        margin: -20px;
+        padding: 20px;
+
+        &_title {
+            border-bottom: 1px solid #ebeef5;
+        }
+
+        &_footer {
+            border-top: 1px solid #ebeef5;
+        }
+    }
+
+    &__description {
+        font-size: 11px;
+
+        &_link {
+            transition: .3s;
+            border-bottom: 1px dashed;
+            cursor: pointer;
+
+            &:hover {
+                color: $color-blue;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,12 @@
+<div>
+    <el-tabs v-model="activeTab" @tab-click="handleTabClick">
+        <el-tab-pane label="Текущие начисления" name="current">
+            <salary-view-current v-if="$route.params.tab === 'current'">
+            </salary-view-current>
+        </el-tab-pane>
+        <el-tab-pane label="Предыдущие выплаты" name="previous">
+            <salary-view-previous v-if="$route.params.tab === 'previous'">
+            </salary-view-previous>
+        </el-tab-pane>
+    </el-tabs>
+</div>

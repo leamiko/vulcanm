@@ -1,0 +1,395 @@
+<el-container direction="vertical" class="repair">
+    <el-row>
+        <el-col :span="24">
+            <el-button plain class="repair__btn">
+                <i class="fas fa-table"></i>
+                <div>Все заказы</div>
+            </el-button>
+            <el-button plain class="repair__btn repair__btn_1">
+                <i class="fas fa-arrow-down"></i>
+                <div>Принято</div>
+            </el-button>
+            <el-button plain class="repair__btn repair__btn_2">
+                <i class="fas fa-wrench"></i>
+                <div>В работе</div>
+            </el-button>
+            <el-button plain class="repair__btn repair__btn_3">
+                <i class="fas fa-clock"></i>
+                <div>Ожидает</div>
+            </el-button>
+            <el-button plain class="repair__btn repair__btn_4">
+                <i class="fas fa-check"></i>
+                <div>Готово</div>
+            </el-button>
+            <el-button plain class="repair__btn repair__btn_5">
+                <i class="fas fa-plane repair__icons_rotate"></i>
+                <div>Выдано</div>
+            </el-button>
+            <el-button plain class="repair__btn repair__btn_6">
+                <i class="fas fa-comments"></i>
+                <div>На согласовании</div>
+            </el-button>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-col :span="24">
+            <el-form :inline="true" class="repair__form">
+                <el-form-item>
+                    <el-input prefix-icon="el-icon-search" placeholder="Поиск заказа"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-select placeholder="Все филиалы">
+                        <el-option label="Zone one" value="shanghai"></el-option>
+                        <el-option label="Zone two" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-select placeholder="Все приемщики">
+                        <el-option label="Zone one" value="shanghai"></el-option>
+                        <el-option label="Zone two" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-select placeholder="Все инженеры">
+                        <el-option label="Zone one" value="shanghai"></el-option>
+                        <el-option label="Zone two" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-col :span="24">
+            <el-table :data="repair" height="450" style="width: 100%" stripe @row-click="onViewPart" id="table_content">
+                <el-table-column prop="title" label="№" width="100"></el-table-column>
+                <el-table-column label="Принято" width="180">
+                    <template slot-scope="scope">
+                        <i class="el-icon-time repair__icons"></i>
+                        <span>{{ scope.row.income_date }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="Клиент" width="220">
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.client.status === 2">
+                            <el-tooltip class="item" effect="dark" content="Любимый клиент" placement="top-start">
+                                <i class="fas fa-heart repair__icons repair__icons_love"></i>
+                            </el-tooltip>
+                        </template>
+                        <template v-else-if="scope.row.client.status === 3">
+                           <el-tooltip class="item" effect="dark" content="Клиент в черном списке" placement="top-start">
+                                <i class="fas fa-ban repair__icons"></i>
+                            </el-tooltip>
+                        </template>
+                        <template v-if="scope.row.client.type === 1">
+                            {{ scope.row.client.first_name }} {{ scope.row.client.last_name }}
+                        </template>
+                        <template v-else-if="scope.row.client.type === 2">{{ scope.row.client.name }}</template>
+                    </template>
+                </el-table-column>
+                <el-table-column label="Телефон" width="220">
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.client.sms_agreement">
+                            <el-tooltip class="item" effect="dark" content="Отправляются SMS" placement="top-start">
+                                <i class="fas fa-envelope repair__icons repair__icons_sms"></i>
+                            </el-tooltip>
+                        </template>
+                        <template v-else></template> 
+                        <template v-if="scope.row.client.type === 1">{{ scope.row.client.phone }}</template>
+                        <template v-else-if="scope.row.client.type === 2">{{ scope.row.client.contact_phone }}</template>                        
+                    </template>
+                </el-table-column>
+                <el-table-column prop="prepayment" label="Предоплата" width="120"></el-table-column>
+                <el-table-column prop="state" label="Состояние" width="280"></el-table-column>
+                <el-table-column label="Устройство" width="180">
+                    <template slot-scope="scope">
+                        <div v-for="device in scope.row.objects">{{ device.vendor }} {{ device.model }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="equipment" label="Комплектация" width="280"></el-table-column>
+                <el-table-column label="Статус" width="280">
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.status_id === 1">
+                            <el-tag class="repair__status repair__status_1"><i class="fas fa-arrow-down repair__icons"></i>Принято</el-tag>
+                        </template>
+                        <template v-else-if="scope.row.status_id === 2">
+                            <el-tag class="repair__status repair__status_2"><i class="fas fa-wrench repair__icons"></i>В работе</el-tag>
+                        </template>
+                        <template v-else-if="scope.row.status_id === 3">
+                            <el-tag class="repair__status repair__status_3"><i class="fas fa-clock repair__icons"></i>Ожидает</el-tag>
+                        </template>
+                        <template v-else-if="scope.row.status_id === 4">
+                            <el-tag class="repair__status repair__status_4"><i class="fas fa-check repair__icons"></i>Готово</el-tag>
+                        </template>
+                        <template v-else-if="scope.row.status_id === 5">
+                            <el-tag class="repair__status repair__status_5"><i class="fas fa-plane repair__icons repair__icons_rotate"></i>Выдано</el-tag>
+                        </template>
+                        <template v-else-if="scope.row.status_id === 6">
+                            <el-tag class="repair__status repair__status_6"><i class="fas fa-comments repair__icons"></i>На согласовании</el-tag>
+                        </template>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="client.address" label="Адрес клиента" width="280"></el-table-column>
+                <el-table-column prop="client.source_id" label="Состояние" width="280"></el-table-column>
+                <el-table-column label="Email клиента" width="280">
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.client.type === 1">{{ scope.row.client.email }}</template>
+                        <template v-else-if="scope.row.client.type === 2">{{ scope.row.client.contact_email }}</template>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="client.contact_name" label="Контактное лицо" width="280"></el-table-column>
+                <el-table-column label="Тип устройства" width="280">
+                    <template slot-scope="scope">
+                        <div v-for="device in scope.row.objects">{{ device.type }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="acceptor_id" label="Приемщик" width="280"></el-table-column>
+                <el-table-column prop="master_id" label="Инженер" width="280"></el-table-column>
+                <el-table-column prop="point_id" label="Пункт приема" width="280"></el-table-column>
+                <el-table-column prop="bug" label="Неисправность" width="280"></el-table-column>
+                <el-table-column prop="acceptor_notes" label="Заметки" width="280"></el-table-column>
+                <el-table-column label="Серийный номер/IMEI" width="280">
+                    <template slot-scope="scope">
+                        {{ scope.row.serial }}/{{ scope.row.imei }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="master_notes" label="Обнаруженная неисправность" width="280"></el-table-column>
+                <el-table-column prop="out_date" label="Дата выдачи" width="280"></el-table-column>
+                <el-table-column prop="planned_out_date" label="Ожидаемая дата выдачи" width="280"></el-table-column>
+                <el-table-column prop="planned_price" label="Ожидаемая стоимость" width="280"></el-table-column>
+                <el-table-column prop="ejector_id" label="Выдал" width="280"></el-table-column>
+                <el-table-column prop="done_at" label="Дата готовности" width="280"></el-table-column>
+                <el-table-column prop="warrant_until" label="Гарантия до" width="280"></el-table-column>
+                <el-table-column prop="warrant_size" label="Срок гарантии" width="280"></el-table-column>
+                <el-table-column prop="total" label="Итого за ремонт" width="280"></el-table-column>
+                <el-table-column prop="to_pay" label="К оплате" width="280"></el-table-column>
+            </el-table>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-col :span="24">сотрудники</el-col>
+    </el-row>
+</el-container>
+
+<!-- <v-layout class="repair">
+    <v-flex xs12 md12>
+        <v-layout wrap style="border-left: 1px solid rgba(0,0,0,.1);border-top: 1px solid rgba(0,0,0,.1);">
+            <v-flex xs12 md1 class="text-xs-center" style="border-right: 1px solid rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.1);height: 75px;">
+                <v-btn @click="active = 0" flat class="grey--text text--darken-3" style="width: 100%;height: 100%;margin: 0;border-radius: 0;">
+                    <div>
+                        <div>
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                        <div>
+                            <span>Все заказы</span>
+                        </div>
+                        <div>
+                            <span>(53)</span>
+                        </div>
+                    </div>
+                </v-btn>
+            </v-flex>
+            <v-flex xs6 md2 class="text-xs-center" style="border-right: 1px solid rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.1);height: 75px;">
+                <v-btn @click="active = 1" flat class="deep-orange--text text--darken-3" style="width: 100%;height: 100%;margin: 0;border-radius: 0;">
+                    <div>
+                        <div>
+                            <i class="fa fa-arrow-down"></i>
+                        </div>
+                        <div>
+                            <span>Принято</span>
+                        </div>
+                        <div>
+                            <span>(53)</span>
+                        </div>
+                    </div>
+                </v-btn>
+            </v-flex>
+            <v-flex xs6 md2 class="text-xs-center" style="border-right: 1px solid rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.1);height: 75px;">
+                <v-btn @click="active = 2" flat class="light-blue--text text--darken-3" style="width: 100%;height: 100%;margin: 0;border-radius: 0;">
+                    <div>
+                        <div>
+                            <i class="fa fa-wrench"></i>
+                        </div>
+                        <div>
+                            <span>В работе</span>
+                        </div>
+                        <div>
+                            <span>(53)</span>
+                        </div>
+                    </div>
+                </v-btn>
+            </v-flex>
+            <v-flex xs6 md2 class="text-xs-center" style="border-right: 1px solid rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.1);height: 75px;">
+                <v-btn @click="active = 6" flat class="orange--text text--darken-1" style="width: 100%;height: 100%;margin: 0;border-radius: 0;">
+                    <div>
+                        <div>
+                            <i class="fa fa-comments"></i>
+                        </div>
+                        <div>
+                            <span>На соглас.</span>
+                        </div>
+                        <div>
+                            <span>(53)</span>
+                        </div>
+                    </div>
+                </v-btn>
+            </v-flex>
+            <v-flex xs6 md2 class="text-xs-center" style="border-right: 1px solid rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.1);height: 75px;">
+                <v-btn @click="active = 3" flat class="deep-purple--text text--darken-3" style="width: 100%;height: 100%;margin: 0;border-radius: 0;">
+                    <div>
+                        <div>
+                            <i class="fa fa-clock-o"></i>
+                        </div>
+                        <div>
+                            <span>Ожидает</span>
+                        </div>
+                        <div>
+                            <span>(53)</span>
+                        </div>
+                    </div>
+                </v-btn>
+            </v-flex>
+            <v-flex xs6 md2 class="text-xs-center" style="border-right: 1px solid rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.1);height: 75px;">
+                <v-btn @click="active = 4" flat class="green--text text--darken-3" style="width: 100%;height: 100%;margin: 0;border-radius: 0;">
+                    <div>
+                        <div>
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <div>
+                            <span>Готово</span>
+                        </div>
+                        <div>
+                            <span>(53)</span>
+                        </div>
+                    </div>
+                </v-btn>
+            </v-flex>
+            <v-flex xs6 md1 class="text-xs-center" style="border-right: 1px solid rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.1);height: 75px;">
+                <v-btn @click="active = 5" flat class="grey--text text--darken-3" style="width: 100%;height: 100%;margin: 0;border-radius: 0;">
+                    <div>
+                        <div>
+                            <i class="fa fa-plane"></i>
+                        </div>
+                        <div>
+                            <span>Выдано</span>
+                        </div>
+                        <div>
+                            <span>(53)</span>
+                        </div>
+                    </div>
+                </v-btn>
+            </v-flex>
+        </v-layout>
+        <v-layout style="height: 50px">
+            <v-flex md3>
+                <v-text-field label="Поиск заказа"></v-text-field>
+            </v-flex>
+            <v-flex md3 style="padding-left: 20px; padding-right: 10px">
+                <v-text-field label="Все филиалы"></v-text-field>
+            </v-flex>
+            <v-flex md3 style="padding-left: 10px; padding-right: 20px">
+                <v-text-field label="Все приемщики"></v-text-field>
+            </v-flex>
+            <v-flex md3 style="display: flex; align-items: baseline;">
+                <v-text-field label="Все инженеры"></v-text-field>
+                <v-btn flat 
+                       style="border: 1px solid rgba(0,0,0,.1);margin-right: 0px;border-radius: 0; min-width: 50px;"
+                       class="light-blue--text text--darken-3"
+                       @click="dialogSettings = true">
+                    <i class="fa fa-cogs" aria-hidden="true"></i>    
+                </v-btn>
+            </v-flex>
+        </v-layout>
+        <v-layout style="height: 460px;margin-top: 20px">
+            <v-flex id="table_content" style="overflow: auto; padding-left: 15px; margin-left: -15px;">
+                <table class="catalog__table">
+                    <thead class="catalog__thead text-center">
+                        <tr>
+                            <th class="catalog__thead-item catalog__thead-item_repair" v-for="item in repairActiveColumn">
+                                {{ item.title}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <repair-content :repair="repair"></repair-content>                 
+                </table>
+                <template v-if="btnloader.active">
+                    <div class="text-xs-center">
+                        <v-progress-circular indeterminate v-bind:size="30" class="grey--text"></v-progress-circular>                                                          
+                    </div>
+                </template>
+                <template v-else></template>
+            </v-flex>
+        </v-layout>
+        <v-layout wrap style="border-left: 1px solid rgba(0,0,0,.1);border-top: 1px solid rgba(0,0,0,.1);margin-top: 20px">
+            <v-flex xs6 md2 class="text-xs-center" style="border-right: 1px solid rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.1)">
+                <v-btn flat class="grey-blue--text text--darken-3" style="width:100%;height: 100%;margin: 0;border-radius: 0; padding: 5px;">
+                    <div>
+                        <div>
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                        <div>
+                            <span style="font-size: 11px">Без инженера (15)</span>
+                        </div>
+                    </div>
+                </v-btn>
+            </v-flex>
+            <v-flex xs6 md2 class="text-xs-center" style="border-right: 1px solid rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.1)" v-for="i in 5">
+                <v-btn flat class="light-blue--text text--darken-4" style="width:100%;height: 100%;margin: 0;border-radius: 0; padding: 5px;">
+                    <div>
+                        <div>
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                        <div>
+                            <span style="font-size: 11px">Трудолюбивые Г. (3)</span>
+                        </div>
+                    </div>
+                </v-btn>
+            </v-flex>
+        </v-layout>
+    </v-flex>
+    <v-dialog v-model="dialogSettings" width="550px" persistent v-show="dialogSettings">
+            <v-card>
+                <v-card-title class="category__edit-menu-title"><b>Настройка таблицы</b>
+                </v-card-title>
+                <v-card-text style="height: 500px;">
+                            <div>Сейчас в таблице:</div>
+                            <div>
+                                <vddl-list :list="activeColumn" :horizontal="true">
+                                    <vddl-draggable v-for="(item, index) in activeColumn" 
+                                                    style="height: auto"
+                                                    class="repair__field-item"
+                                                    :key="item.id"
+                                                    :draggable="item"
+                                                    :index="index"
+                                                    :wrapper="activeColumn"
+                                                    effect-allowed="move">
+                                            {{item.title}}
+                                    </vddl-draggable>
+                                    <vddl-placeholder style="margin-bottom: -12px; width: 100px; height: 33px;display: inline-block; border: 2px dashed #0277bd"></vddl-placeholder>                                   
+                                </vddl-list>
+                            </div>     
+                            <div>Дополнительные поля:</div>
+                            <div>
+                                <vddl-list :list="noActiveColumn" :horizontal="true">
+                                    <vddl-draggable v-for="(item, index) in noActiveColumn" 
+                                                    style="height: auto"
+                                                    class="repair__field-item"
+                                                    :key="item.id"
+                                                    :draggable="item"
+                                                    :index="index"
+                                                    :wrapper="noActiveColumn"
+                                                    effect-allowed="move">
+                                            {{item.title}}
+                                    </vddl-draggable>
+                                    <vddl-placeholder style="margin-bottom: -12px; width: 100px; height: 33px;display: inline-block; border: 2px dashed #0277bd"></vddl-placeholder>                                   
+                                </vddl-list>
+                            </div>        
+                </v-card-text>
+                <v-card-actions style="justify-content: space-between">
+                    <v-btn class="grey--text darken-1" flat="flat" @click.native="dialogSettings = false">Отменить</v-btn>
+                    <v-btn class="green--text darken-1" flat="flat"
+                           @click.native="changeColumn(activeColumn), dialogSettings = false">Сохранить
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+</v-layout> -->

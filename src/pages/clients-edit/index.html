@@ -1,0 +1,16 @@
+<el-row type="flex" justify="center" v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+    <el-col :xs="24" :md="20" :lg="18" :xl="16">
+        <template v-if="viewClient.type === 1">
+            <client-user-form :item="viewClient"></client-user-form>
+            <el-row type="flex" justify="center">
+                <el-button type="success" :loading="btnloader" @click="changeClientPerson(viewClient)">Сохранить</el-button>
+            </el-row>
+        </template>
+        <template v-else-if="viewClient.type === 2">
+            <client-company-form :item="viewClient"></client-company-form>
+            <el-row type="flex" justify="center">
+                <el-button type="success" :loading="btnloader" @click="changeClientCompany(viewClient)">Сохранить</el-button>
+            </el-row>
+        </template>
+    </el-col>
+</el-row>

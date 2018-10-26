@@ -1,0 +1,224 @@
+<el-aside class="right-sliding" :class="{'right-sliding__active' : active }">
+    <span class="right-sliding__bg" @click="isSliding()"></span>
+    <el-row class="right-sliding__row">
+        <el-col :span="5">
+            <img class="right-sliding__avatar" src="https://images.wallpaperscraft.com/image/hedgehog_eyes_needles_85375_320x240.jpg" alt="avatar">
+        </el-col>
+        <el-col :span="15">
+            <el-row><user-name :value="user"></user-name></el-row>
+            <el-row class="right-sliding__work">Должность: frontend</el-row>
+            <el-row class="right-sliding__work">Балан ЗП: 45000 р</el-row>
+        </el-col>
+        <el-col :span="4">
+             <el-button size="small" @click.native="isSliding()"><i class="fas fa-chevron-right"></i></el-button>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-button size="small" class="right-sliding__btn">
+            <i class="fas fa-cog"></i><div>Настройки</div>
+        </el-button>
+        <el-button size="small" class="right-sliding__btn">
+            <i class="fas fa-edit"></i><div>Сменить пароль</div>
+        </el-button>
+        <el-button size="small" class="right-sliding__btn" @click.native="isAuthOut(), isSliding()">
+            <i class="fas fa-sign-out-alt"></i><div>Выйти</div>
+        </el-button>
+    </el-row>
+    <el-row class="right-sliding__row">
+        <i color="blue" class="fas fa-home"></i> Super Service
+    </el-row>
+    <el-row class="right-sliding__row">
+        Руководитель: Гномы техподдержки
+    </el-row>
+    <el-row class="right-sliding__row">
+        Сейчас нет активных лицензий
+    </el-row>
+    <el-row class="right-sliding__row">
+        <el-button size="medium" class="right-sliding__btn right-sliding__btn_block">Купить лицензию</el-button>
+    </el-row>
+    <el-row class="right-sliding__row">
+        <i color="blue" class="fas fa-map-marker-alt"></i> Филиалы
+    </el-row>
+    <el-row class="right-sliding__points">
+        <el-row class="right-sliding__point" 
+                :class="{ 'right-sliding__point_active': user.point_id === item.id }"
+                v-for="item in point" 
+                :key="item.id">
+            <el-row>
+                <i class="fas fa-location-arrow" :style="{ 'color' : item.color }"></i> {{ item.prefix }} «{{ item.name }}»
+            </el-row>
+            <el-row class="right-sliding__address">{{ item.address }}</el-row>
+            <el-row>
+                <i class="fas fa-phone" aria-hidden="true"></i> {{ item.phone }}
+            </el-row>
+        </el-row>
+    </el-row>
+    <el-row class="right-sliding__row">
+        <el-button size="medium" 
+                   class="right-sliding__btn right-sliding__btn_block"
+                   @click="$router.push('/settings/point/add'), isSliding()">
+            Добавить филиал
+        </el-button>
+    </el-row>
+</el-aside>
+
+<!-- <div class="right-sliding" :class="{ 'right-sliding_active': active }" @click.stop="isSliding">
+    <div class="right-sliding__content" :class="{ 'right-sliding__content_active': active }">
+        <div class="right-sliding__head">
+            <div class="right-sliding__user">
+                <div>
+                    <v-tooltip top color="black">
+                        <v-avatar class="right-sliding__avatar" size="55px" slot="activator">
+                            <template v-if="user.avatar_url !== null">
+                                <img :src="user.avatar_url" alt="">
+                                <span class="right-sliding__avatar-add">
+                                    <i class="fa fa-camera white--text right-sliding__photo" aria-hidden="true"></i>
+                                </span>
+                            </template>
+                            <template v-else>
+                                <i aria-hidden="true" class="fa fa-camera fa-2x grey--text text--lighten-1"></i>
+                                <span class="right-sliding__avatar-add"></span>
+                            </template>
+                        </v-avatar>
+                        <span>Сменить фото</span>
+                    </v-tooltip>
+                </div>
+                <div class="right-sliding__user-info">
+                    <div class="right-sliding__username">{{ user.last_name }} {{ user.first_name }}</div>
+                    <div class="right-sliding__user-data grey--text text--darken-1">Должность: Frontend</div>
+                    <div class="right-sliding__user-data grey--text text--darken-1">Баланс ЗП: {{ user.salary }} ₽ </div>
+                </div>
+            </div>
+            <div>
+                <v-tooltip top color="black">
+                    <v-btn fab light flat small @click.stop="isSliding" slot="activator">
+                        <i class="fa fa-chevron-right grey--text text--darken-1" aria-hidden="true"></i>
+                    </v-btn>
+                    <span>Скрыть меню</span>
+                </v-tooltip>
+            </div>
+        </div>
+        <v-divider></v-divider>
+        <div class="right-sliding__actions">
+            <v-btn light flat class="right-sliding__actions-btn">
+                <div class="grey--text text--darken-1">
+                    <div>
+                        <i class="fa fa-cog" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span class="right-sliding__btn-text">Настройки</span>
+                    </div>
+                </div>
+            </v-btn>
+            <v-btn light flat class="right-sliding__actions-btn">
+                <div class="grey--text text--darken-1">
+                    <div>
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span class="right-sliding__btn-text">Сменить пароль</span>
+                    </div>
+                </div>
+            </v-btn>
+            <v-btn light flat class="right-sliding__actions-btn" @click.native="isAuthOut">
+                <div class="grey--text text--darken-1">
+                    <div>
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span class="right-sliding__btn-text">Выйти</span>
+                    </div>
+                </div>
+            </v-btn>
+        </div>
+        <v-divider></v-divider>
+        <div class="right-sliding__item-block">
+            <div>
+                <i class="fa fa-home light-blue--text text--darken-3" aria-hidden="true"></i>
+                <span class="text-uppercase">Super Service</span>
+            </div>
+            <div class="right-sliding__user-data grey--text text--darken-1">
+                <span>Руководитель:</span>
+                <span>Гномы Тех.поддержки:)</span>
+            </div>
+            <div class="red--text text--darken-3 right-sliding__no-license">
+                <span>Сейчас нет активных лицензий</span>
+            </div>
+            <div class="text-xs-center">
+                <v-btn flat class="light-blue--text text--darken-3 right-sliding__item-btn">
+                    Купить лицензию
+                </v-btn>
+            </div>
+        </div>
+        <v-divider></v-divider>
+        <div class="right-sliding__item-block">
+            <i class="fa fa-map-marker light-blue--text text--darken-3" aria-hidden="true"></i>
+            <span class="text-uppercase">Филиалы</span>
+        </div>
+        <div class="right-sliding__branch">
+            <div class="right-sliding__branch-item-block">
+                <div class="right-sliding__branch-item" :class="{ 'right-sliding__branch-item_active': user.point_id === item.id }" v-for="item in point" :key="item.id">
+                    <div>
+                        <i class="fa fa-location-arrow" aria-hidden="true" :style="{ 'color' : item.color }"></i>
+                        <span class="right-sliding__branch-title"> {{ item.prefix }} «{{ item.name }}»</span>
+                    </div>
+                    <div class="right-sliding__branch-address">
+                        <span>{{ item.address }}</span>
+                    </div>
+                    <div class="right-sliding__phone-block">
+                        <i class="fa fa-phone light-blue--text text--darken-3" aria-hidden="true"></i>
+                        <span class="right-sliding__branch-phone">{{ item.phone }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-xs-center right-sliding__branch-btn">
+                <v-btn flat class="light-blue--text text--darken-3 right-sliding__item-btn" @click="$router.push('/settings/point/add')">
+                    Добавить филиал
+                </v-btn>
+            </div>
+        </div>
+        <v-divider></v-divider>
+        <div class="right-sliding__bottom-actions">
+            <v-btn light flat class="right-sliding__bottom-btn">
+                <div class="grey--text text--darken-1 right-sliding__bottom-btn-cont">
+                    <div>
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span class="right-sliding__bottom-btn-text">Партнерка</span>
+                    </div>
+                </div>
+            </v-btn>
+            <v-btn light flat class="right-sliding__bottom-btn">
+                <div class="grey--text text--darken-1 right-sliding__bottom-btn-cont">
+                    <div>
+                        <i class="fa fa-sitemap" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span class="right-sliding__bottom-btn-text">API</span>
+                    </div>
+                </div>
+            </v-btn>
+            <v-btn light flat class="right-sliding__bottom-btn">
+                <div class="grey--text text--darken-1 right-sliding__bottom-btn-cont">
+                    <div>
+                        <i class="fa fa-hdd-o" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span class="right-sliding__bottom-btn-text">Виджет</span>
+                    </div>
+                </div>
+            </v-btn>
+            <v-btn light flat class="right-sliding__bottom-btn">
+                <div class="grey--text text--darken-1 right-sliding__bottom-btn-cont">
+                    <div>
+                        <i class="fa fa-info-circle"></i>
+                    </div>
+                    <div>
+                        <span class="right-sliding__bottom-btn-text">Инфо</span>
+                    </div>
+                </div>
+            </v-btn>
+        </div>
+    </div>
+</div> -->

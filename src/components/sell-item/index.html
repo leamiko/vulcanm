@@ -1,0 +1,29 @@
+<div class="posting-item">
+    <div class="posting-item__cell posting-item__cell_name">
+        {{ item.name }}
+    </div>
+    <div class="posting-item__cell posting-item__cell_number">
+        <el-input-number size="small" :min="1" v-model="item.amount" style="width: 100%"  @change="change(item)"></el-input-number>
+    </div>
+    <div class="posting-item__cell posting-item__cell_number">
+        <el-input type="number" v-model="item.price" @change="change(item)"></el-input>
+    </div>
+    <div class="posting-item__cell posting-item__cell_number">
+        <numbers type="money" :value="item.amount * item.price"></numbers>
+    </div>
+    <div class="posting-item__cell posting-item__cell_actions">
+        <el-button type="danger" 
+                   size="mini" 
+                   icon="fas fa-times" 
+                   title="Убрать из поступления" v-tippy
+                   @click=""
+                   v-if="checkItem(item)">
+        </el-button>
+        <el-button size="mini" 
+                   icon="fas fa-plus" 
+                   title="Добавить в поступление" v-tippy
+                   @click=""
+                   v-else>
+        </el-button>
+    </div>
+</div>

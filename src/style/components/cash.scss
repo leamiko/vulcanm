@@ -1,0 +1,56 @@
+.cash {
+    flex-wrap: wrap;
+
+    &__col {
+        padding: 10px;
+
+        &_right {
+            text-align: right;
+        }
+    }
+
+    &__item {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 10px 0;
+        border: 1px solid $border-color; 
+    }
+
+    &__name {
+        cursor: pointer;
+        transition: .3s;
+
+        &:hover {
+            color: $color-blue;
+        }
+    }
+
+    &__title {
+        font-size: 21px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    &__descr {
+        margin-top: 5px; 
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .cash {
+
+        &__col {
+
+            &_right {
+                text-align: center;
+            }
+        }
+
+        &__item {
+            text-align: center;
+        }
+
+    }
+}

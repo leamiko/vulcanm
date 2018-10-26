@@ -1,0 +1,43 @@
+<el-row>
+    <el-col v-if="mapBarChartData()" :xs="24" :md="12">
+        <chart-bar :key="barChartId()" :chart-data="mapBarChartData()" :height="250" :chart-id="barChartId()"></chart-bar>
+    </el-col>
+    <el-col  v-if="mapLineChartData()" :xs="24" :md="12">
+        <chart-line :chart-data="mapLineChartData()" :height="250" :chart-id="lineChartId()"></chart-line>
+    </el-col>
+    <el-col>
+        <el-table :data="tableData" stripe style="width: 100%">
+            <el-table-column label="Дата">
+                    <template slot-scope="scope">
+                        <view-date type="users" :value="scope.row.datetime"></view-date>
+                    </template>
+            </el-table-column>
+            <el-table-column label="Операция">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.operation_type === 1">Поступление №{{ scope.row.operation_id }}</span>
+                    <span v-else-if="scope.row.operation_type === 2">Продажа №{{ scope.row.operation_id }}</span>
+                    <span v-else-if="scope.row.operation_type === 3">Использование в заказе №{{ scope.row.operation_id }}</span>
+                    <span v-else-if="scope.row.operation_type === 4">Списание №{{ scope.row.operation_id }}</span>
+                    <span v-else-if="scope.row.operation_type === 5">Возврат продажи №{{ scope.row.operation_id }}</span>
+                    <span v-else-if="scope.row.operation_type === 6">Перемещение со склада №{{ scope.row.operation_id }}</span>
+                    <span v-else-if="scope.row.operation_type === 7">Перемещение на склад №{{ scope.row.operation_id }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="change" label="Изменение">
+                <template slot-scope="scope">
+                    <i class="fa fa-arrow-circle-up green--text text--darken-1" aria-hidden="true" v-if="scope.row.change > 0"></i>
+                    <i class="fa fa-arrow-circle-down red--text text--darken-1" aria-hidden="true" v-else-if="scope.row.change < 0"></i>
+                    {{ scope.row.change }}
+                </template>
+            </el-table-column>
+            <el-table-column prop="total" label="Остаток" align="center"></el-table-column>
+        </el-table>
+    </el-col>
+    <el-col>
+        <el-pagination background layout="prev, pager, next" 
+                        :page-count="Number(totalPages)"
+                        class="pagination" 
+                        @current-change="loadPage">
+        </el-pagination>
+    </el-col> 
+</el-row>

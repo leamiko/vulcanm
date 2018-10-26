@@ -1,0 +1,109 @@
+<el-row class="repairs" type="flex" justify="center">
+    <el-col :xs="24" :sm="20" :md="24" :lg="20" :xl="14">
+        <el-row class="repairs__title">Настройки заказов</el-row>
+        <el-row>
+            <el-form>
+                <el-row>
+                    <el-col :xs="24" :md="12" class="repairs__col">
+                        <el-form-item label="Deadline">
+                            <el-input v-model="repairsSetting.deadline"></el-input>
+                        </el-form-item>
+                        <el-row class="storage__descr">
+                            <i class="fas fa-info-circle"></i> Добавляет индикатор <i class="fas fa-hourglass-end"></i> к заказу если он в сервисе больше дней чем указано Deadline
+                        </el-row>
+                    </el-col>
+                    <el-col :xs="24" :md="12" class="repairs__col">
+                        <el-form-item label="Срок гарантии на заказ по умолчанию (дн)">
+                            <el-input v-model="repairsSetting.warrantyDefault"></el-input>
+                        </el-form-item>
+                        <el-row class="storage__descr">
+                            <i class="fas fa-info-circle"></i> Автоматически заполнит поле "Срок гарантии" для заказа
+                        </el-row>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :xs="24" :md="12" class="repairs__col">
+                        <el-form-item label="Продолжительность работы над заказом по-умолчанию">
+                            <el-input v-model="repairsSetting.orderTimeDefault"></el-input>
+                        </el-form-item>
+                        <el-row class="storage__descr">
+                            <i class="fas fa-info-circle"></i> Автоматически заполнит поле "Ожидаемая дата готовности" на форме приема в ремонт
+                        </el-row>
+                    </el-col>
+                    <el-col :xs="24" :md="12" class="repairs__col">
+                        <el-form-item label="Наценка за срочность">
+                            <el-input v-model="repairsSetting.surcharge"></el-input>
+                        </el-form-item>
+                        <el-row class="storage__descr">
+                            <i class="fas fa-info-circle"></i> Сумма наценки за срочные заказы
+                        </el-row>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :xs="24" :md="12">
+                        <el-form-item class="repairs__col">
+                            <el-switch style="display: block"
+                                    v-model="repairsSetting.cartridge"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949"
+                                    active-text="Включить прием картриджей">
+                            </el-switch>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :md="12">
+                        <el-form-item class="repairs__col">
+                            <el-switch style="display: block"
+                                    v-model="repairsSetting.autoCreateNomenkl"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949"
+                                    active-text="Разрешить автоматическое создание номенклатуры">
+                            </el-switch>
+                        </el-form-item>    
+                        <el-form-item class="repairs__col">
+                            <el-switch style="display: block"
+                                    v-model="repairsSetting.autoCreateService"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949"
+                                    active-text="Разрешить автоматическое создание услуг (работ)">
+                            </el-switch>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </el-row>
+        <el-row class="repairs__title">Перемещение заказов</el-row>
+        <el-row>
+            <el-col :xs="24" :md="12" class="repairs__col">
+                <el-radio-group v-model="repairsSetting.moving">
+                    <el-radio :label="1">Простое перемещение</el-radio>
+                </el-radio-group>
+                <i class="repairs__descr">
+                    Перемещение делается в 1 шаг, заказ перемещается моментально. <br />
+                    Не требудет дополнительной информации <br />
+                    Не отслеживает время перемещения заказа
+                </i>
+            </el-col>
+            <el-col :xs="24" :md="12" class="repairs__col">
+                <el-radio-group v-model="repairsSetting.moving">
+                    <el-radio :label="2">Продвинутое перемещение</el-radio>
+                </el-radio-group>
+                <i class="repairs__descr">
+                    Перемещение делается в 3 шага:
+                    <ul>
+                        <li>Менеджер пункта А создает перемещение в пункт Б</li>
+                        <li>Менеджер пункта А изменяет статус на "Отправлено"</li>
+                        <li>Менеджер пункта Б подтверждает получение</li>
+                    </ul>
+                    В этом способе можно указать дополнительную информацию к перемещнию (например: ФИО курьера),
+                    отмечаются время создания перемещения, время отправки и время подтверждения получения.
+                    <br />
+                    <br />
+                    <b>Инженер не сможет работать над заказом пока не будет подтверждено перемещение</b>
+                </i>
+            </el-col>
+        </el-row>
+        <el-row :xs="24" :md="12" class="repairs__btn">
+            <el-button type="success" @click="">Сохранить</el-button>
+        </el-row>
+    </el-col>
+</el-row>

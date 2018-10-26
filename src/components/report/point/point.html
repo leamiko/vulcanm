@@ -1,0 +1,100 @@
+<v-layout class="report">
+    <v-flex xs12 offset-md1 md10>
+        <range-date :title="'Отчет о работе филиалов'"></range-date>
+        <v-divider class="report__divider"></v-divider>
+        <v-layout wrap class="report__row">
+            <v-flex xs12 md12 class="text-xs-center">
+                <span class="report__title">Раздел А: Ремонт</span>
+            </v-flex>
+            <v-flex xs12 md7>
+                <span class="report__table-name">Таблица 1: Принятые заказы</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell">№ п/п</th>
+                            <th class="report__cell">Название</th>
+                            <th class="report__cell">Количество</th>
+                            <th class="report__cell">% от общего числа</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in 2">
+                            <td class="report__cell">{{ index + 1 }}</td>
+                            <td class="report__cell">Первый сервис</td>
+                            <td class="report__cell">115</td>
+                            <td class="report__cell">94.26</td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell" colspan="2">Итого</th>
+                            <th class="report__cell">122</th>
+                            <th class="report__cell">100.00</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </v-flex>
+            <v-flex xs12 md5 class="text-xs-center">
+                <span class="report__table-name">Диаграмма 1: Принятые заказы по филиалам</span>
+                <chart-pie :data="dataPie" :label="labelPie" :height="300"></chart-pie>
+            </v-flex>
+        </v-layout>
+        <v-divider class="report__divider"></v-divider>
+        <v-layout wrap class="report__row">
+            <v-flex xs12 md12 class="text-xs-center">
+                <span class="report__title">Раздел Б: Продажи</span>
+            </v-flex>
+            <v-flex xs12 md12 lg7>
+                <span class="report__table-name">Таблица 2: Продажи точек</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell">№ п/п</th>
+                            <th class="report__cell">Название</th>
+                            <th class="report__cell">Средний чек</th>
+                            <th class="report__cell">Количество товаров</th>
+                            <th class="report__cell">Количество продаж</th>
+                            <th class="report__cell">Общая сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in 2">
+                            <td class="report__cell">{{ index + 1 }}</td>
+                            <td class="report__cell">Первый сервис</td>
+                            <td class="report__cell">808.70</td>
+                            <td class="report__cell">46</td>
+                            <td class="report__cell">40</td>
+                            <td class="report__cell">62100.00</td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell" colspan="3">Итого</th>
+                            <th class="report__cell">50</th>
+                            <th class="report__cell">43</th>
+                            <th class="report__cell">64400.00</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </v-flex>
+            <v-flex xs12 md12 lg5 class="text-xs-center">
+                <span class="report__table-name">Диаграмма 2: Соотношение точек по среднему чеку продажи</span>
+                <chart-bar :data="dataPie" :label="labelPie" :height="300"></chart-bar>
+            </v-flex>
+        </v-layout>
+        <v-layout wrap>
+            <v-flex xs12 sm6 md4 class="text-xs-center">
+                <span class="report__table-name">Диаграмма 3: Соотношение точек по количеству проданных товаров</span>
+                <chart-pie :data="dataPie" :label="labelPie" :height="300"></chart-pie>
+            </v-flex>
+            <v-flex xs12 sm6 md4 class="text-xs-center">
+                <span class="report__table-name">Диаграмма 4: Соотношение точек по количеству продаж</span>
+                <chart-pie :data="dataPie" :label="labelPie" :height="300"></chart-pie>
+            </v-flex>
+            <v-flex xs12 sm6 md4 class="text-xs-center">
+                <span class="report__table-name">Диаграмма 5: Соотношение точек по сумме продаж</span>
+                <chart-pie :data="dataPie" :label="labelPie" :height="300"></chart-pie>
+            </v-flex>
+        </v-layout>
+    </v-flex>
+</v-layout>

@@ -1,0 +1,14 @@
+<el-row>
+    <el-col>
+        <el-row>
+            <el-button type="danger"
+                       @click="onDeleteSalaryTransfer">
+                Отменить выплату
+            </el-button>
+        </el-row>
+        <el-row>
+            <salary-transfer-view-table :data="salaryOperationListByTransferId">
+            </salary-transfer-view-table>
+        </el-row>
+    </el-col>
+</el-row>

@@ -1,0 +1,15 @@
+.point {
+
+    &__btn {
+        padding: 5px !important;
+        margin: 0 !important;
+    }
+
+    &__view {
+        padding: 10px 0;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid #dcdcdc;
+        }
+    }
+}

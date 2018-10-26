@@ -1,0 +1,188 @@
+<div>
+    <div v-if="item.status === 4" class="repair-view__total-pay">
+        <div class="text-xs-center repair-view__row">
+            <span class="green--text text--darken-2 repair-view__title">Итого к оплате</span>
+        </div>
+        <div class="text-xs-center repair-view__total-block">
+            <span class="light-blue--text text--darken-3">800.00</span>
+            <i class="fa fa-rub light-blue--text text--darken-3"></i>
+        </div>
+        <v-btn flat class="green darken-2 white--text repair-view__total-btn">
+            <i class="fa fa-check white--text repair-view__btn-icon"></i>
+            Оформить выдачу
+        </v-btn>
+    </div>
+    <div class="repair-view__col">
+        <div class="repair-view__row">
+            <div class="text-xs-center repair-view__title">
+                <span class="light-blue--text text--darken-3">Статус заказа</span>
+            </div>
+            <v-menu v-if="item.status === 1" offset-y class="repair-view__dropd-btn">
+                <v-btn flat class="deep-orange--text text--darken-3 repair-view__btn" slot="activator">
+                    <div class="repair-view__btn-content">
+                        <i class="fa fa-arrow-down repair-view__btn-icon"></i>
+                        Принято
+                        <i class="fa fa-caret-down repair-view__btn-icon" aria-hidden="true"></i>
+                    </div>
+                </v-btn>
+                <v-list>
+                    <v-list-tile @click="">
+                        <v-list-tile-title>Принято</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <v-menu v-else-if="item.status === 2" offset-y class="repair-view__dropd-btn">
+                <v-btn flat class="light-blue--text text--darken-3 repair-view__btn" slot="activator">
+                    <div class="repair-view__btn-content">
+                        <i class="fa fa-wrench repair-view__btn-icon"></i>
+                        В работе
+                        <i class="fa fa-caret-down repair-view__btn-icon" aria-hidden="true"></i>
+                    </div>
+                </v-btn>
+                <v-list>
+                    <v-list-tile @click="">
+                        <v-list-tile-title>В работе</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <v-menu v-else-if="item.status === 6" offset-y class="repair-view__dropd-btn">
+                <v-btn flat class="orange--text text--darken-1 repair-view__btn" slot="activator">
+                    <div class="repair-view__btn-content">
+                        <i class="fa fa-comments repair-view__btn-icon"></i>
+                        На согласовании
+                        <i class="fa fa-caret-down repair-view__btn-icon" aria-hidden="true"></i>
+                    </div>
+                </v-btn>
+                <v-list>
+                    <v-list-tile @click="">
+                        <v-list-tile-title>На согласовании</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <v-menu v-else-if="item.status === 3" offset-y class="repair-view__dropd-btn">
+                <v-btn flat class="deep-purple--text text--darken-3 repair-view__btn" slot="activator">
+                    <div class="repair-view__btn-content">
+                        <i class="fa fa-clock-o repair-view__btn-icon"></i>
+                        <span>Ожидает</span>
+                        <i class="fa fa-caret-down repair-view__btn-icon" aria-hidden="true"></i>
+                    </div>
+                </v-btn>
+                <v-list>
+                    <v-list-tile @click="">
+                        <v-list-tile-title>Ожидает</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <v-menu v-else-if="item.status === 4" offset-y class="repair-view__dropd-btn">
+                <v-btn flat class="green--text text--darken-2 repair-view__btn" slot="activator">
+                    <div class="repair-view__btn-content">
+                        <i class="fa fa-check repair-view__btn-icon"></i>
+                        Готово
+                        <i class="fa fa-caret-down repair-view__btn-icon" aria-hidden="true"></i>
+                    </div>
+                </v-btn>
+                <v-list>
+                    <v-list-tile @click="">
+                        <v-list-tile-title>Готово</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <v-menu v-else offset-y class="repair-view__dropd-btn">
+                <v-btn flat class="grey--text text--darken-2 repair-view__btn" slot="activator">
+                    <div class="repair-view__btn-content">
+                        <i class="fa fa-plane repair-view__btn-icon"></i>
+                        Выдано
+                        <i class="fa fa-caret-down repair-view__btn-icon" aria-hidden="true"></i>
+                    </div>
+                </v-btn>
+                <v-list>
+                    <v-list-tile @click="">
+                        <v-list-tile-title>Выдано</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+        </div>
+        <v-divider></v-divider>
+        <div class="repair-view__row">
+            <div>
+                <div>
+                    <i class="fa fa-calendar-check-o red--text text--darken-3"></i>
+                    <span class="red--text text--darken-1">Планируемая дата готовности</span>
+                </div>
+                <div>
+                    <span class="red--text text--darken-1">05.04.2017 (Просрочено)</span>
+                </div>
+            </div>
+            <div>
+                <i class="fa fa-shield light-blue--text text--darken-3"></i>
+                <span>Гарантийный</span>
+            </div>
+            <div>
+                <i class="fa fa-ambulance light-blue--text text--darken-3"></i>
+                <span>Техническое обслуживание</span>
+            </div>
+        </div>
+        <div class="repair-view__row">
+            <v-btn flat class="green darken-2 white--text repair-view__btn" v-if="item.status === 6">
+                <i class="fa fa-thumbs-up repair-view__btn-icon"></i>
+                Согласовано
+            </v-btn>
+            <v-btn flat class="red darken-1 white--text repair-view__btn" v-if="item.status === 6">
+                <i class="fa fa-thumbs-down repair-view__btn-icon"></i>
+                Отказ от ремонта
+            </v-btn>
+            <v-btn flat class="light-blue--text text--darken-3 repair-view__btn">
+                <i class="fa fa-pencil-square-o repair-view__btn-icon"></i>
+                Редактировать заказ
+            </v-btn>
+            <v-btn flat class="red darken-1 white--text repair-view__btn" v-if="item.status === 4 || item.status === 5">
+                <i class="fa fa fa-refresh repair-view__btn-icon"></i>
+                Вернуть на доработку
+            </v-btn>
+            <v-btn flat class="light-blue darken-3 white--text repair-view__btn" v-if="!(item.status === 4 || item.status === 5)">
+                <i class="fa fa-sign-in repair-view__btn-icon"></i>
+                Работать над заказом
+            </v-btn>
+            <v-menu offset-y class="repair-view__dropd-btn">
+                <v-btn flat class="light-blue--text text--darken-3 repair-view__btn" slot="activator">
+                    <i class="fa fa-user repair-view__btn-icon"></i>
+                    Инженер: Тест Тест
+                    <i class="fa fa-caret-down repair-view__btn-caret" aria-hidden="true"></i>
+                </v-btn>
+                <v-list>
+                    <v-list-tile @click="">
+                        <v-list-tile-title>Тест Тест</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <v-menu offset-y class="repair-view__dropd-btn">
+                <v-btn flat class="light-blue--text text--darken-3 repair-view__btn" slot="activator">
+                    <i class="fa fa-retweet repair-view__btn-icon"></i>
+                    Переместить заказ
+                    <i class="fa fa-caret-down repair-view__btn-caret" aria-hidden="true"></i>
+                </v-btn>
+                <v-list>
+                    <v-list-tile @click="">
+                        <v-list-tile-title>Маг. Смирнов</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <v-menu offset-y class="repair-view__dropd-btn">
+                <v-btn flat class="light-blue--text text--darken-3 repair-view__btn" slot="activator">
+                    <i class="fa fa-print repair-view__btn-icon"></i>
+                    Печать
+                    <i class="fa fa-caret-down repair-view__btn-caret" aria-hidden="true"></i>
+                </v-btn>
+                <v-list>
+                    <v-list-tile @click="">
+                        <v-list-tile-title>Печать</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <v-btn flat class="red darken-1 white--text repair-view__btn">
+                <i class="fa fa-times repair-view__btn-icon"></i>
+                Удалить
+            </v-btn>
+        </div>
+    </div>
+</div>

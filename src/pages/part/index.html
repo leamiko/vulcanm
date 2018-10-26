@@ -1,0 +1,52 @@
+<el-container>
+    <!-- <category-tree :categoryList="category" class="category"></category-tree> -->
+
+    <el-main>
+        <part-nav :filter="content"></part-nav>         
+        <el-row class="part" v-loading="loadingPart" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+            <div class="part__head">
+                <div class="part__cell part__cell_index part__cell_head" v-if="headsPart.number">№</div>
+                <div class="part__cell part__cell_name part__cell_head" v-if="headsPart.name">Наименование</div>
+                <div class="part__colspan" v-if="columnActive(headsPart.price)">
+                    <div class="part__cell part__cell_head">
+                        Цена
+                    </div>
+                    <el-row type="flex">
+                        <div class="part__cell part__cell_price part__cell_head"
+                             v-for="price in headsPart.price"
+                             v-if="price.active">
+                             {{ price.title }}
+                        </div>
+                    </el-row>
+                </div>
+                <div class="part__colspan" v-if="columnActive(headsPart.amounts)">
+                    <div class="part__cell part__cell_head">
+                        Остаток
+                    </div>
+                    <el-row type="flex">
+                        <div class="part__cell part__cell_storage part__cell_head"
+                             v-for="head in headsPart.amounts"
+                             v-if="head.active">
+                            <div class="part__content">{{ head.name }}</div>
+                        </div>
+                    </el-row>
+                </div>
+                <div class="part__cell part__cell_actions part__cell_head"></div>
+            </div>
+            <virtual-list :size="51" :remain="15" class="part__tbody">
+                <part-item class="part__item"
+                           v-for="(item, index) in parts" 
+                           :item="item" 
+                           :key="item.id" 
+                           :index="index + 1">
+                </part-item>
+            </virtual-list>
+            <transition name="el-zoom-in-bottom">
+                <template v-if="loadingPage">
+                    <div class="part__load"><i class="el-icon-loading"></i></div>
+                </template>
+                <template v-else></template>
+            </transition>
+        </el-row>
+    </el-main>
+</el-container>

@@ -1,0 +1,71 @@
+<v-layout class="report">
+    <v-flex xs12 offset-md1 md10>
+        <range-date :title="'Маркетинговый отчет'"></range-date>
+        <v-divider class="report__divider"></v-divider>
+        <v-layout wrap class="report__row">
+            <v-flex xs12 md12 class="text-xs-center">
+                <span class="report__title">I. Привлечение новых клиентов (по источникам)</span>
+            </v-flex>
+            <v-flex xs12 md12>
+                <span class="report__table-name">Таблица 1: Привлечение новых клиентов</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell">Название</th>
+                            <th class="report__cell">Заказы</th>
+                            <th class="report__cell">Выручка</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in 7">
+                            <td class="report__cell">Не указано</td>
+                            <td class="report__cell">6</td>
+                            <td class="report__cell">691 236.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </v-flex>
+            <v-flex xs12 sm6 md6 class="text-xs-center">
+                <span class="report__table-name">Диаграмма 1: Количество заказов по источникам (только новые клиенты)</span>
+                <chart-pie :data="dataPie" :label="labelPie" :height="300"></chart-pie>
+            </v-flex>
+            <v-flex xs12 sm6 md6 class="text-xs-center">
+                <span class="report__table-name">Диаграмма 2: Выручка по источникам (только новые клиенты)</span>
+                <chart-pie :data="dataPie" :label="labelPie" :height="300"></chart-pie>
+            </v-flex>
+        </v-layout>
+        <v-divider class="report__divider"></v-divider>
+        <v-layout wrap class="report__row">
+            <v-flex xs12 md12 class="text-xs-center">
+                <span class="report__title">II. Количество заказов (по источникам)</span>
+            </v-flex>
+            <v-flex xs12 md12>
+                <span class="report__table-name">Таблица 2: Количество заказов (по источникам)</span>
+                <table class="report__table">
+                    <thead class="report__thead">
+                        <tr class="text-xs-left">
+                            <th class="report__cell">Название</th>
+                            <th class="report__cell">Заказы</th>
+                            <th class="report__cell">Выручка</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in 2">
+                            <td class="report__cell">Не указано</td>
+                            <td class="report__cell">Заказы</td>
+                            <td class="report__cell">691 236.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </v-flex>
+            <v-flex xs12 sm6 md6 class="text-xs-center">
+                <span class="report__table-name">Диаграмма 3: Количество заказов по источникам</span>
+                <chart-pie :data="dataPie" :label="labelPie" :height="300"></chart-pie>
+            </v-flex>
+            <v-flex xs12 sm6 md6 class="text-xs-center">
+                <span class="report__table-name">Диаграмма 4: Выручка по источникам</span>
+                <chart-pie :data="dataPie" :label="labelPie" :height="300"></chart-pie>
+            </v-flex>
+        </v-layout>
+    </v-flex>
+</v-layout>

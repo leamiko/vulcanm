@@ -1,0 +1,36 @@
+<el-col>
+    <el-row>
+        <el-col>
+            <el-row>
+                <el-col :xs="24">
+                    Выберите что вы хотите экспортировать, введите ваш Email адрес и нажмите кнопку "Экспортировать".
+                    Как только данные будут собраны, на указанный Email будет отправлено письмо с файлом экспорта.
+                    Проверить статус экспорта можно на вкладке "История"
+                </el-col>
+            </el-row>
+            <el-form label-position="top" :model="model">
+                <el-row :gutter="20">
+                    <el-col :xs="24" :sm="12">
+                        <el-form-item label="Email">
+                            <el-input placeholder="Email" v-model="model.email"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12">
+                        <el-form-item label="Экспорт">
+                            <el-select v-model="model.exportTypeId">
+                                <el-option
+                                    v-for="item in exportList"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row type="flex" justify="center">
+                    <el-button type="primary" @click="onSaveExportClick()">Экспортировать</el-button>
+                </el-row>
+            </el-form>
+        </el-col>
+    </el-row>
+</el-col>

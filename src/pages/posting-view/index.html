@@ -1,0 +1,50 @@
+<el-row class="posting-update">
+    <el-col class="posting-update__col" :md="6" :sm="10" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-user"></i> Принял</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <user-name :value="postingView.user"></user-name>
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="far fa-calendar-check"></i> Дата поступления</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <date type="users" :value="postingView.created_at"></date>
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-truck"></i> Поставщик</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <template v-if="postingView.provider === null"><i>Не указано</i></template>
+            <template v-else>{{ postingView.provider.name }}</template>
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title"><i class="fas fa-shopping-bag"></i> Склад</el-row>
+        <el-row class="posting-update__row posting-update__row_item">
+            <template v-if="postingView.storage === null"><i>Не указано</i></template>
+            <template v-else>{{ postingView.storage.name }}</template>
+        </el-row>
+    </el-col>
+    <el-col class="posting-update__col" :md="18" :sm="14" :xs="24">
+        <el-row class="posting-update__row posting-update__row_title">Поступление № {{ postingView.id }}</el-row>
+        <el-row class="posting-update__row">
+            <div class="posting-item posting-item_head">
+                <div class="posting-item__cell posting-item__cell_name">Наименование</div>
+                <div class="posting-item__cell posting-item__cell_number">Количество</div>
+                <div class="posting-item__cell posting-item__cell_number">Цена закупа</div>
+                <div class="posting-item__cell posting-item__cell_number">Стоимость</div>
+                <div class="posting-item__cell posting-item__cell_actions"></div>
+            </div>
+            <template v-if="postingView.parts !== null">
+                <posting-item type="view" v-for="item in postingView.parts" :item="item" :key="item.id"></posting-item>
+            </template>
+            <template v-else>
+                <el-row type="flex" justify="center"><i>Список пуст</i></el-row>
+            </template>
+        </el-row>
+        <el-row class="posting-update__row">
+            <modal-catalog type="viewModal"></modal-catalog>
+        </el-row>
+        <el-row class="posting-update__row posting-update__row_title">
+            Всего товаров {{ postingView.parts.length }} на сумму 
+            <!-- <numbers type="money" :value="sum"></numbers> -->
+        </el-row>
+        <el-row class="posting-update__row" style="text-align: center">
+            <el-button type="primary" @click="" :loading="btnloader">Принять поступление</el-button>
+        </el-row>
+    </el-col>
+</el-row>

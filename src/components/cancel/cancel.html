@@ -1,0 +1,37 @@
+<el-row>
+    <el-table :data="cancel" 
+              border 
+              stripe
+              @row-click="onView" 
+              v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+        <el-table-column prop="id" label="№" width="100" align="center"></el-table-column>
+        <el-table-column label="Дата перемещения" align="center">
+            <template slot-scope="scope">
+                {{ date(scope.row.created_at) }}
+            </template>
+        </el-table-column>       
+        <el-table-column label="Склад" align="center">
+            <template slot-scope="scope">
+                {{ scope.row.storage.name }}
+            </template>
+        </el-table-column>       
+        <el-table-column label="Списал" align="center">
+            <template slot-scope="scope">
+                {{ scope.row.user.last_name }}
+                {{ scope.row.user.first_name }}
+            </template>
+        </el-table-column>
+        <el-table-column label="Количество" align="center">
+            <template slot-scope="scope">
+                <numbers :value="Number(scope.row.total_parts)"></numbers>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(cancelPageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+
+</el-row>

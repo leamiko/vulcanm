@@ -1,0 +1,40 @@
+.part-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__amount {
+        padding: 10px !important;
+        font-size: 18px !important;
+    }
+
+    &__title {
+        font-size: 25px;
+    }
+
+    &__form {
+        padding: 12px;
+    }
+
+    &__setting {
+        display: flex;
+    }
+
+    &__item {
+        margin: 5px;
+    }
+}
+
+@media (max-width: 991px) {
+    .part-nav {
+        flex-direction: column;
+
+        &__title {
+            margin-bottom: 20px;
+        }
+
+        &__setting {
+            flex-direction: column;
+        }
+    }
+}

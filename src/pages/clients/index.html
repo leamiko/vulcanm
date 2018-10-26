@@ -1,0 +1,81 @@
+<el-row>
+    <div class="part-nav">
+        <div class="part-nav__title">Список клиентов</div>
+        <div>
+            <el-button slot="reference"><i class="fas fa-search"></i> Импорт из Excel</el-button>
+        </div>  
+    </div>
+
+    <div class="client" v-loading="loading" element-loading-spinner="fas fa-spinner fa-pulse fa-3x">
+        <div class="client__head">
+            <div class="client__cell client__cell_5">
+                <el-select v-model="filter.status_id" filterable clearable placeholder="Статус" style="width: 100%">
+                    <el-option label="Обычный" :value="1"></el-option>
+                    <el-option label="Любимый" :value="2"></el-option>
+                    <el-option label="В черном списке" :value="3"></el-option>
+                </el-select>
+            </div>
+            <div class="client__cell client__cell_10">
+                <el-input v-model="filter.name" prefix-icon="el-icon-search" clearable placeholder="ФИО"></el-input>
+            </div>
+            <div class="client__cell client__cell_10">
+                <el-input v-model="filter.phone" prefix-icon="el-icon-search" clearable placeholder="Номер телефона"></el-input>
+            </div>
+            <div class="client__cell client__cell_5">
+                <el-select v-model="filter.source_id" filterable clearable placeholder="Источник клиента" style="width: 100%">
+                    <el-option v-for="item in clientSource" :label="item.name" :value="item.id" :key="item.id"></el-option>
+                </el-select>
+            </div>
+        </div>
+        <template v-if="client.length">
+            <div v-for="item in client" class="client__item">
+                <div class="client__cell client__cell_5" style="text-align: center" @click="goTo(item.id)">
+                    <i class="fas fa-user blue--text" title="Обычный клиент" v-tippy v-if="item.status === 1"></i>
+                    <i class="fas fa-heart red--text" title="Любимый клиент" v-tippy v-else-if="item.status === 2"></i>
+                    <i class="fas fa-ban" title="Клиент в черном списке" v-tippy v-else-if="item.status === 3"></i>
+                </div>
+                <div class="client__cell client__cell_10" @click="goTo(item.id)">
+                    <template v-if="item.type === 1">
+                        <user-name :value="item"></user-name>
+                    </template>
+                    <template v-if-else="item.type === 2">
+                        {{ item.name }}
+                    </template> 
+                </div>
+                <div class="client__cell client__cell_10">
+                    <i class="fas fa-envelope orange--text" v-if="item.sms_agreement" title="Клиенту отправляются SMS" v-tippy></i>
+                    <template v-if="item.phone === null">
+                        <i>Не указано</i>
+                    </template>
+                    <template v-else>
+                        <phone :value="item.phone"></phone>
+                        <a class="client__whatsapp" :href="'https://api.whatsapp.com/send?phone=' + item.unrestricted_phone" target="_blank">
+                            <img src="./../assets/img/whats-app.svg">
+                        </a>
+                    </template>
+                </div>
+                <div class="client__cell client__cell_5" @click="goTo(item.id)">
+                    <template v-if="item.source_id === null || item.source_id === 0">
+                        <i>Не указано</i>
+                    </template>
+                    <template v-else>
+                        <template v-for="source in clientSource" v-if="source.id === item.source_id">
+                            {{ source.name }}
+                        </template>
+                        <template v-else></template>
+                    </template>
+                </div>
+            </div>
+        </template>
+        <template v-else>
+            <div class="client__blank"><i>Список пуст</i></div>
+        </template>
+    </div>
+
+    <el-pagination background layout="prev, pager, next" 
+                   :page-count="Number(pageCount)"
+                   class="pagination" 
+                   @current-change="loadPage">
+    </el-pagination>
+
+</el-row>

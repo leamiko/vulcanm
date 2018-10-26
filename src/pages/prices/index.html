@@ -1,0 +1,31 @@
+<el-row class="prices">
+    <el-col :span="12" :offset="6">
+        <el-row>
+            <el-form>
+                <el-col :span="12" class="prices__col">
+                    <el-form-item  label="Способ округления цен">
+                        <el-select v-model="newItem.roundingId" class="prices__select">
+                            <el-option v-for="item in rounding" :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Наценка в ремонт (%)">
+                        <el-input v-model="newItem.upRepair"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" class="prices__col">
+                    <el-form-item  label="Порядок округления">
+                        <el-select v-model="newItem.orderRoundingId" class="prices__select">
+                            <el-option v-for="item in orderRounding" :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Наценка в продажу (%)">
+                        <el-input v-model="newItem.upSale"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-form>
+            <el-col :span="24" class="company__btn">
+                <el-button type="success" @click="">Сохранить</el-button>
+            </el-col>
+        </el-row>
+    </el-col>
+</el-row>

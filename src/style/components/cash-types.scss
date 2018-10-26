@@ -1,0 +1,22 @@
+.cash-types {
+    display: flex;
+    justify-content: center;
+    
+    &__col {
+        padding: 20px;
+    }
+
+    &__title {
+        font-size: 21px;
+        margin-bottom: 20px;
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid $border-color;
+        margin: 10px 0;
+    }
+}

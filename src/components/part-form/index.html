@@ -1,0 +1,189 @@
+<el-row>
+    <el-form label-position="top" :model="item">
+        <el-col class="part-update" :xs="24" :sm="16">
+            <el-row>
+                <el-col :md="6" :sm="24">
+                    <el-row>
+                        <el-button type="primary" class="part-update__btn part-update__btn_photo" @click="showFileInput">
+                            Добавить фото
+                        </el-button>                        
+                        <input id="file-load" type="file" accept="image/jpeg,image/png,image/jpg" @change="(v) => addImages(v)" style="display:none;">
+                    </el-row>
+                    <el-row class="part-update__img">
+                        <template v-if="photoError">
+                            <div style="padding: 20px;text-align: center;"><i>{{ photoError }}</i></div>
+                        </template>
+                        <template v-else-if="photoPreview">
+                            <img :src="photoPreview" alt="photo">
+                        </template>
+                        
+                        <template v-else>
+                            <i class="part-update__preload fas fa-camera fa-5x"></i>
+                        </template>
+                    </el-row>
+                </el-col>
+                <el-col class="part-update__row part-update__row_border" :md="18" :sm="24">
+                    <el-form-item class="part-update__col" 
+                                  label="Название"
+                                  :error="validate(validPart, 'name')"
+                                  required> 
+                        <el-input placeholder="Название" v-model="item.name"></el-input>
+                    </el-form-item>
+                    <el-form-item class="part-update__col" label="Категория" :error="validate(validPart, 'cat_id')">
+                        <el-select v-model="item.cat_id" style="display: block;" size="large" filterable placeholder="Выберите категорию">
+                            <el-option
+                              v-for="category in categorySelectList()"
+                              :key="category.id"
+                              :label="category.value"
+                              :value="category.id">
+                            </el-option>
+                          </el-select>
+                    </el-form-item>
+                    <el-col class="part-update__col" :md="12" :sm="24">
+                        <el-form-item label="Артикул" :error="validate(validPart, 'art')">
+                            <el-input placeholder="Артикул" v-model="item.art"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col class="part-update__col" :md="12" :sm="24">
+                        <el-form-item label="Минимальный остаток" :error="validate(validPart, 'minimum_amount')">
+                            <el-input-number placeholder="Минимальный остаток" v-model="item.minimum_amount" :min=0></el-input-number>
+                        </el-form-item>
+                    </el-col>
+                    <el-form-item class="part-update__col" label="Описание" :error="validate(validPart, 'description')">
+                        <el-input type="textarea" :rows="4" placeholder="Описание" v-model="item.description"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row class="part-update__row  part-update__row_border">  
+                <el-col class="part-update__right" :md="6" :sm="24">
+                    <el-row class="part-update__head">Цена</el-row>
+                    <el-form-item class="part-update__col" label="Для продажи" :error="validate(validPart, 'sell_price')">
+                        <el-input placeholder="Для продажи" v-model="item.sell_price"></el-input>
+                    </el-form-item>
+                    <el-form-item class="part-update__col"
+                                  prop="repair_price" 
+                                  label="Для ремонта"
+                                  :error="validate(validPart, 'repair_price')">
+                        <el-input placeholder="Для ремонта" v-model="item.repair_price"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :md="18" :sm="24">
+                    <el-row class="part-update__head">Вознаграждение</el-row>
+                    <el-col class="part-update__col" :sm="10" :xs="24">
+                        <el-form-item label="За продажу" :error="validate(validPart, 'sell_reward_size')">
+                            <el-input placeholder="За продажу" v-model="item.sell_reward_size"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col class="part-update__col" :sm="14" :xs="24">
+                        <el-form-item label="Тип вознаграждения" :error="validate(validPart, 'sell_reward_type')">
+                            <el-select v-model="item.sell_reward_type" style="width: 100%">
+                                <el-option v-for="type in rewardTypeList"
+                                           :key="type.id"
+                                           :label="type.name"
+                                           :value="type.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col class="part-update__col" :sm="10" :xs="24">
+                        <el-form-item label="За ремонт" :error="validate(validPart, 'repair_reward_size')">
+                            <el-input placeholder="За ремонт" v-model="item.repair_reward_size"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col class="part-update__col" :sm="14" :xs="24">
+                        <el-form-item label="Тип вознаграждения" :error="validate(validPart, 'repair_reward_type')">
+                            <el-select v-model="item.repair_reward_type" style="width: 100%">
+                                <el-option v-for="type in rewardTypeList"
+                                           :key="type.id"
+                                           :label="type.name"
+                                           :value="type.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-col>
+            </el-row>
+            <el-row class="part-update__row part-update__row_border">
+                <el-col class="part-update__col" :md="6" :sm="12" :xs="24">
+                    <el-form-item label="Ячейка склада" :error="validate(validPart, 'cell')">
+                        <el-input placeholder="Ячейка склада" v-model="item.cell"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col class="part-update__col" :md="6" :sm="12" :xs="24">
+                    <el-form-item label="НДС" :error="validate(validPart, 'vat')">
+                        <el-select v-model="item.vat" style="width: 100%">
+                            <el-option v-for="vat in vatlist"
+                                       :key="vat.id"
+                                       :label="vat.name"
+                                       :value="vat.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col class="part-update__col" :md="6" :sm="12" :xs="24">
+                    <el-form-item label="Гарантия" :error="validate(validPart, 'warrant_duration')">
+                        <el-input placeholder="Гарантия" v-model="item.warrant_duration"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col class="part-update__col" :md="6" :sm="12" :xs="24">
+                    <el-form-item label="Тип гарантии" :error="validate(validPart, 'warrant_type')">
+                        <el-select v-model="item.warrant_type" style="width: 100%">
+                            <el-option v-for="type in warrantTypeList"
+                                       :key="type.id"
+                                       :label="type.name"
+                                       :value="type.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row> 
+            <el-row class="part-update__row part-update__row_border">
+                <el-row class="part-update__head">
+                    Штрих-коды
+                    <el-button class="part-update__btn part-update__btn_plus" 
+                               @click="addNewBarcodeItem()"
+                               type="primary"
+                               title="Добавить штрих-код" v-tippy>
+                        <i class="fas fa-plus"></i>
+                    </el-button>
+                </el-row>
+                <el-row>
+                    <template v-if="!barcodes.length">
+                        <div class="transition-list-item" style="padding: 20px;text-align: center;">
+                            <i>Список пуст</i>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <transition-group name="transition-list">
+                            <el-row class="transition-list-item part-update__barcode" v-for="(i, index) in barcodes" :key="i.id">
+                                <el-col class="part-update__col" :sm="12" :xs="24">
+                                    <el-switch v-model="i.auto_generated" 
+                                            active-color="#13ce66"
+                                            inactive-color="#ff4949"
+                                            active-text="Автоматическая генерация">
+                                    </el-switch>
+                                </el-col>
+                                <el-col :sm="12" :xs="24">
+                                    <el-form-item :error="validateBarcodes(validPart, index)">
+                                        <el-input placeholder="Штрих-код" 
+                                                :maxlength="13"
+                                                v-model="i.value"
+                                                :disabled="i.auto_generated">
+                                            <el-button slot="append"
+                                                    class="part-update__btn red--bg white--text"  
+                                                    icon="fas fa-times" 
+                                                    type="danger"
+                                                    @click="deleteNewBarcodeItem(index)" 
+                                                    title="Удалить" v-tippy>
+                                            </el-button>        
+                                        </el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </transition-group>
+                    </template>
+                </el-row>
+            </el-row>
+        </el-col>
+    </el-form>
+</el-row>

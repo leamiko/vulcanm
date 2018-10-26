@@ -1,0 +1,40 @@
+<div class="iphone-x">
+    <div class="iphone-x__top-bar">
+        <div class="iphone-x__camera"></div>
+        <div class="iphone-x__speaker"></div>
+    </div>
+    <div class="iphone-x__btn_volume-up"></div>
+    <div class="iphone-x__btn_volume-down"></div>
+    <div class="iphone-x__btn_silent"></div>
+    <div class="iphone-x__btn_power"></div>
+    <div class="iphone-x__border2">
+        <div class="iphone-x__indicator">
+            <div class="iphone-x__time">9:41</div> 
+            <div class="iphone-x__icons">
+                <i class="fas fa-signal"></i> 
+                <i class="fas fa-wifi"></i> 
+                <i class="fas fa-battery-half"></i>
+            </div>
+        </div>
+        <div>
+            <div class="iphone-x__head-msg">
+                <i class="fas fa-chevron-left"></i>
+                <span class="iphone-x__sender"> {{ sender }} </span>
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="iphone-x__msg-block">
+                <template v-for="item in msg" v-if="item.length">
+                    <div class="iphone-x__msg">{{ item }}</div>
+                </template>
+                <template v-else></template>
+            </div>
+            <div class="iphone-x__inpt">
+                <i class="fas fa-camera"></i>
+                <span class="iphone-x__field"> SMS/MMS <i class="fas fa-arrow-circle-up"></i> </span>
+            </div>
+        </div>
+    </div>
+    <div class="iphone-x__border1"></div>
+    <div class="iphone-x__gradient1"></div>
+    <div class="iphone-x__gradient2"></div>
+</div>

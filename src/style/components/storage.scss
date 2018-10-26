@@ -1,0 +1,21 @@
+.storage {
+    padding: 5px;
+
+    &__descr {
+        padding: 10px;
+        margin: 15px 0;
+        border: 1px dashed $color-blue;
+        color: $color-blue;
+        font-size: 12px;
+        border-left: 3px solid;
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid $border-color;
+        margin: 10px 0;
+    }
+}
